@@ -1,0 +1,36 @@
+# ---------------- =/= ---------------- #
+#              LaivyQuests              #
+#      This plugin has developed by     #
+#    Laivy, created to allow servers    #
+#      to make powerful quests and      #
+#     increase server entertainment     #
+# ---------------- =/= ---------------- #
+# Author(s): ItsLaivy (DanielZinh#7616) #
+# https://discord.com/invite/Kv7Xvw9HXh #
+# ---------------- =/= ---------------- #
+#              Permissions              #
+# ---------------- =/= ---------------- #
+#               Commands                #
+# ---------------- =/= ---------------- #
+
+version: "1.0" # Do not change :)
+check-updates: true
+
+database:
+  type: "SQLITE" # Can be "MYSQL" or "SQLITE"
+
+  mysql:
+    database: "quests"
+    user: "root"
+    password: "password"
+    address: "address"
+    port: 3306
+
+    table: "quests"
+    column: "quests"
+  sqlite:
+    path: ""
+
+    database: "database"
+    table: "quests"
+    column: "quests"

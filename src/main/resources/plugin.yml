@@ -1,0 +1,6 @@
+name: "LaivyQuests"
+main: "codes.laivy.quests.LaivyQuests"
+version: ${project.version}
+author: "ItsLaivy (DanielZinh#7616)"
+
+website: "https://laivy.codes/"
