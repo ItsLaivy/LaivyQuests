@@ -27,6 +27,7 @@ import java.util.*;
 public final class QuestsApiProvider implements QuestsApi {
 
     private final @NotNull Set<Quest> quests = new LinkedHashSet<>();
+    private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
     private @Nullable SqlTable table;
     private @Nullable SqlVariable variable;
@@ -43,12 +44,27 @@ public final class QuestsApiProvider implements QuestsApi {
 
     @Override
     public @NotNull Set<Quest> getQuests() {
+        if (!isLoaded()) {
+            throw new IllegalStateException("The quests api isn't loaded yet");
+        }
+
         return quests;
     }
 
     @Override
-    public @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid) {
+    public @Nullable QuestsPlayerData getPlayerData(@NotNull UUID uuid) {
+        if (getData().containsKey(uuid)) {
+            return getData().get(uuid);
+        }
         return null;
+    }
+ 
+    public @NotNull Map<UUID, QuestsPlayerData> getData() {
+        if (!isLoaded()) {
+            throw new IllegalStateException("The quests api isn't loaded yet");
+        }
+
+        return data;
     }
 
     @Override
