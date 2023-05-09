@@ -47,7 +47,7 @@ public class UpdateManagerProvider implements UpdateManager {
                 } else {
                     plugin.log(TextComponent.fromLegacyText("§7Your §6LaivyQuests §7is updated :)"));
                 }
-            }, 0, 3600000);
+            }, 0, 72000);
         } else {
             task = null;
         }
