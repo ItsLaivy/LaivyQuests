@@ -2,5 +2,6 @@ name: "LaivyQuests"
 main: "codes.laivy.quests.LaivyQuests"
 version: ${project.version}
 author: "ItsLaivy (DanielZinh#7616)"
+api-version: 1.19
 
 website: "https://laivy.codes/"

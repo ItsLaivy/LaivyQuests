@@ -4,6 +4,8 @@ import codes.laivy.mlanguage.lang.Message;
 import codes.laivy.mlanguage.lang.MessageArray;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 public interface Quest {
 
     /**
@@ -14,5 +16,7 @@ public interface Quest {
 
     @NotNull Message<?> getName();
     @NotNull MessageArray<?> getDescription();
+
+    @NotNull Map<String, Object> serialize();
 
 }

@@ -4,6 +4,8 @@ import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsApiProvider;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +27,11 @@ public class LaivyQuests extends JavaPlugin {
     @Override
     public void onDisable() {
         getApi().unload();
+    }
+
+    public void log(@NotNull BaseComponent[] component) {
+        // BaseComponent[] prefix = ComponentSerializer.parse("[\"\",{\"text\":\"L\",\"color\":\"#949494\"},{\"text\":\"a\",\"color\":\"#A5A5A5\"},{\"text\":\"i\",\"color\":\"#B7B7B7\"},{\"text\":\"v\",\"color\":\"#CACACA\"},{\"text\":\"y\",\"color\":\"#DCDCDC\"},{\"text\":\"Q\",\"color\":\"#00B715\"},{\"text\":\"u\",\"color\":\"#00A716\"},{\"text\":\"e\",\"color\":\"#009717\"},{\"text\":\"s\",\"color\":\"#008816\"},{\"text\":\"t\",\"color\":\"#007915\"},{\"text\":\"s\",\"color\":\"#006A14\"}]");
+        getServer().getConsoleSender().sendMessage("§8[§6" + getDescription().getName() + "§8]§7 " + TextComponent.toLegacyText(component));
     }
 
     public @NotNull QuestsApi getApi() {
