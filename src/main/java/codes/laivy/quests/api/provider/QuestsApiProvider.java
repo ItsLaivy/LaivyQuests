@@ -1,4 +1,4 @@
-package codes.laivy.quests.api;
+package codes.laivy.quests.api.provider;
 
 import codes.laivy.data.sql.SqlDatabase;
 import codes.laivy.data.sql.SqlReceptor;
@@ -21,7 +21,10 @@ import codes.laivy.data.sql.sqlite.natives.SqliteVariableNative;
 import codes.laivy.data.sql.sqlite.natives.manager.SqliteManagerNative;
 import codes.laivy.data.sql.sqlite.variable.type.SqliteTextVariableType;
 import codes.laivy.quests.LaivyQuests;
+import codes.laivy.quests.api.QuestsApi;
+import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.Quest;
+import codes.laivy.quests.quests.QuestHolder;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -265,38 +268,60 @@ public class QuestsApiProvider implements QuestsApi, Listener {
         getDatabase().unload();
     }
 
+    protected @NotNull QuestHolder deserializeQuestHolder(@NotNull JsonElement element) {
+        JsonObject object = element.getAsJsonObject();
+
+        UUID uuid = UUID.fromString(object.get("uuid").getAsString());
+        Quest quest;
+
+        Optional<Quest> questOpt = getQuests().stream().filter(q -> q.getId().equals(object.get("quest").getAsString())).findFirst();
+        if (questOpt.isPresent()) {
+            quest = questOpt.get();
+        } else {
+            throw new NullPointerException("Couldn't find quest with id '" + object.get("quest").getAsString() + "' at user '" + uuid + "'");
+        }
+
+        Date start = new Date(object.get("start").getAsLong());
+        @Nullable Date finish = (object.has("finish") ? new Date(object.get("finish").getAsLong()) : null);
+
+        return new QuestHolderProvider(uuid, quest, start, finish);
+    }
+    protected @NotNull JsonElement serializeQuestHolder(@NotNull QuestHolder holder) {
+        JsonObject object = new JsonObject();
+
+        object.addProperty("uuid", holder.getUniqueId().toString());
+        object.addProperty("quest", holder.getQuest().getId());
+        object.addProperty("start", holder.getStartDate().getTime());
+
+        if (holder.getFinishDate() != null) {
+            object.addProperty("finish", holder.getFinishDate().getTime());
+        }
+
+        return object;
+    }
+
     protected @NotNull QuestsPlayerData deserializeQuestData(@NotNull JsonElement element) {
         JsonObject object = element.getAsJsonObject();
 
         UUID uuid = UUID.fromString(object.get("uuid").getAsString());
-        Set<Quest> quests = new LinkedHashSet<>();
+        Set<QuestHolder> quests = new LinkedHashSet<>();
 
         for (JsonElement questElement : object.getAsJsonArray("quests")) {
-            String questId = questElement.getAsString();
-
-            Optional<Quest> optional = getQuests().stream().filter(q -> q.getId().equals(questId)).findFirst();
-            if (optional.isPresent()) {
-                quests.add(optional.get());
-            } else {
-                throw new NullPointerException("Couldn't find quest with id '" + questId + "' when tried to load user '" + uuid + "'");
-            }
+            JsonObject serializedHolder = questElement.getAsJsonObject();
+            quests.add(deserializeQuestHolder(serializedHolder));
         }
 
         return new QuestsPlayerDataProvider(uuid, quests);
     }
     protected @NotNull JsonElement serializeQuestData(@NotNull QuestsPlayerData data) {
         JsonObject object = new JsonObject();
-        Map<String, Object> map = data.serialize();
 
         JsonArray quests = new JsonArray();
-        JsonParser parser = new JsonParser();
-
-        //noinspection unchecked
-        for (String questId : (List<String>) map.get("quests")) {
-            quests.add(parser.parse("\"" + questId + "\""));
+        for (QuestHolder holder : data.getQuests()) {
+            quests.add(serializeQuestHolder(holder));
         }
 
-        object.addProperty("uuid", (String) map.getOrDefault("uuid", data.getUniqueId().toString()));
+        object.addProperty("uuid", data.getUniqueId().toString());
         object.add("quests", quests);
 
         return object;
@@ -304,7 +329,6 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
     @EventHandler
     private void join(@NotNull PlayerJoinEvent e) {
-        Bukkit.broadcastMessage("ata");
         QuestsPlayerData data = getPlayerData(e.getPlayer().getUniqueId());
     }
 }

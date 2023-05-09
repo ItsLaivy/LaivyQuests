@@ -1,7 +1,7 @@
 package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
-import codes.laivy.quests.api.QuestsApiProvider;
+import codes.laivy.quests.api.provider.QuestsApiProvider;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -9,7 +9,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class LaivyQuests extends JavaPlugin {
+public final class LaivyQuests extends JavaPlugin {
 
     private final @NotNull UpdateManager updateManager;
     private @NotNull QuestsApi api;
@@ -38,7 +38,18 @@ public class LaivyQuests extends JavaPlugin {
         return api;
     }
     public void setApi(@NotNull QuestsApi api) {
-        this.api = api;
+        if (api == getApi()) {
+            return;
+        }
+
+        boolean loaded = getApi().isLoaded();
+        if (loaded) {
+            getApi().unload();
+            this.api = api;
+            getApi().load();
+        } else {
+            this.api = api;
+        }
     }
 
     public @NotNull UpdateManager getUpdateManager() {

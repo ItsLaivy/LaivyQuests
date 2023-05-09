@@ -1,6 +1,7 @@
 package codes.laivy.quests.api;
 
 import codes.laivy.quests.quests.Quest;
+import codes.laivy.quests.quests.QuestsPlayerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
