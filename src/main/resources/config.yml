@@ -13,7 +13,6 @@
 #               Commands                #
 # ---------------- =/= ---------------- #
 
-version: "1.0" # Do not change :)
 check-updates: true
 
 database:

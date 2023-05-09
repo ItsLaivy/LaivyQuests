@@ -39,6 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 
+import static org.bukkit.Bukkit.getServer;
+
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<Quest> quests = new LinkedHashSet<>();
@@ -143,6 +145,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             throw new IllegalStateException("The quests api is already loaded!");
         }
 
+        getServer().getConsoleSender().sendMessage("");
         getPlugin().log(TextComponent.fromLegacyText("§7Loading §eLaivyQuests §7default api provider..."));
 
         try {
@@ -227,6 +230,8 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
             getPlugin().log(TextComponent.fromLegacyText("§aSuccessfully loaded plugin, enjoy! :)"));
             getPlugin().log(TextComponent.fromLegacyText("§7Loading statistics: §2" + loaded + " player data's §7with §c"+ error + " error(s)"));
+
+            getServer().getConsoleSender().sendMessage("");
         } catch (Throwable e) {
             throw new RuntimeException("Default quests api loading", e);
         }

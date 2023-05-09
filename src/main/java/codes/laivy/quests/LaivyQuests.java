@@ -8,20 +8,21 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class LaivyQuests extends JavaPlugin {
 
-    private final @NotNull UpdateManager updateManager;
+    private @Nullable UpdateManager updateManager;
     private @NotNull QuestsApi api;
 
     public LaivyQuests() {
         saveDefaultConfig();
-        this.updateManager = new UpdateManagerProvider(getConfig().getString("version", "1.0"), getConfig().getBoolean("check-updates", true));
         this.api = new QuestsApiProvider(this);
     }
 
     @Override
     public void onEnable() {
+        this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
         getApi().load();
     }
     @Override
@@ -53,6 +54,9 @@ public final class LaivyQuests extends JavaPlugin {
     }
 
     public @NotNull UpdateManager getUpdateManager() {
+        if (updateManager == null) {
+            throw new NullPointerException("Couldn't retrieve updates manager");
+        }
         return updateManager;
     }
 }
