@@ -25,6 +25,7 @@ import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestHolder;
+import codes.laivy.quests.utils.ComponentUtils;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -33,12 +34,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
 
+import static codes.laivy.quests.utils.ComponentUtils.getLocale;
 import static org.bukkit.Bukkit.getServer;
 
 public class QuestsApiProvider implements QuestsApi, Listener {

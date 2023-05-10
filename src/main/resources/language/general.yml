@@ -1,0 +1,6 @@
+default locale: "en_us"
+
+locales:
+  test:
+    "EN_US": "Test message"
+    "PT_BR": "Mensagem teste"
