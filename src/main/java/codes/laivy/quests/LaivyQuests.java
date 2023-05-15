@@ -67,9 +67,14 @@ public final class LaivyQuests extends JavaPlugin {
         }
     }
 
+    @Override
+    public void onDisable() {
+        getApi().unload();
+    }
     public @NotNull IMessageStorage getMessageStorage() {
         return messageStorage;
     }
+
     public void setMessageStorage(@NotNull IMessageStorage messageStorage) {
         // TODO: 09/05/2023 The new message storage needs to have the same messages from the older
         this.messageStorage = messageStorage;
@@ -93,11 +98,6 @@ public final class LaivyQuests extends JavaPlugin {
         }
 
         return new MessageStorageProvider(defaultLocale, component);
-    }
-
-    @Override
-    public void onDisable() {
-        getApi().unload();
     }
 
     public void log(@NotNull BaseComponent[] component) {

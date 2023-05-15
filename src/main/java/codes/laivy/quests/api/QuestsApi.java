@@ -13,6 +13,8 @@ public interface QuestsApi {
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 
+    @NotNull QuestsCommandApi getCommandApi();
+
     /**
      * Loads the API and prepare everything
      */

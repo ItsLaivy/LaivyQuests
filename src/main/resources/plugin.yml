@@ -6,5 +6,11 @@ api-version: 1.19
 
 website: "https://laivy.codes/"
 
+commands:
+  quests:
+    description: "The main quests plugin"
+    aliases:
+      - quest
+
 softdepend:
   - LvMultiplesLanguages

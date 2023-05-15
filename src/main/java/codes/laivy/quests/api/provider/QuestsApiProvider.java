@@ -22,6 +22,7 @@ import codes.laivy.data.sql.sqlite.natives.manager.SqliteManagerNative;
 import codes.laivy.data.sql.sqlite.variable.type.SqliteTextVariableType;
 import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
+import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestHolder;
@@ -51,12 +52,18 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull LaivyQuests plugin;
 
+    private final @NotNull QuestsCommandApi commandApi;
+
     // Statistics
     private int created = 0; // Created data's
     // Statistics
 
     public QuestsApiProvider(@NotNull LaivyQuests plugin) {
+        this(plugin, new QuestsCommandApiProvider());
+    }
+    protected QuestsApiProvider(@NotNull LaivyQuests plugin, @NotNull QuestsCommandApi commandApi) {
         this.plugin = plugin;
+        this.commandApi = commandApi;
     }
 
     public @NotNull LaivyQuests getPlugin() {
@@ -84,7 +91,12 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             return data;
         }
     }
- 
+
+    @Override
+    public @NotNull QuestsCommandApi getCommandApi() {
+        return commandApi;
+    }
+
     public @NotNull Map<UUID, QuestsPlayerData> getData() {
         if (!isLoaded()) {
             throw new IllegalStateException("The quests api isn't loaded yet");
@@ -143,6 +155,10 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     public void load() {
         if (isLoaded()) {
             throw new IllegalStateException("The quests api is already loaded!");
+        }
+
+        if (getCommandApi().hasCommand()) {
+            getPlugin().getCommand("quests").setExecutor(getCommandApi());
         }
 
         getServer().getConsoleSender().sendMessage("");
