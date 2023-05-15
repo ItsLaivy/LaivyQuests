@@ -1,6 +1,5 @@
 package codes.laivy.quests.quests;
 
-import codes.laivy.quests.quests.QuestHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;

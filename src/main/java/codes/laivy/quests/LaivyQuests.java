@@ -7,7 +7,7 @@ import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
 import codes.laivy.quests.locale.IMessageStorage;
-import codes.laivy.quests.api.provider.MessageStorageProvider;
+import codes.laivy.quests.locale.MessageStorageProvider;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.configuration.ConfigurationSection;
@@ -55,6 +55,7 @@ public final class LaivyQuests extends JavaPlugin {
                 try {
                     compatibility.hook(this);
                 } catch (Throwable e) {
+                    e.printStackTrace();
                     log(TextComponent.fromLegacyText("§cCouldn't hook §6LvMultiplesLanguages §cwith the §6LaivyQuests §cplugin"));
                 }
                 log(TextComponent.fromLegacyText("§9Successfully hooked §eLvMultiplesLanguages " + compatibility.getPlugin().getDescription().getVersion() + "§9!"));

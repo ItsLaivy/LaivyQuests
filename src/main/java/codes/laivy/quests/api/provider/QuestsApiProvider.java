@@ -25,7 +25,6 @@ import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestHolder;
-import codes.laivy.quests.utils.ComponentUtils;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -338,5 +337,16 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     @EventHandler
     private void join(@NotNull PlayerJoinEvent e) {
         QuestsPlayerData data = getPlayerData(e.getPlayer().getUniqueId());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!e.getPlayer().isOnline()) {
+                    this.cancel();
+                    return;
+                }
+                e.getPlayer().spigot().sendMessage(getPlugin().getMessageStorage().get(getLocale(e.getPlayer()), "test"));
+            }
+        }.runTaskTimer(getPlugin(), 1, 1);
     }
 }

@@ -1,4 +1,4 @@
-package codes.laivy.quests.api.provider;
+package codes.laivy.quests.locale;
 
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.utils.ComponentUtils;
@@ -6,21 +6,27 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MessageStorageProvider implements IMessageStorage {
 
     private final @NotNull String defaultLocale;
     private final @NotNull Map<String, Map<String, BaseComponent[]>> messages;
 
+    private final @NotNull Map<String, Set<String>> arrays = new HashMap<>();
+
     public MessageStorageProvider(@NotNull String defaultLocale, @NotNull Map<String, Map<String, BaseComponent[]>> messages) {
         this.defaultLocale = defaultLocale;
         this.messages = messages;
+    }
+
+    @Override
+    public @NotNull Map<String, Set<String>> getArrays() {
+        return arrays;
     }
 
     public @NotNull String getDefaultLocale() {
@@ -74,6 +80,43 @@ public class MessageStorageProvider implements IMessageStorage {
             return componentSet.toArray(new BaseComponent[0]);
         }
         throw new NullPointerException("Couldn't find this message '" + message + "'");
+    }
+
+    @Override
+    public @NotNull BaseComponent[] get(@NotNull UUID uuid, @NotNull String message, Object... replaces) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) {
+            return get(ComponentUtils.getLocale(player), message, replaces);
+        } else {
+            throw new NullPointerException("This player '" + uuid + "' isn't on-line.");
+        }
+    }
+
+    @Override
+    public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces) {
+        if (!getArrays().containsKey(message)) {
+            throw new UnsupportedOperationException("This message '" + message + "' isn't an array.");
+        }
+
+        List<BaseComponent[]> components = new LinkedList<>();
+
+        for (BaseComponent component : get(locale, message, replaces)) {
+            components.add(new BaseComponent[] {
+                    component.duplicate()
+            });
+        }
+
+        return components;
+    }
+
+    @Override
+    public @NotNull List<BaseComponent[]> getArray(@NotNull UUID uuid, @NotNull String message, Object... replaces) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null) {
+            return getArray(ComponentUtils.getLocale(player), message, replaces);
+        } else {
+            throw new NullPointerException("This player '" + uuid + "' isn't on-line.");
+        }
     }
 
 }
