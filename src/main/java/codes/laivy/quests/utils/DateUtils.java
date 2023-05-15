@@ -1,14 +1,12 @@
 package codes.laivy.quests.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 
     public static String getDateAsString(long millis) {
         if (millis < 1000) {
-            return "0s";
+            return millis + "ms";
         }
 
         long DD = TimeUnit.MILLISECONDS.toDays(millis);
