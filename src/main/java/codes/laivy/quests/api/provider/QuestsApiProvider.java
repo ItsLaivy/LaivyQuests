@@ -33,14 +33,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
 
-import static codes.laivy.quests.utils.ComponentUtils.getLocale;
 import static org.bukkit.Bukkit.getServer;
 
 public class QuestsApiProvider implements QuestsApi, Listener {
@@ -337,16 +335,5 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     @EventHandler
     private void join(@NotNull PlayerJoinEvent e) {
         QuestsPlayerData data = getPlayerData(e.getPlayer().getUniqueId());
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!e.getPlayer().isOnline()) {
-                    this.cancel();
-                    return;
-                }
-                e.getPlayer().spigot().sendMessage(getPlugin().getMessageStorage().get(getLocale(e.getPlayer()), "test"));
-            }
-        }.runTaskTimer(getPlugin(), 1, 1);
     }
 }
