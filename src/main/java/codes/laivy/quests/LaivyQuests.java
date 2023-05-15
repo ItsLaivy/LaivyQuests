@@ -32,6 +32,10 @@ public final class LaivyQuests extends JavaPlugin {
     }
     //
 
+    public static @NotNull LaivyQuests laivyQuests() {
+        return JavaPlugin.getPlugin(LaivyQuests.class);
+    }
+
     private @Nullable UpdateManager updateManager;
     private @NotNull QuestsApi api;
     private @NotNull IMessageStorage messageStorage;

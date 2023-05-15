@@ -36,6 +36,13 @@ public class ComponentUtils {
 
         return str.substring(2);
     }
+    public static @NotNull List<String> getText(@NotNull List<BaseComponent[]> components) {
+        List<String> list = new LinkedList<>();
+        for (BaseComponent[] component : components) {
+            list.add(getText(component));
+        }
+        return list;
+    }
 
     /**
      * Clones the components at the array

@@ -1,9 +1,50 @@
 default locale: "en_us"
 
 locales:
-  test:
-    "EN_US": "Test message"
-    "PT_BR": "Mensagem teste"
-  test2:
-    "EN_US": "11"
-    "PT_BR": "22"
+  "Paged inventory: Blank list item name":
+    "EN_US": "§cBlank Page"
+    "PT_BR": "§cPágina Vazia"
+  "Paged inventory: Blank list item lore":
+    "EN_US":
+      - "§7There is nothing here to explore"
+    "PT_BR":
+      - "§7Clique para ver os"
+      - "§7Não há nada aqui para explorar"
+
+  "Paged inventory: previous item name":
+    "EN_US": "§cPrevious page"
+    "PT_BR": "§cPágina anterior"
+  "Paged inventory: previous item lore":
+    "EN_US":
+      - "§7Click here to go to"
+      - "§7the previous page"
+      - ""
+      - "§7Current page: §f%s"
+    "PT_BR":
+      - "§7Clique para ir para"
+      - "§7a página anterior"
+      - ""
+      - "§7Página atual: §f%s"
+
+  "Paged inventory: next item name":
+    "EN_US": "§aNext page"
+    "PT_BR": "§aPróxima página"
+
+  "Paged inventory: next item lore":
+    "EN_US":
+      - "§7Click here to go to"
+      - "§7the next page"
+      - ""
+      - "§7Current page: §f%s"
+    "PT_BR":
+      - "§7Clique para ir para"
+      - "§7a próxima página"
+      - ""
+      - "§7Página atual: §f%s"
+
+  "Paged inventory: Cannot go previous page":
+    "EN_US": "§cThere are no previous pages"
+    "PT_BR": "§cNão há mais páginas anteriores"
+  "Paged inventory: Cannot go next page":
+    "EN_US": "§cThere aren't next pages"
+    "PT_BR": "§cNão há mais páginas para explorar à frente"

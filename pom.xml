@@ -38,6 +38,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>9.3.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>codes.laivy</groupId>
             <artifactId>lvml</artifactId>
             <version>1.0</version>
