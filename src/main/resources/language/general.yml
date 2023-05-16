@@ -1,6 +1,75 @@
 default locale: "en_us"
 
 locales:
+  "Inventory title: Quests main menu":
+    "EN_US": "Quests"
+
+  "Commands: Can only be performed by players":
+    "EN_US": "§c✘ §7This command can only be performed by players!"
+
+  "Menus: back item name":
+    "EN_US": "§cBack"
+    "PT_BR": "§cVoltar"
+  "Menus: back item lore":
+    "EN_US":
+      - "§7Click to get back"
+    "PT_BR":
+      - "§7Clique para voltar"
+
+  "Quests main menus: quests list name":
+    "EN_US": "§eQuests list"
+    "PT_BR": "§eLista de quests"
+  "Quests main menus: quests list lore":
+    "EN_US":
+      - "§7Click here to see all your"
+      - "§7active quests"
+    "PT_BR":
+      - "§7Clique aqui para ver todas as"
+      - "§7suas quests ativas"
+
+  "Quests main menus: statistics name":
+    "EN_US": "§eStatistics"
+    "PT_BR": "§eEstatísticas"
+  "Quests main menus: statistics lore":
+    "EN_US":
+      - "§7Your statistics determine the difficulty"
+      - "§7and the prizes of the quests"
+    "PT_BR":
+      - "§7Suas estatísticas determinam a dificuldade"
+      - "§7e os prêmios das quests"
+
+  "Quests main menus: information name":
+    "EN_US": "§eInformation"
+    "PT_BR": "§eInformações"
+  "Quests main menus: information lore":
+    "EN_US":
+      - "§7Here are your information"
+      - "§7about the quests"
+    "PT_BR":
+      - "§7Aqui estão suas informações"
+      - "§7sobre as quests"
+
+  "Quests main menus: leaderboard name":
+    "EN_US": "§eLeaderboard"
+  "Quests main menus: leaderboard lore":
+    "EN_US":
+      - "§7Click here to see the"
+      - "§7leaderboard"
+    "PT_BR":
+      - "§7Clique para ver os melhores"
+      - "§7jogadores e quests"
+
+  "Quests main menus: history name":
+    "EN_US": "§eHistory"
+    "PT_BR": "§eHistórico"
+  "Quests main menus: history lore":
+    "EN_US":
+      - "§7You can see here all your"
+      - "§7finished quests"
+    "PT_BR":
+      - "§7Aqui você pode ver todas as"
+      - "§7suas quests finalizadas"
+
   "Paged inventory: Blank list item name":
     "EN_US": "§cBlank Page"
     "PT_BR": "§cPágina Vazia"

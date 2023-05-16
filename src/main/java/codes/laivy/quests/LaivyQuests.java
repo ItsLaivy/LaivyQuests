@@ -43,7 +43,7 @@ public final class LaivyQuests extends JavaPlugin {
     public LaivyQuests() {
         saveDefaultConfig();
         // Message
-        messageStorage = readMessageFile();
+        messageStorage = readMessageFile("/language/general.yml");
         // Api
         this.api = new QuestsApiProvider(this);
     }
@@ -80,24 +80,44 @@ public final class LaivyQuests extends JavaPlugin {
         this.messageStorage = messageStorage;
     }
 
-    private @NotNull IMessageStorage readMessageFile() {
-        @NotNull InputStream stream = Objects.requireNonNull(LaivyQuests.class.getResourceAsStream("/language/general.yml"));
+    private @NotNull IMessageStorage readMessageFile(@NotNull String resource) {
+        @NotNull InputStream stream = Objects.requireNonNull(LaivyQuests.class.getResourceAsStream(resource));
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 
-        @NotNull String defaultLocale = yaml.getString("default locale").toUpperCase();
+        @NotNull String defaultLocale = Objects.requireNonNull(yaml.getString("default locale")).toUpperCase();
         @NotNull Map<String, Map<String, BaseComponent[]>> component = new LinkedHashMap<>();
+        @NotNull Map<String, Set<String>> arrays = new HashMap<>();
 
         ConfigurationSection section = yaml.getConfigurationSection("locales");
-        for (String message : section.getKeys(false)) {
+        for (String message : Objects.requireNonNull(section).getKeys(false)) {
             component.putIfAbsent(message, new LinkedHashMap<>());
-            for (Map.Entry<String, Object> entry : section.getConfigurationSection(message).getValues(false).entrySet()) {
+            for (Map.Entry<String, Object> entry : Objects.requireNonNull(section.getConfigurationSection(message)).getValues(false).entrySet()) {
                 String locale = entry.getKey().toUpperCase();
-                BaseComponent[] messageContent = TextComponent.fromLegacyText(String.valueOf(entry.getValue()));
-                component.get(message).put(locale, messageContent);
+
+                if (entry.getValue() instanceof List) {
+                    Set<BaseComponent> components = new LinkedHashSet<>();
+
+                    //noinspection unchecked
+                    for (Object object : (List<Object>) entry.getValue()) {
+                        components.add(new TextComponent(String.valueOf(object)));
+                    }
+
+                    component.get(message).put(locale, components.toArray(new BaseComponent[0]));
+
+                    arrays.putIfAbsent(message, new HashSet<>());
+                    arrays.get(message).add(locale);
+                } else {
+                    BaseComponent[] messageContent = new BaseComponent[] {
+                            new TextComponent(String.valueOf(entry.getValue()))
+                    };
+                    component.get(message).put(locale, messageContent);
+                }
             }
         }
 
-        return new MessageStorageProvider(defaultLocale, component);
+        MessageStorageProvider provider = new MessageStorageProvider(defaultLocale, component);
+        provider.getArrays().putAll(arrays);
+        return provider;
     }
 
     public void log(@NotNull BaseComponent[] component) {

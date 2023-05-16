@@ -1,6 +1,5 @@
 package codes.laivy.quests.inventory;
 
-import codes.laivy.quests.utils.ComponentUtils;
 import codes.laivy.quests.utils.GuiUtils;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
@@ -123,8 +122,8 @@ public class PagedInventory {
         this.blankListItemSlot = blankListItemSlot;
 
         this.blankListItem = GuiUtils.getItemStack(Objects.requireNonNull(XMaterial.COBWEB.parseMaterial()),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().get(locale, "Paged inventory: Blank list item name")),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: Blank list item lore"))
+                laivyQuests().getMessageStorage().get(locale, "Paged inventory: Blank list item name"),
+                laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: Blank list item lore")
         );
 
         this.inventory = inventory;
@@ -223,14 +222,14 @@ public class PagedInventory {
 
     public static @NotNull ItemStack getNextPageItem(int page, @Nullable String locale) {
         return GuiUtils.getItemStack(Objects.requireNonNull(XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial()),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().get(locale, "Paged inventory: next item name")),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: next item lore", page))
+                laivyQuests().getMessageStorage().get(locale, "Paged inventory: next item name"),
+                laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: next item lore", page)
         );
     }
     public static @NotNull ItemStack getPreviousPageItem(int page, @Nullable String locale) {
         return GuiUtils.getItemStack(Objects.requireNonNull(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial()),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().get(locale, "Paged inventory: previous item name")),
-                ComponentUtils.getText(laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: previous item lore", page))
+                laivyQuests().getMessageStorage().get(locale, "Paged inventory: previous item name"),
+                laivyQuests().getMessageStorage().getArray(locale, "Paged inventory: previous item lore", page)
         );
     }
 

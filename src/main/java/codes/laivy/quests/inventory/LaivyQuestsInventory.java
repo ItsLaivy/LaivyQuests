@@ -1,6 +1,5 @@
 package codes.laivy.quests.inventory;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -110,9 +109,6 @@ public abstract class LaivyQuestsInventory {
         this(id, Bukkit.createInventory(null, size, title));
     }
     public LaivyQuestsInventory(@NotNull String id, @NotNull Inventory inventory) {
-        Validate.notNull(id);
-        Validate.notNull(inventory);
-
         this.id = id;
         this.inventory = inventory;
 
