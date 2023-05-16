@@ -11,6 +11,4 @@ public interface QuestsPlayerData {
 
     @NotNull QuestHolder[] getQuests();
 
-    @NotNull Map<String, Object> serialize();
-
 }

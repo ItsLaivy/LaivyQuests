@@ -2,7 +2,9 @@ default locale: "en_us"
 
 locales:
   "Inventory title: Quests main menu":
-    "EN_US": "Quests"
+    "EN_US": "Quests main menu"
+  "Inventory title: Quests menu":
+    "EN_US": "Quests list"
 
   "Commands: Can only be performed by players":
     "EN_US": "§c✘ §7This command can only be performed by players!"
@@ -15,6 +17,49 @@ locales:
       - "§7Click to get back"
     "PT_BR":
       - "§7Clique para voltar"
+
+  "Quests list: only available toggle (true) name":
+    "EN_US": "§cOnly available"
+    "PT_BR": "§cApenas disponíveis"
+  "Quests list: only available toggle (true) lore":
+    "EN_US":
+      - "§7Only available quests will be displayed."
+      - ""
+      - "§aClick to toggle and"
+      - "§ashow all quests"
+    "PT_BR":
+      - "§7Apenas quests disponíveis serão exibidas."
+      - ""
+      - "§aClique para alternar e exibir"
+      - "§atodas as quests"
+
+  "Quests list: only available toggle (false) name":
+    "EN_US": "§aAll quests"
+    "PT_BR": "§aTodas as quests"
+  "Quests list: only available toggle (false) lore":
+    "EN_US":
+      - "§7All quests will be displayed."
+      - ""
+      - "§aClick to toggle and show"
+      - "§aonly available quests"
+    "PT_BR":
+      - "§7Todas as quests serão exibidas"
+      - ""
+      - "§aClique para alternar e exibir apenas"
+      - "§aas quests disponíveis"
+
+  "Quests list: filter name":
+    "EN_US": "§6Filter"
+    "PT_BR": "§6Filter"
+  "Quests list: filter lore":
+    "EN_US":
+      - "§7Click to filter quests"
+      - ""
+      - "%s"
+    "PT_BR":
+      - "§7Clique para filtrar as quests"
+      - ""
+      - "%s"
 
   "Quests main menus: quests list name":
     "EN_US": "§eQuests list"

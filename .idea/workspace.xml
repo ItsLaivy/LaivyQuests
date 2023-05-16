@@ -5,14 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e8cc59a-6631-4c1b-ac63-941eee8eafb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestMainInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/Serializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/QuestProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/QuestCompleteEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/QuestEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/IMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/provider/MessageProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Objective.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/ObjectiveHolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsCommandApiProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsCommandApiProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/LaivyQuestsInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/LaivyQuestsInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/PagedInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/PagedInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/GuiUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/GuiUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/QuestsApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/QuestsApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestHolderProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/QuestHolderProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsPlayerDataProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsPlayerDataProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/compatibility/LvMultiplesLanguagesCompatibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/compatibility/LvMultiplesLanguagesCompatibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestMainInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestMainInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/IMessageStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/IMessageStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/MessageStorageProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/provider/MessageStorageProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Quest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Quest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/QuestHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/QuestHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/QuestsPlayerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/QuestsPlayerData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language/general.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/general.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,18 +63,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "G:/Meu Drive/BackUPs/recent/LaivyQuests/src/main/java/codes/laivy/quests/inventory",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Meu Drive/BackUPs/recent/LaivyQuests/src/main/java/codes/laivy/quests/inventory&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Meu Drive\BackUPs\recent\LaivyQuests\src\main\java\codes\laivy\quests\inventory" />

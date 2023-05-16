@@ -23,9 +23,9 @@ import codes.laivy.data.sql.sqlite.variable.type.SqliteTextVariableType;
 import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
-import codes.laivy.quests.quests.QuestsPlayerData;
-import codes.laivy.quests.quests.Quest;
-import codes.laivy.quests.quests.QuestHolder;
+import codes.laivy.quests.api.Serializer;
+import codes.laivy.quests.api.provider.quest.QuestHolderProvider;
+import codes.laivy.quests.quests.*;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -45,6 +45,11 @@ import static org.bukkit.Bukkit.getServer;
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<Quest> quests = new LinkedHashSet<>();
+    private final @NotNull Set<Objective> objectives = new LinkedHashSet<>();
+    private final @NotNull Set<QuestHolder> questHolders = new LinkedHashSet<>();
+
+    private final @NotNull Map<@NotNull String, @NotNull Serializer<? extends Objective>> objectiveSerializers = new HashMap<>();
+
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
     private @Nullable SqlTable table;
@@ -77,6 +82,29 @@ public class QuestsApiProvider implements QuestsApi, Listener {
         }
 
         return quests;
+    }
+
+    @Override
+    public @NotNull Set<@NotNull Objective> getQuestTypes() {
+        if (!isLoaded()) {
+            throw new IllegalStateException("The quests api isn't loaded yet");
+        }
+
+        return objectives;
+    }
+
+    @Override
+    public @NotNull Set<@NotNull QuestHolder> getQuestHolders() {
+        if (!isLoaded()) {
+            throw new IllegalStateException("The quests api isn't loaded yet");
+        }
+
+        return questHolders;
+    }
+
+    @Override
+    public @NotNull Map<@NotNull String, @NotNull Serializer<? extends Objective>> getObjectiveSerializers() {
+        return objectiveSerializers;
     }
 
     @Override

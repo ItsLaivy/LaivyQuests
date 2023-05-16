@@ -1,8 +1,9 @@
 package codes.laivy.quests.quests;
 
+import codes.laivy.quests.locale.IMessage;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.Collection;
 
 public interface Quest {
 
@@ -12,6 +13,12 @@ public interface Quest {
      */
     @NotNull String getId();
 
-    @NotNull Map<String, Object> serialize();
+    @NotNull IMessage getName();
+
+    @NotNull IMessage getDescription();
+
+    @NotNull Collection<Objective> getObjectives();
+
+    void complete(@NotNull QuestHolder holder);
 
 }

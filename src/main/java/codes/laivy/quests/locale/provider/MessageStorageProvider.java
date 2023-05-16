@@ -1,5 +1,6 @@
-package codes.laivy.quests.locale;
+package codes.laivy.quests.locale.provider;
 
+import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.utils.ComponentUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -117,6 +118,11 @@ public class MessageStorageProvider implements IMessageStorage {
         } else {
             throw new NullPointerException("This player '" + uuid + "' isn't on-line.");
         }
+    }
+
+    @Override
+    public @NotNull IMessage getMessage(@NotNull String id) {
+        return new MessageProvider(id, messages.get(id));
     }
 
 }

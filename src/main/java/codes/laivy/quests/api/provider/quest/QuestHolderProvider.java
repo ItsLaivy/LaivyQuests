@@ -1,14 +1,12 @@
-package codes.laivy.quests.api.provider;
+package codes.laivy.quests.api.provider.quest;
 
+import codes.laivy.quests.quests.ObjectiveHolder;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class QuestHolderProvider implements QuestHolder {
 
@@ -16,6 +14,8 @@ public class QuestHolderProvider implements QuestHolder {
     private final @NotNull Quest quest;
     private final @NotNull Date start;
     private final @Nullable Date finish;
+
+    private final @NotNull Set<ObjectiveHolder> objectiveHolders = new HashSet<>();
 
     public QuestHolderProvider(@NotNull UUID uuid, @NotNull Quest quest, @NotNull Date start, @Nullable Date finish) {
         this.uuid = uuid;
@@ -50,17 +50,12 @@ public class QuestHolderProvider implements QuestHolder {
     }
 
     @Override
-    public @NotNull Map<String, Object> serialize() {
-        Map<String, Object> map = new LinkedHashMap<>();
+    public @NotNull Collection<ObjectiveHolder> getObjectiveHolders() {
+        return objectiveHolders;
+    }
 
-        map.put("uuid", getUniqueId().toString());
-        map.put("quest", getQuest().getId());
-        map.put("start", getStartDate().getTime());
+    @Override
+    public void finish() {
 
-        if (getFinishDate() != null) {
-            map.put("finish", getFinishDate().getTime());
-        }
-
-        return map;
     }
 }

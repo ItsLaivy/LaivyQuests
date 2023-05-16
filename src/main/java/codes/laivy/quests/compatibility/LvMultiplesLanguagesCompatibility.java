@@ -5,7 +5,9 @@ import codes.laivy.mlanguage.api.bukkit.BukkitMessageStorage;
 import codes.laivy.mlanguage.lang.Locale;
 import codes.laivy.mlanguage.main.BukkitMultiplesLanguages;
 import codes.laivy.quests.LaivyQuests;
-import codes.laivy.quests.locale.MessageStorageProvider;
+import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.locale.provider.MessageProvider;
+import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import codes.laivy.quests.locale.IMessageStorage;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.jetbrains.annotations.NotNull;
@@ -85,12 +87,35 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         }
     }
 
+    public static class MessageMultiplesLanguagesProvider extends MessageProvider {
+
+        private final @NotNull BukkitMessage message;
+
+        public MessageMultiplesLanguagesProvider(@NotNull BukkitMessage message) {
+            super(message.getId(), new HashMap<>());
+            this.message = message;
+        }
+
+        @Override
+        public @NotNull BaseComponent[] getText(@NotNull String locale) {
+            return getMessage().getText(convert(locale));
+        }
+
+        @Override
+        public @NotNull List<BaseComponent[]> getArray(@NotNull String locale) {
+            return getMessage().getArray(convert(locale));
+        }
+
+        protected @NotNull BukkitMessage getMessage() {
+            return message;
+        }
+    }
     public static class MessageStorageMultiplesLanguagesProvider extends MessageStorageProvider {
 
         private final @NotNull BukkitMessageStorage storage;
 
         public MessageStorageMultiplesLanguagesProvider(@NotNull BukkitMessageStorage storage) {
-            super(storage.getDefaultLocale().name(), new LinkedHashMap<>());
+            super(storage.getDefaultLocale().name(), new HashMap<>());
             this.storage = storage;
         }
 
@@ -111,6 +136,11 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         @Override
         public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces) {
             return getStorage().getTextArray(convert(locale != null ? locale : getDefaultLocale()), message, replaces);
+        }
+
+        @Override
+        public @NotNull IMessage getMessage(@NotNull String id) {
+            return new MessageMultiplesLanguagesProvider(getStorage().getMessage(id));
         }
     }
 }

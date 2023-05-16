@@ -3,15 +3,15 @@ package codes.laivy.quests.quests;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public interface QuestHolder {
 
     @NotNull UUID getUniqueId();
 
     @NotNull Quest getQuest();
+
+    @NotNull Collection<ObjectiveHolder> getObjectiveHolders();
 
     @NotNull Date getStartDate();
 
@@ -22,6 +22,6 @@ public interface QuestHolder {
 
     boolean isFinished();
 
-    @NotNull Map<String, Object> serialize();
+    void finish();
 
 }

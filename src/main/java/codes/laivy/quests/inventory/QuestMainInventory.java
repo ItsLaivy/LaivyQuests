@@ -76,6 +76,9 @@ public class QuestMainInventory extends LaivyQuestsInventory {
 
                 if (e.getSlot() == 40) {
                     p.closeInventory();
+                } else if (e.getSlot() == 19) {
+                    QuestsInventory inventory = new QuestsInventory(p);
+                    p.openInventory(inventory.getInventory());
                 }
             }
         });

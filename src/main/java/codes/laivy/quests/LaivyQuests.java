@@ -7,9 +7,11 @@ import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
 import codes.laivy.quests.locale.IMessageStorage;
-import codes.laivy.quests.locale.MessageStorageProvider;
+import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public final class LaivyQuests extends JavaPlugin {
@@ -120,10 +124,31 @@ public final class LaivyQuests extends JavaPlugin {
         return provider;
     }
 
-    public void log(@NotNull BaseComponent[] component) {
-        // BaseComponent[] prefix = ComponentSerializer.parse("[\"\",{\"text\":\"L\",\"color\":\"#949494\"},{\"text\":\"a\",\"color\":\"#A5A5A5\"},{\"text\":\"i\",\"color\":\"#B7B7B7\"},{\"text\":\"v\",\"color\":\"#CACACA\"},{\"text\":\"y\",\"color\":\"#DCDCDC\"},{\"text\":\"Q\",\"color\":\"#00B715\"},{\"text\":\"u\",\"color\":\"#00A716\"},{\"text\":\"e\",\"color\":\"#009717\"},{\"text\":\"s\",\"color\":\"#008816\"},{\"text\":\"t\",\"color\":\"#007915\"},{\"text\":\"s\",\"color\":\"#006A14\"}]");
-        getServer().getConsoleSender().sendMessage("§8[§6" + getDescription().getName() + "§8]§7 " + TextComponent.toLegacyText(component));
-    }
+    public void log(@NotNull BaseComponent... component) {
+        try {
+            //noinspection JavaReflectionMemberAccess
+            Method spigotMethod = CommandSender.class.getDeclaredMethod("spigot");
+            spigotMethod.setAccessible(true);
+
+            Object spigot = spigotMethod.invoke(getServer().getConsoleSender());
+
+            BaseComponent[] prefix = ComponentSerializer.parse("[{\"text\":\"L\",\"color\":\"#949494\"},{\"text\":\"a\",\"color\":\"#A5A5A5\"},{\"text\":\"i\",\"color\":\"#B7B7B7\"},{\"text\":\"v\",\"color\":\"#CACACA\"},{\"text\":\"y\",\"color\":\"#DCDCDC\"},{\"text\":\"Q\",\"color\":\"#00B715\"},{\"text\":\"u\",\"color\":\"#00A716\"},{\"text\":\"e\",\"color\":\"#009717\"},{\"text\":\"s\",\"color\":\"#008816\"},{\"text\":\"t\",\"color\":\"#007915\"},{\"text\":\"s\",\"color\":\"#006A14\"}]");
+            Method sendMessageMethod = spigot.getClass().getDeclaredMethod("sendMessage", BaseComponent[].class);
+            sendMessageMethod.setAccessible(true);
+
+            BaseComponent[] messageComponents = new BaseComponent[] {
+                    new TextComponent(prefix),
+                    new TextComponent(" §8|| "),
+                    new TextComponent(component)
+            };
+
+            sendMessageMethod.invoke(spigot, new Object[] { messageComponents });
+        } catch (NoSuchMethodException ignore) {
+            getServer().getConsoleSender().sendMessage("§6" + getDescription().getName() + " §8|| " + TextComponent.toLegacyText(component));
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+   }
 
     public @NotNull QuestsApi getApi() {
         return api;
