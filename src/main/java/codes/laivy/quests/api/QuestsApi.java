@@ -1,9 +1,6 @@
 package codes.laivy.quests.api;
 
-import codes.laivy.quests.quests.QuestHolder;
-import codes.laivy.quests.quests.Quest;
-import codes.laivy.quests.quests.Objective;
-import codes.laivy.quests.quests.QuestsPlayerData;
+import codes.laivy.quests.quests.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -23,7 +20,13 @@ public interface QuestsApi {
      *
      * @return the map of serializers, the key (String) represents the objective type id.
      */
-    @NotNull Map<@NotNull String, @NotNull Serializer<? extends Objective>> getObjectiveSerializers();
+    @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> getObjectiveSerializers();
+
+    /**
+     * Same mechanic as {@link #getObjectiveSerializers()}
+     * @see #getObjectiveSerializers()
+     */
+    @NotNull Map<@NotNull Objective, @NotNull Serializer<ObjectiveHolder>> getObjectiveHolderSerializers();
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 

@@ -15,13 +15,14 @@ public class QuestHolderProvider implements QuestHolder {
     private final @NotNull Date start;
     private final @Nullable Date finish;
 
-    private final @NotNull Set<ObjectiveHolder> objectiveHolders = new HashSet<>();
+    private final @NotNull Set<ObjectiveHolder> objectiveHolders;
 
-    public QuestHolderProvider(@NotNull UUID uuid, @NotNull Quest quest, @NotNull Date start, @Nullable Date finish) {
+    public QuestHolderProvider(@NotNull UUID uuid, @NotNull Quest quest, @NotNull Set<ObjectiveHolder> objectiveHolders, @NotNull Date start, @Nullable Date finish) {
         this.uuid = uuid;
         this.quest = quest;
         this.start = start;
         this.finish = finish;
+        this.objectiveHolders = objectiveHolders;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class QuestHolderProvider implements QuestHolder {
     }
 
     @Override
-    public @NotNull Collection<ObjectiveHolder> getObjectiveHolders() {
+    public @NotNull Set<ObjectiveHolder> getObjectiveHolders() {
         return objectiveHolders;
     }
 
