@@ -25,9 +25,24 @@ public class BreakBlocksObjective implements Objective {
 
         // Security checks
         for (Material material : getMeta().keySet()) {
-            int m = meta.get(material);
+            int m = getMeta().get(material);
+
+            if (!material.isBlock()) {
+                throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
+            }
             if (m < 1) {
                 throw new IllegalStateException("This meta material '" + material + "' objective is '" + m + "', the number needs to be higher than zero");
+            }
+        }
+
+        for (Material material : getCurrent().keySet()) {
+            int m = getCurrent().get(material);
+
+            if (!material.isBlock()) {
+                throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
+            }
+            if (m < 0) {
+                throw new IllegalStateException("This current material '" + material + "' objective is '" + m + "', the number needs to be higher than or equal to zero");
             }
         }
     }
