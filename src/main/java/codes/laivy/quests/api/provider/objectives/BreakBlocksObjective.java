@@ -1,7 +1,10 @@
 package codes.laivy.quests.api.provider.objectives;
 
+import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.quests.Objective;
 import codes.laivy.quests.quests.QuestsPlayerData;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -40,9 +43,58 @@ public class BreakBlocksObjective implements Objective {
     }
 
     private static final @NotNull Events EVENTS = new Events();
+    private static final @NotNull String ID = "BREAK_BLOCKS_NATIVE";
 
     static {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
+
+        laivyQuests().getApi().getObjectiveSerializers().put(ID, new Serializer<Objective>() {
+            @Override
+            public @NotNull JsonElement serialize(@NotNull Objective o) {
+                if (!(o instanceof BreakBlocksObjective)) {
+                    throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + ID + "'");
+                }
+                BreakBlocksObjective objective = (BreakBlocksObjective) o;
+
+                JsonObject object = new JsonObject();
+                JsonObject meta = new JsonObject();
+                JsonObject current = new JsonObject();
+
+                for (Material material : objective.getMeta().keySet()) {
+                    int broken = objective.getMeta().get(material);
+                    meta.addProperty(material.name(), broken);
+                }
+                for (Material material : objective.getCurrent().keySet()) {
+                    int broken = objective.getCurrent().get(material);
+                    current.addProperty(material.name(), broken);
+                }
+
+                meta.add("meta", meta);
+                meta.add("current", current);
+
+                return object;
+            }
+
+            @Override
+            public @NotNull Objective deserialize(@NotNull JsonElement objective) {
+                JsonObject object = objective.getAsJsonObject();
+
+                JsonObject metaObj = object.getAsJsonObject("meta");
+                JsonObject currentObj = object.getAsJsonObject("current");
+
+                Map<Material, Integer> meta = new LinkedHashMap<>();
+                Map<Material, Integer> current = new LinkedHashMap<>();
+
+                for (Map.Entry<String, JsonElement> entry : metaObj.entrySet()) {
+                    meta.put(Material.valueOf(entry.getKey().toLowerCase()), entry.getValue().getAsInt());
+                }
+                for (Map.Entry<String, JsonElement> entry : currentObj.entrySet()) {
+                    current.put(Material.valueOf(entry.getKey().toLowerCase()), entry.getValue().getAsInt());
+                }
+
+                return new BreakBlocksObjective(meta, current);
+            }
+        });
     }
 
     private final @NotNull Map<Material, @Range(from = 1, to = Integer.MAX_VALUE) Integer> meta;
@@ -75,7 +127,7 @@ public class BreakBlocksObjective implements Objective {
 
     @Override
     public @NotNull String getId() {
-        return "BREAK_BLOCKS_NATIVE";
+        return ID;
     }
 
     @Override
