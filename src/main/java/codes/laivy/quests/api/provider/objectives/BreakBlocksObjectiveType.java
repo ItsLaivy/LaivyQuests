@@ -3,18 +3,54 @@ package codes.laivy.quests.api.provider.objectives;
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.quests.Objective;
 import codes.laivy.quests.quests.ObjectiveType;
+import codes.laivy.quests.quests.QuestsPlayerData;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
 public final class BreakBlocksObjectiveType extends ObjectiveType {
+
+    public static final class Events implements Listener {
+        @EventHandler
+        private void breakBlock(@NotNull BlockBreakEvent e) {
+            QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
+
+            Set<Objective> objectives = new HashSet<>();
+            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlocksObjective).collect(Collectors.toSet())));
+
+            for (Objective h : objectives) {
+                if (h instanceof BreakBlocksObjective) {
+                    final BreakBlocksObjective holder = (BreakBlocksObjective) h;
+                    Material material = e.getBlock().getType();
+
+                    if (holder.getMeta().containsKey(material)) {
+                        int current = holder.getCurrent().getOrDefault(material, 0);
+                        holder.getCurrent().put(material, current + 1);
+                    }
+                }
+            }
+        }
+    }
+
+    private static final @NotNull Events EVENTS = new Events();
+
+    static {
+        Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
+    }
 
     public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "Block break natives";
 
