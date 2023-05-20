@@ -49,7 +49,7 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
                 "LaivyQuests general",
                 convert(oldStorage.getDefaultLocale()),
                 new LinkedHashSet<BukkitMessage>() {{
-                    for (Map.Entry<String, Map<String, BaseComponent[]>> entry : oldStorage.getMessages().entrySet()) {
+                    for (Map.Entry<String, Map<String, BaseComponent[]>> entry : oldStorage.getData().entrySet()) {
                         String id = entry.getKey();
                         Map<Locale, BaseComponent[]> content = new LinkedHashMap<>();
 
@@ -124,8 +124,18 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         }
 
         @Override
-        public @NotNull Map<String, Map<String, BaseComponent[]>> getMessages() {
-            throw new UnsupportedOperationException();
+        public @NotNull Map<String, Map<String, BaseComponent[]>> getData() {
+            Map<String, Map<String, BaseComponent[]>> map = new LinkedHashMap<>();
+
+            for (BukkitMessage message : getStorage().getMessages()) {
+                map.put(message.getId(), new LinkedHashMap<>());
+
+                for (Map.Entry<@NotNull Locale, BaseComponent @NotNull []> entry : message.getData().entrySet()) {
+                    map.get(message.getId()).put(entry.getKey().name(), entry.getValue());
+                }
+            }
+
+            return map;
         }
 
         @Override

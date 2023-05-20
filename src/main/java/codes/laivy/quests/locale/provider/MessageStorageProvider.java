@@ -34,20 +34,20 @@ public class MessageStorageProvider implements IMessageStorage {
         return defaultLocale;
     }
 
-    public @NotNull Map<String, Map<String, BaseComponent[]>> getMessages() {
+    public @NotNull Map<String, Map<String, BaseComponent[]>> getData() {
         return messages;
     }
 
     @Override
     public @NotNull BaseComponent[] get(@Nullable String locale, @NotNull String message, Object... replaces) {
         // Yes, most of this method has been copied from the LvMultiplesLanguages systems xD
-        if (getMessages().containsKey(message)) {
-            if (locale == null || !getMessages().get(message).containsKey(locale)) {
+        if (getData().containsKey(message)) {
+            if (locale == null || !getData().get(message).containsKey(locale)) {
                 locale = defaultLocale;
             }
 
             Set<BaseComponent> componentSet = new LinkedHashSet<>();
-            BaseComponent[] components = getMessages().get(message).get(locale);
+            BaseComponent[] components = getData().get(message).get(locale);
 
             int row = 0;
             for (final BaseComponent component : ComponentUtils.cloneComponent(components)) {

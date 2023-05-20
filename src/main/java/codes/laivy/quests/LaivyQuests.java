@@ -2,12 +2,12 @@ package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
-import codes.laivy.quests.api.provider.objectives.BreakBlocksObjective;
 import codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
+import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -46,7 +46,6 @@ public final class LaivyQuests extends JavaPlugin {
     private @NotNull QuestsApi api;
     private @NotNull IMessageStorage messageStorage;
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public LaivyQuests() {
         saveDefaultConfig();
         // Message
@@ -87,7 +86,13 @@ public final class LaivyQuests extends JavaPlugin {
     }
 
     public void setMessageStorage(@NotNull IMessageStorage messageStorage) {
-        // TODO: 09/05/2023 The new message storage needs to have the same messages from the older
+        Collection<IMessage> originalMessages = this.messageStorage.getMessages();
+        Collection<IMessage> newMessages = messageStorage.getMessages();
+
+        if (originalMessages.size() != newMessages.size() || !originalMessages.containsAll(newMessages)) {
+            throw new IllegalArgumentException("This new message storage needs to contain the same messages as the old message storage (" + (originalMessages.size() != newMessages.size()) + " | " + !originalMessages.containsAll(newMessages) + ")");
+        }
+
         this.messageStorage = messageStorage;
     }
 
