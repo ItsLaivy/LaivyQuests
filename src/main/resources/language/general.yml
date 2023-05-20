@@ -61,6 +61,17 @@ locales:
       - ""
       - "%s"
 
+  "Objective types: block break name":
+    "EN_US": "§aBreak blocks"
+    "PT_BR": "§aQuebrar blocos"
+  "Objective types: block break lore":
+    "EN_US":
+      - "§7This objective can be completed"
+      - "§7breaking the target blocks"
+    "PT_BR":
+      - "§7Esse objetivo pode ser completo"
+      - "§7quebrando os blocos ditos"
+
   "Quests main menus: quests list name":
     "EN_US": "§eQuests list"
     "PT_BR": "§eLista de quests"

@@ -50,8 +50,7 @@ import static org.bukkit.Bukkit.getServer;
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<Objective> objectives = new LinkedHashSet<>();
-
-    private final @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> objectiveSerializers = new HashMap<>();
+    private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -88,8 +87,14 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     }
 
     @Override
-    public @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> getObjectiveSerializers() {
-        return objectiveSerializers;
+    public @NotNull Collection<ObjectiveType> getObjectiveTypes() {
+        return objectiveTypes;
+    }
+
+    @Override
+    public @NotNull ObjectiveType getObjectiveType(@NotNull String id) {
+        Optional<ObjectiveType> optional = laivyQuests().getApi().getObjectiveTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
+        return optional.orElseThrow(() -> new NullPointerException("Couldn't find this objective type '" + id + "'"));
     }
 
     @Override
@@ -355,15 +360,11 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                 }
 
                 for (Objective objective : holder.getObjectives()) {
-                    String objectiveId = objective.getId();
-
-                    if (!getObjectiveSerializers().containsKey(objectiveId)) {
-                        throw new NullPointerException("Couldn't find this objective serializer '" + objectiveId + "'");
-                    }
+                    String objectiveTypeId = objective.getType().getId();
 
                     JsonObject objectiveObj = new JsonObject();
-                    objectiveObj.addProperty("id", objectiveId);
-                    objectiveObj.add("data", getObjectiveSerializers().get(objectiveId).serialize(objective));
+                    objectiveObj.addProperty("type id", objectiveTypeId);
+                    objectiveObj.add("data", objective.getType().getSerializer().serialize(objective));
 
                     objectives.add(objectiveObj);
                 }
@@ -389,13 +390,12 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
                 for (JsonElement objectiveElement : object.getAsJsonArray("objectives")) {
                     JsonObject objectiveObject = objectiveElement.getAsJsonObject();
-                    String objectiveId = objectiveObject.get("id").getAsString();
 
-                    if (!getObjectiveSerializers().containsKey(objectiveId)) {
-                        throw new NullPointerException("Couldn't find this objective serializer '" + objectiveId + "'");
-                    }
+                    String objectiveId = objectiveObject.get("type id").getAsString();
+                    JsonElement data = objectiveObject.get("data");
+                    ObjectiveType type = getObjectiveType(objectiveId);
 
-                    Objective objective = getObjectiveSerializers().get(objectiveId).deserialize(objectiveObject.get("data"));
+                    Objective objective = type.getSerializer().deserialize(data);
                     objectives.add(objective);
                 }
 

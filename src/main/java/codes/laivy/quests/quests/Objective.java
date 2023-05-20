@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Objective {
 
-    @NotNull String getId();
+    @NotNull ObjectiveType getType();
 
     boolean isCompleted();
     void complete();

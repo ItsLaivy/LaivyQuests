@@ -11,13 +11,8 @@ public interface QuestsApi {
 
     @NotNull Collection<@NotNull Objective> getQuestTypes();
 
-    /**
-     * This is the {@link Objective} serializers, if you create a custom {@link Objective} you need to add
-     * your objective here attached with a serializer, this needs to be done before the LaivyQuests loading
-     *
-     * @return the map of serializers, the key (String) represents the objective type id.
-     */
-    @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> getObjectiveSerializers();
+    @NotNull Collection<ObjectiveType> getObjectiveTypes();
+    @NotNull ObjectiveType getObjectiveType(@NotNull String id);
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 
