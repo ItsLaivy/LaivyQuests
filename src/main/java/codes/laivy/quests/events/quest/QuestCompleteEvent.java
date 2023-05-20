@@ -1,21 +1,15 @@
-package codes.laivy.quests.events;
+package codes.laivy.quests.events.quest;
 
-import codes.laivy.quests.quests.QuestHolder;
+import codes.laivy.quests.quests.Quest;
 import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestCompleteEvent extends QuestEvent implements Cancellable {
 
-    private final @NotNull QuestHolder holder;
     private boolean cancel = false;
 
-    public QuestCompleteEvent(@NotNull QuestHolder holder) {
-        super(holder.getQuest());
-        this.holder = holder;
-    }
-
-    public final @NotNull QuestHolder getHolder() {
-        return holder;
+    public QuestCompleteEvent(@NotNull Quest quest) {
+        super(quest);
     }
 
     @Override

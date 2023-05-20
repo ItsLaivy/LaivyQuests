@@ -1,9 +1,17 @@
 package codes.laivy.quests.utils;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 
+    public static @NotNull String getDate(long millis) {
+        return new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(new Date(millis));
+    }
+    
     public static String getDateAsString(long millis) {
         if (millis < 1000) {
             return millis + "ms";

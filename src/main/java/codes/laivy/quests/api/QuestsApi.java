@@ -12,7 +12,6 @@ public interface QuestsApi {
     @NotNull Collection<@NotNull Quest> getQuests();
 
     @NotNull Collection<@NotNull Objective> getQuestTypes();
-    @NotNull Collection<@NotNull QuestHolder> getQuestHolders();
 
     /**
      * This is the {@link Objective} serializers, if you create a custom {@link Objective} you need to add
@@ -21,12 +20,6 @@ public interface QuestsApi {
      * @return the map of serializers, the key (String) represents the objective type id.
      */
     @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> getObjectiveSerializers();
-
-    /**
-     * Same mechanic as {@link #getObjectiveSerializers()}
-     * @see #getObjectiveSerializers()
-     */
-    @NotNull Map<@NotNull Objective, @NotNull Serializer<ObjectiveHolder>> getObjectiveHolderSerializers();
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 

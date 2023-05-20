@@ -1,22 +1,22 @@
-package codes.laivy.quests.events;
+package codes.laivy.quests.events.objective;
 
-import codes.laivy.quests.quests.Quest;
+import codes.laivy.quests.quests.Objective;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class QuestEvent extends Event {
+public class ObjectiveEvent extends Event {
 
     private static final @NotNull HandlerList handlers = new HandlerList();
 
-    private final @NotNull Quest quest;
+    private final @NotNull Objective objective;
 
-    public QuestEvent(@NotNull Quest quest) {
-        this.quest = quest;
+    public ObjectiveEvent(@NotNull Objective objective) {
+        this.objective = objective;
     }
 
-    public final @NotNull Quest getQuest() {
-        return quest;
+    public final @NotNull Objective getObjective() {
+        return objective;
     }
 
     @Override
@@ -26,4 +26,5 @@ public class QuestEvent extends Event {
     public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
+
 }

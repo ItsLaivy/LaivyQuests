@@ -1,7 +1,7 @@
 package codes.laivy.quests.inventory;
 
-import codes.laivy.quests.quests.QuestHolder;
 import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.utils.ComponentUtils;
 import codes.laivy.quests.utils.GuiUtils;
@@ -39,12 +39,12 @@ public class QuestsInventory extends PagedInventory {
         @NotNull UUID uuid = getPlayer().getUniqueId();
         @NotNull QuestsPlayerData data = laivyQuests().getApi().getPlayerData(uuid);
 
-        Map<QuestHolder, ItemStack> items = new HashMap<>();
-        for (QuestHolder holder : data.getQuests()) {
-            items.put(holder, GuiUtils.getItemStack(
+        Map<Quest, ItemStack> items = new HashMap<>();
+        for (Quest quest : data.getQuests()) {
+            items.put(quest, GuiUtils.getItemStack(
                     Objects.requireNonNull(XMaterial.BOOK.parseMaterial()),
-                    holder.getQuest().getName().getText(locale),
-                    holder.getQuest().getDescription().getArray(locale)
+                    quest.getName().getText(locale),
+                    quest.getDescription().getArray(locale)
             ));
         }
 

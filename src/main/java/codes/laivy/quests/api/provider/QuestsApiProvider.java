@@ -24,7 +24,8 @@ import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.quest.QuestHolderProvider;
+import codes.laivy.quests.api.provider.quest.QuestProvider;
+import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -40,16 +41,15 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 
+import static codes.laivy.quests.LaivyQuests.laivyQuests;
 import static org.bukkit.Bukkit.getServer;
 
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<Quest> quests = new LinkedHashSet<>();
     private final @NotNull Set<Objective> objectives = new LinkedHashSet<>();
-    private final @NotNull Set<QuestHolder> questHolders = new LinkedHashSet<>();
 
     private final @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> objectiveSerializers = new HashMap<>();
-    private final @NotNull Map<@NotNull Objective, @NotNull Serializer<ObjectiveHolder>> objectiveHolderSerializers = new HashMap<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -95,21 +95,8 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     }
 
     @Override
-    public @NotNull Set<@NotNull QuestHolder> getQuestHolders() {
-        if (!isLoaded()) {
-            throw new IllegalStateException("The quests api isn't loaded yet");
-        }
-
-        return questHolders;
-    }
-
-    @Override
     public @NotNull Map<@NotNull String, @NotNull Serializer<Objective>> getObjectiveSerializers() {
         return objectiveSerializers;
-    }
-    @Override
-    public @NotNull Map<@NotNull Objective, @NotNull Serializer<ObjectiveHolder>> getObjectiveHolderSerializers() {
-        return objectiveHolderSerializers;
     }
 
     @Override
@@ -117,7 +104,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
         if (getData().containsKey(uuid)) { // Get existent
             return getData().get(uuid);
         } else { // Create
-            QuestsPlayerData data = new QuestsPlayerDataProvider(uuid, new LinkedHashSet<>());
+            QuestsPlayerData data = new QuestsPlayerDataProvider(uuid, new ArrayList<>());
             getData().put(uuid, data);
 
             created++;
@@ -329,8 +316,8 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                 JsonObject object = new JsonObject();
 
                 JsonArray quests = new JsonArray();
-                for (QuestHolder holder : data.getQuests()) {
-                    quests.add(getQuestHolderSerializer().serialize(holder));
+                for (Quest holder : data.getQuests()) {
+                    quests.add(getQuestSerializer().serialize(holder));
                 }
 
                 object.addProperty("uuid", data.getUniqueId().toString());
@@ -344,42 +331,47 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                 JsonObject object = data.getAsJsonObject();
 
                 UUID uuid = UUID.fromString(object.get("uuid").getAsString());
-                Set<QuestHolder> quests = new LinkedHashSet<>();
+                Set<Quest> quests = new LinkedHashSet<>();
 
                 for (JsonElement questElement : object.getAsJsonArray("quests")) {
                     JsonObject serializedHolder = questElement.getAsJsonObject();
-                    quests.add(getQuestHolderSerializer().deserialize(serializedHolder));
+                    quests.add(getQuestSerializer().deserialize(serializedHolder));
                 }
 
                 return new QuestsPlayerDataProvider(uuid, quests);
             }
         };
     }
-    protected @NotNull Serializer<QuestHolder> getQuestHolderSerializer() {
-        return new Serializer<QuestHolder>() {
+
+    protected @NotNull Serializer<Quest> getQuestSerializer() {
+        return new Serializer<Quest>() {
             @Override
-            public @NotNull JsonElement serialize(@NotNull QuestHolder holder) {
+            public @NotNull JsonElement serialize(@NotNull Quest holder) {
                 JsonObject object = new JsonObject();
                 JsonObject objectives = new JsonObject();
 
+                object.addProperty("id", holder.getId());
+
+                object.addProperty("name", holder.getName().getId());
+                object.addProperty("description", holder.getDescription().getId());
+
                 object.addProperty("uuid", holder.getUniqueId().toString());
-                object.addProperty("quest", holder.getQuest().getId());
                 object.addProperty("start", holder.getStartDate().getTime());
 
-                if (holder.getFinishDate() != null) {
-                    object.addProperty("finish", holder.getFinishDate().getTime());
+                if (holder.getCompletedDate() != null) {
+                    object.addProperty("completed", holder.getCompletedDate().getTime());
                 }
 
                 Map<String, JsonArray> arrayMap = new HashMap<>();
 
-                for (ObjectiveHolder objectiveHolder : holder.getObjectiveHolders()) {
-                    Objective objective = objectiveHolder.getObjective();
+                for (Objective objective : holder.getObjectives()) {
+                    String objectiveId = objective.getId();
 
-                    if (getObjectiveHolderSerializers().containsKey(objective)) {
-                        arrayMap.putIfAbsent(objective.getTypeId(), new JsonArray());
-                        arrayMap.get(objective.getTypeId()).add(getObjectiveHolderSerializers().get(objective).serialize(objectiveHolder));
+                    if (getObjectiveSerializers().containsKey(objectiveId)) {
+                        arrayMap.putIfAbsent(objectiveId, new JsonArray());
+                        arrayMap.get(objectiveId).add(getObjectiveSerializers().get(objectiveId).serialize(objective));
                     } else {
-                        throw new NullPointerException("Couldn't find this objective holder serializer '" + objectiveHolder.getObjective().getTypeId() + "'");
+                        throw new NullPointerException("Couldn't find this objective holder serializer '" + objective.getId() + "'");
                     }
                 }
 
@@ -393,41 +385,29 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             }
 
             @Override
-            public @NotNull QuestHolder deserialize(@NotNull JsonElement holder) {
+            public @NotNull Quest deserialize(@NotNull JsonElement holder) {
                 JsonObject object = holder.getAsJsonObject();
-                Set<ObjectiveHolder> objectiveHolders = new HashSet<>();
+                Set<Objective> objectives = new HashSet<>();
 
+                String id = object.get("id").getAsString();
                 UUID uuid = UUID.fromString(object.get("uuid").getAsString());
-                Quest quest;
 
-                Optional<Quest> questOpt = getQuests().stream().filter(q -> q.getId().equals(object.get("quest").getAsString())).findFirst();
-                if (questOpt.isPresent()) {
-                    quest = questOpt.get();
-                } else {
-                    throw new NullPointerException("Couldn't find quest with id '" + object.get("quest").getAsString() + "' at user '" + uuid + "'");
-                }
+                IMessage name = laivyQuests().getMessageStorage().getMessage(object.get("name").getAsString());
+                IMessage description = laivyQuests().getMessageStorage().getMessage(object.get("description").getAsString());
 
                 Date start = new Date(object.get("start").getAsLong());
                 @Nullable Date finish = (object.has("finish") ? new Date(object.get("finish").getAsLong()) : null);
 
                 for (Map.Entry<String, JsonElement> objectiveCategory : object.getAsJsonObject("objectives").entrySet()) {
                     String objectiveTypeId = objectiveCategory.getKey();
-                    Objective objective;
-
-                    Optional<Objective> optional = objectives.stream().filter(o -> o.getTypeId().equals(objectiveTypeId)).findFirst();
-                    if (optional.isPresent()) {
-                        objective = optional.get();
-                    } else {
-                        throw new NullPointerException("Couldn't find an objective id '" + objectiveTypeId + "'");
-                    }
 
                     for (JsonElement objectiveHolderElement : objectiveCategory.getValue().getAsJsonArray()) {
-                        ObjectiveHolder objectiveHolder = getObjectiveHolderSerializers().get(objective).deserialize(objectiveHolderElement);
-                        objectiveHolders.add(objectiveHolder);
+                        Objective objective = getObjectiveSerializers().get(objectiveTypeId).deserialize(objectiveHolderElement);
+                        objectives.add(objective);
                     }
                 }
 
-                return new QuestHolderProvider(uuid, quest, objectiveHolders, start, finish);
+                return new QuestProvider(id, objectives, name, description, uuid, start, finish);
             }
         };
     }
