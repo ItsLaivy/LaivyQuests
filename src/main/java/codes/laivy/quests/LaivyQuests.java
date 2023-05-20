@@ -2,6 +2,7 @@ package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
+import codes.laivy.quests.api.provider.objectives.BreakBlocksObjective;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
@@ -44,6 +45,7 @@ public final class LaivyQuests extends JavaPlugin {
     private @NotNull QuestsApi api;
     private @NotNull IMessageStorage messageStorage;
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public LaivyQuests() {
         saveDefaultConfig();
         // Message
@@ -55,6 +57,11 @@ public final class LaivyQuests extends JavaPlugin {
     @Override
     public void onEnable() {
         this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
+
+        // Load objectives
+        // TODO: 20/05/2023 Better class loading
+        BreakBlocksObjective.load();
+        // Load api
         getApi().load();
 
         for (Compatibility compatibility : getCompatibilities()) {

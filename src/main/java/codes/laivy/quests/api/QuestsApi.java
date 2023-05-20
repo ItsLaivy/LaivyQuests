@@ -9,8 +9,6 @@ import java.util.UUID;
 
 public interface QuestsApi {
 
-    @NotNull Collection<@NotNull Quest> getQuests();
-
     @NotNull Collection<@NotNull Objective> getQuestTypes();
 
     /**

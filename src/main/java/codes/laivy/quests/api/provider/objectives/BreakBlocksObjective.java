@@ -26,7 +26,7 @@ public class BreakBlocksObjective implements Objective {
             QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
 
             Set<Objective> objectives = new HashSet<>();
-            Arrays.asList(data.getQuests()).forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlocksObjective).collect(Collectors.toSet())));
+            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlocksObjective).collect(Collectors.toSet())));
 
             for (Objective h : objectives) {
                 if (h instanceof BreakBlocksObjective) {
@@ -44,8 +44,7 @@ public class BreakBlocksObjective implements Objective {
 
     private static final @NotNull Events EVENTS = new Events();
     private static final @NotNull String ID = "BREAK_BLOCKS_NATIVE";
-
-    static {
+    public static void load() {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
 
         laivyQuests().getApi().getObjectiveSerializers().put(ID, new Serializer<Objective>() {
@@ -69,8 +68,8 @@ public class BreakBlocksObjective implements Objective {
                     current.addProperty(material.name(), broken);
                 }
 
-                meta.add("meta", meta);
-                meta.add("current", current);
+                object.add("meta", meta);
+                object.add("current", current);
 
                 return object;
             }
@@ -79,17 +78,17 @@ public class BreakBlocksObjective implements Objective {
             public @NotNull Objective deserialize(@NotNull JsonElement objective) {
                 JsonObject object = objective.getAsJsonObject();
 
-                JsonObject metaObj = object.getAsJsonObject("meta");
-                JsonObject currentObj = object.getAsJsonObject("current");
+                @NotNull JsonObject metaObj = object.getAsJsonObject("meta");
+                @NotNull JsonObject currentObj = object.getAsJsonObject("current");
 
                 Map<Material, Integer> meta = new LinkedHashMap<>();
                 Map<Material, Integer> current = new LinkedHashMap<>();
 
                 for (Map.Entry<String, JsonElement> entry : metaObj.entrySet()) {
-                    meta.put(Material.valueOf(entry.getKey().toLowerCase()), entry.getValue().getAsInt());
+                    meta.put(Material.valueOf(entry.getKey().toUpperCase()), entry.getValue().getAsInt());
                 }
                 for (Map.Entry<String, JsonElement> entry : currentObj.entrySet()) {
-                    current.put(Material.valueOf(entry.getKey().toLowerCase()), entry.getValue().getAsInt());
+                    current.put(Material.valueOf(entry.getKey().toUpperCase()), entry.getValue().getAsInt());
                 }
 
                 return new BreakBlocksObjective(meta, current);
@@ -115,7 +114,6 @@ public class BreakBlocksObjective implements Objective {
             }
         }
     }
-
 
     public @NotNull Map<Material, @Range(from = 1, to = Integer.MAX_VALUE) Integer> getMeta() {
         return meta;

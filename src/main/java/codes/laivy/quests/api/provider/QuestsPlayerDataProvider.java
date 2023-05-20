@@ -9,11 +9,11 @@ import java.util.*;
 public class QuestsPlayerDataProvider implements QuestsPlayerData {
 
     private final @NotNull UUID uuid;
-    private final @NotNull Quest[] quests;
+    private final @NotNull Set<Quest> quests;
 
-    public QuestsPlayerDataProvider(@NotNull UUID uuid, @NotNull Collection<Quest> quests) {
+    public QuestsPlayerDataProvider(@NotNull UUID uuid, @NotNull Set<Quest> quests) {
         this.uuid = uuid;
-        this.quests = quests.toArray(new Quest[0]);
+        this.quests = quests;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class QuestsPlayerDataProvider implements QuestsPlayerData {
     }
 
     @Override
-    public @NotNull Quest[] getQuests() {
+    public @NotNull Set<Quest> getQuests() {
         return quests;
     }
 }

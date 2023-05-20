@@ -163,9 +163,11 @@ locales:
     "EN_US": "§cThere aren't next pages"
     "PT_BR": "§cNão há mais páginas para explorar à frente"
 
-  "Objectives - break: name":
-    "EN_US": "Break %s [%s/%s]"
-    "PT_BR": "Quebre %s [%s/%s]"
-  "Objectives - break: description":
-    "EN_US": "Break/mine %sx %s to complete this objective"
-    "PT_BR": "Quebre/minere %sx %s para comprar este objetivo"
+  "Test quest name":
+    "EN_US": "§eTest quest top"
+    "PT_BR": "§eQuest bacana e top"
+  "Test quest description":
+    "EN_US":
+      - "§aTest quest description"
+    "PT_BR":
+      - "§aDescrição teste da quest"
