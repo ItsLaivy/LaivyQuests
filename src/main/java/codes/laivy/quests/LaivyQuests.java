@@ -111,7 +111,7 @@ public final class LaivyQuests extends JavaPlugin {
                 String locale = entry.getKey().toUpperCase();
 
                 if (entry.getValue() instanceof List) {
-                    Set<BaseComponent> components = new LinkedHashSet<>();
+                    List<BaseComponent> components = new LinkedList<>();
 
                     //noinspection unchecked
                     for (Object object : (List<Object>) entry.getValue()) {
