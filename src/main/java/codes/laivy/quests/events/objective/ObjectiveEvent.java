@@ -1,6 +1,6 @@
 package codes.laivy.quests.events.objective;
 
-import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.quests.objectives.Objective;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

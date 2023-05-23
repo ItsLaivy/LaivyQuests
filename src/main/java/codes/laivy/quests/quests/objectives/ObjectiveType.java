@@ -1,4 +1,4 @@
-package codes.laivy.quests.quests;
+package codes.laivy.quests.quests.objectives;
 
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;

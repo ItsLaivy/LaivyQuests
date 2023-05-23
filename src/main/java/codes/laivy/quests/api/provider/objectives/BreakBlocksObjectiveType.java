@@ -1,8 +1,8 @@
 package codes.laivy.quests.api.provider.objectives;
 
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.quests.Objective;
-import codes.laivy.quests.quests.ObjectiveType;
+import codes.laivy.quests.quests.objectives.Objective;
+import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

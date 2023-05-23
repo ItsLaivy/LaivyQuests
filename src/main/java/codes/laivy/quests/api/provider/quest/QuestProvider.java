@@ -2,7 +2,7 @@ package codes.laivy.quests.api.provider.quest;
 
 import codes.laivy.quests.events.quest.QuestCompleteEvent;
 import codes.laivy.quests.locale.IMessage;
-import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.Quest;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ public class QuestProvider implements Quest {
     private final @NotNull Date startDate;
     private @Nullable Date finishDate;
 
-    public QuestProvider(@NotNull String id, @NotNull Set<Objective> objectives, @NotNull IMessage name, @NotNull IMessage description, @NotNull UUID uuid, @NotNull Date startDate, @Nullable Date finishDate) {
+    public QuestProvider(@NotNull String id, @NotNull LinkedHashSet<Objective> objectives, @NotNull IMessage name, @NotNull IMessage description, @NotNull UUID uuid, @NotNull Date startDate, @Nullable Date finishDate) {
         this.id = id;
         this.objectives = objectives;
         this.name = name;

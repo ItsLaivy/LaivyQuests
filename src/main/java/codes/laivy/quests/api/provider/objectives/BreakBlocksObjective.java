@@ -1,7 +1,11 @@
 package codes.laivy.quests.api.provider.objectives;
 
-import codes.laivy.quests.quests.Objective;
-import codes.laivy.quests.quests.ObjectiveType;
+import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.locale.provider.MessageProvider;
+import codes.laivy.quests.quests.objectives.Objective;
+import codes.laivy.quests.quests.objectives.ObjectiveType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
@@ -62,8 +66,22 @@ public class BreakBlocksObjective implements Objective {
         if (type instanceof BreakBlocksObjectiveType) {
             return (BreakBlocksObjectiveType) type;
         } else {
-            throw new IllegalStateException("This objective type '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + type.getClass().getName() + ")");
+            throw new IllegalStateException("This objective type '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BreakBlocksObjectiveType.class.getName() + ")");
         }
+    }
+
+    @Override
+    public @NotNull IMessage getName() {
+        return new MessageProvider("t", new LinkedHashMap<String, BaseComponent[]>() {{
+            put("en_us", TextComponent.fromLegacyText("Minerador maniaco"));
+        }});
+    }
+
+    @Override
+    public @NotNull IMessage getDescription() {
+        return new MessageProvider("t", new LinkedHashMap<String, BaseComponent[]>() {{
+            put("en_us", TextComponent.fromLegacyText("Minerador maniaco"));
+        }});
     }
 
     @Override

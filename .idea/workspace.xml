@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e8cc59a-6631-4c1b-ac63-941eee8eafb3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/CategoryObjective.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/CategoryObjectiveType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/Progressable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/QuestsApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/QuestsApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/BreakBlocksObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/BreakBlocksObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/BreakBlocksObjectiveType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/BreakBlocksObjectiveType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/ObjectiveProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/ObjectiveProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/QuestProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/QuestProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/objective/ObjectiveCompleteEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/objective/ObjectiveCompleteEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/objective/ObjectiveEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/events/objective/ObjectiveEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Objective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/Objective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/ObjectiveType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/ObjectiveType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Quest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/Quest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language/general.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/general.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +33,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -63,6 +81,7 @@
       <recent name="codes.laivy.quests" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="codes.laivy.quests.api.provider.objectives" />
       <recent name="codes.laivy.quests.utils" />
       <recent name="codes.laivy.quests.inventory" />
       <recent name="codes.laivy.quests.locale" />

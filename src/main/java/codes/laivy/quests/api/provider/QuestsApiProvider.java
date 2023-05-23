@@ -25,9 +25,12 @@ import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.api.provider.objectives.BreakBlocksObjective;
+import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
+import codes.laivy.quests.quests.objectives.Objective;
+import codes.laivy.quests.quests.objectives.ObjectiveType;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -49,7 +52,6 @@ import static org.bukkit.Bukkit.getServer;
 
 public class QuestsApiProvider implements QuestsApi, Listener {
 
-    private final @NotNull Set<Objective> objectives = new LinkedHashSet<>();
     private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
@@ -75,15 +77,6 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
     public @NotNull LaivyQuests getPlugin() {
         return plugin;
-    }
-
-    @Override
-    public @NotNull Set<@NotNull Objective> getQuestTypes() {
-        if (!isLoaded()) {
-            throw new IllegalStateException("The quests api isn't loaded yet");
-        }
-
-        return objectives;
     }
 
     @Override
@@ -377,7 +370,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             @Override
             public @NotNull Quest deserialize(@NotNull JsonElement holder) {
                 JsonObject object = holder.getAsJsonObject();
-                Set<Objective> objectives = new HashSet<>();
+                LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
 
                 String id = object.get("id").getAsString();
                 UUID uuid = UUID.fromString(object.get("uuid").getAsString());
@@ -394,7 +387,6 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     String objectiveId = objectiveObject.get("type id").getAsString();
                     JsonElement data = objectiveObject.get("data");
                     ObjectiveType type = getObjectiveType(objectiveId);
-
                     Objective objective = type.getSerializer().deserialize(data);
                     objectives.add(objective);
                 }
@@ -412,7 +404,16 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     @EventHandler
     private void quest(@NotNull AsyncPlayerChatEvent e) {
         if (e.getMessage().equals("get")) {
-            Set<Objective> objectives = new LinkedHashSet<>();
+            LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
+
+            objectives.add(new CategoryObjective(
+                    new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
+                        put(Material.REDSTONE_ORE, 5);
+                    }}, new LinkedHashMap<>()),
+                    new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
+                        put(Material.IRON_ORE, 5);
+                    }}, new LinkedHashMap<>())
+            ));
             objectives.add(new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
                 put(Material.DIAMOND_ORE, 10);
             }}, new LinkedHashMap<>()));

@@ -1,6 +1,7 @@
 package codes.laivy.quests.inventory;
 
-import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.api.provider.objectives.CategoryObjective;
+import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.utils.ComponentUtils;
@@ -8,12 +9,14 @@ import codes.laivy.quests.utils.GuiUtils;
 import com.cryptomorin.xseries.XMaterial;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import java.util.*;
 
@@ -41,10 +44,48 @@ public class QuestsInventory extends PagedInventory {
 
         Map<Quest, ItemStack> items = new HashMap<>();
         for (Quest quest : data.getQuests()) {
+            List<BaseComponent> objectives = new LinkedList<>();
+
+            int row = 1;
+            for (Objective objective : quest.getObjectives()) {
+                int indentLevel = 1;
+
+                objectives.add(new TextComponent(
+                        printIndent(indentLevel),
+                        new TextComponent("§c" + row + ". "),
+                        new TextComponent(objective.getName().getText(locale))
+                ));
+
+                if (objective instanceof CategoryObjective) {
+                    indentLevel++;
+
+                    int subRow = 1;
+                    for (Objective extra : ((CategoryObjective) objective).getExtras()) {
+                        objectives.add(new TextComponent(
+                                printIndent(indentLevel),
+                                new TextComponent("§c" + row + "." + subRow + "."),
+                                new TextComponent(" "),
+                                new TextComponent(extra.getName().getText(locale))
+                        ));
+                        subRow++;
+                    }
+                }
+
+                row++;
+            }
+
+            for (BaseComponent component : objectives) {
+                player.spigot().sendMessage(component);
+            }
+            player.sendMessage("------");
+
             items.put(quest, GuiUtils.getItemStack(
                     Objects.requireNonNull(XMaterial.BOOK.parseMaterial()),
                     quest.getName().getText(locale),
-                    quest.getDescription().getArray(locale)
+                    laivyQuests().getMessageStorage().getArray(locale, "Quests menu list: quest lore",
+                            quest.getDescription().getText(locale),
+                            objectives
+                    )
             ));
         }
 
@@ -88,6 +129,10 @@ public class QuestsInventory extends PagedInventory {
                 28, 29, 30, 31, 32, 33, 34
         );
         setPage(0);
+    }
+
+    private @NotNull BaseComponent printIndent(@Range(from = 1, to = Integer.MAX_VALUE) int indentLevel) {
+        return new TextComponent(StringUtils.repeat("  ", indentLevel));
     }
 
     public void refreshAvailabilityToggle() {

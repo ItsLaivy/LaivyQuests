@@ -1,6 +1,6 @@
 package codes.laivy.quests.events.objective;
 
-import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.quests.objectives.Objective;
 import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 

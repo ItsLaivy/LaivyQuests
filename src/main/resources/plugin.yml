@@ -11,6 +11,7 @@ commands:
     description: "The main quests plugin"
     aliases:
       - quest
+      - q
 
 softdepend:
   - LvMultiplesLanguages

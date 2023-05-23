@@ -3,6 +3,7 @@ package codes.laivy.quests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
 import codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveType;
+import codes.laivy.quests.api.provider.objectives.CategoryObjectiveType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
@@ -60,6 +61,7 @@ public final class LaivyQuests extends JavaPlugin {
 
         // Load objectives
         getApi().getObjectiveTypes().add(new BreakBlocksObjectiveType());
+        getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load api
         getApi().load();
 

@@ -1,7 +1,7 @@
 package codes.laivy.quests.api.provider.quest;
 
 import codes.laivy.quests.events.objective.ObjectiveCompleteEvent;
-import codes.laivy.quests.quests.Objective;
+import codes.laivy.quests.quests.objectives.Objective;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

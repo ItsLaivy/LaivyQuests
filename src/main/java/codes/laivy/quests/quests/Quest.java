@@ -1,6 +1,7 @@
 package codes.laivy.quests.quests;
 
 import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.quests.objectives.Objective;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

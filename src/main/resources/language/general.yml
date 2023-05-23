@@ -72,6 +72,17 @@ locales:
       - "§7Esse objetivo pode ser completo"
       - "§7quebrando os blocos ditos"
 
+  "Objective types: category name":
+    "EN_US": "§aCategory"
+    "PT_BR": "§aCategoria"
+  "Objective types: category lore":
+    "EN_US":
+      - "§7This objective holds"
+      - "§7others objective"
+    "PT_BR":
+      - "§7Esse objetivo guarda"
+      - "§7outras objective"
+
   "Quests main menus: quests list name":
     "EN_US": "§eQuests list"
     "PT_BR": "§eLista de quests"
@@ -179,6 +190,22 @@ locales:
     "PT_BR": "§eQuest bacana e top"
   "Test quest description":
     "EN_US":
-      - "§aTest quest description"
+      - "§7Test quest description"
     "PT_BR":
-      - "§aDescrição teste da quest"
+      - "§7Descrição teste da quest"
+
+  "Quests menu list: quest lore":
+    "EN_US":
+      - "%s"
+      - ""
+      - "§8Objectives:"
+      - "%s"
+      - ""
+      - "§aClick to see details"
+    "PT_BR":
+      - "%s"
+      - ""
+      - "§8Objetivos:"
+      - "%s"
+      - ""
+      - "§aClique para ver detalhes"
