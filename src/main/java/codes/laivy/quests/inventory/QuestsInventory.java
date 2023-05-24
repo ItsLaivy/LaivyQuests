@@ -34,6 +34,52 @@ public class QuestsInventory extends PagedInventory {
 
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
+    protected void writeObjective(@NotNull List<BaseComponent> objectives, final int row, final int indent, @NotNull String locale, @NotNull Objective objective) {
+        objectives.add(new TextComponent(
+                printIndent(indent),
+                new TextComponent("§c" + row + ". "),
+                new TextComponent(objective.getName().getText(locale))
+        ));
+
+        if (objective instanceof CategoryObjective) {
+            CategoryObjective category = (CategoryObjective) objective;
+
+            for (Objective categoryObjective : category.getExtras()) {
+                writeObjective(objectives, row, (indent + 1), locale, categoryObjective);
+            }
+
+            return;
+        }
+
+        int complements = 0;
+        if (objective instanceof Progressable) {
+            complements++;
+        }
+
+        objectives.add(new TextComponent(
+                printIndent(indent + 1),
+                new TextComponent("§8" + getTreeString(complements) + "═ "),
+                new TextComponent("§7"),
+                new TextComponent(objective.getType().getName(objective).getText(locale))
+        ));
+        complements--;
+
+        if (objective instanceof Progressable) {
+            Progressable<?> progressable = (Progressable<?>) objective;
+            objectives.add(new TextComponent(
+                    printIndent(indent + 1),
+                    new TextComponent("§8" + getTreeString(complements) + "═ "),
+                    new TextComponent("§7"),
+                    new TextComponent(progressable.getProgressMessage(objective).getText(locale))
+            ));
+            complements--;
+        }
+    }
+
+    private @NotNull String getTreeString(int complements) {
+        return (complements <= 0 ? "╚" : "╠");
+    }
+
     public QuestsInventory(@NotNull Player player) {
         super(Bukkit.createInventory(null, 54, ComponentUtils.getText(laivyQuests().getMessageStorage().get(player.getUniqueId(), "Inventory title: Quests menu"))), new ArrayList<>(), 45, 53, ComponentUtils.getLocale(player), 22);
         this.player = player;
@@ -50,61 +96,7 @@ public class QuestsInventory extends PagedInventory {
             int row = 1;
             for (Objective objective : quest.getObjectives()) {
                 int indentLevel = 1;
-
-                objectives.add(new TextComponent(
-                        printIndent(indentLevel),
-                        new TextComponent("§c" + row + ". "),
-                        new TextComponent(objective.getName().getText(locale))
-                ));
-
-                if (objective instanceof CategoryObjective) {
-                    indentLevel++;
-
-                    int subRow = 1;
-                    for (Objective extra : ((CategoryObjective) objective).getExtras()) {
-                        objectives.add(new TextComponent(
-                                printIndent(indentLevel),
-                                new TextComponent("§c" + row + "." + subRow + "."),
-                                new TextComponent(" "),
-                                new TextComponent(extra.getName().getText(locale))
-                        ));
-
-                        objectives.add(new TextComponent(
-                                printIndent(indentLevel + 2),
-                                new TextComponent("§8╠═ "),
-                                new TextComponent("§7"),
-                                new TextComponent(extra.getType().getName(extra).getText(locale))
-                        ));
-                        if (extra instanceof Progressable<?>) {
-                            Progressable<?> progressable = (Progressable<?>) extra;
-                            objectives.add(new TextComponent(
-                                    printIndent(indentLevel + 2),
-                                    new TextComponent("§8╚═ "),
-                                    new TextComponent("§7"),
-                                    new TextComponent(progressable.getProgressMessage(extra).getText(locale))
-                            ));
-                        }
-
-                        subRow++;
-                    }
-                } else {
-                    objectives.add(new TextComponent(
-                            printIndent(indentLevel + 2),
-                            new TextComponent("§8╠═ "),
-                            new TextComponent("§7"),
-                            new TextComponent(objective.getType().getName(objective).getText(locale))
-                    ));
-                    if (objective instanceof Progressable<?>) {
-                        Progressable<?> progressable = (Progressable<?>) objective;
-                        objectives.add(new TextComponent(
-                                printIndent(indentLevel + 2),
-                                new TextComponent("§8╚═ "),
-                                new TextComponent("§7"),
-                                new TextComponent(progressable.getProgressMessage(objective).getText(locale))
-                        ));
-                    }
-                }
-
+                writeObjective(objectives, row, indentLevel, locale, objective);
                 row++;
             }
 
