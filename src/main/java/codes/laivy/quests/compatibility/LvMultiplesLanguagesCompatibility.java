@@ -10,6 +10,7 @@ import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import codes.laivy.quests.locale.IMessageStorage;
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -91,19 +92,21 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
 
         private final @NotNull BukkitMessage message;
 
-        public MessageMultiplesLanguagesProvider(@NotNull BukkitMessage message) {
+        public MessageMultiplesLanguagesProvider(@NotNull BukkitMessage message, @NotNull Object... replaces) {
             super(message.getId(), new HashMap<>());
-            this.message = message;
+
+            this.message = message.clone();
+            getMessage().getReplacements().add(replaces);
         }
 
         @Override
-        public @NotNull BaseComponent[] getText(@NotNull String locale) {
-            return getMessage().getText(convert(locale));
+        public @NotNull BaseComponent[] getText(@NotNull String locale, @NotNull Object... replaces) {
+            return getMessage().getText(convert(locale), replaces);
         }
 
         @Override
-        public @NotNull List<BaseComponent[]> getArray(@NotNull String locale) {
-            return getMessage().getArray(convert(locale));
+        public @NotNull List<BaseComponent[]> getArray(@NotNull String locale, @NotNull Object... replaces) {
+            return getMessage().getArray(convert(locale), replaces);
         }
 
         protected @NotNull BukkitMessage getMessage() {
@@ -149,8 +152,8 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         }
 
         @Override
-        public @NotNull IMessage getMessage(@NotNull String id) {
-            return new MessageMultiplesLanguagesProvider(getStorage().getMessage(id));
+        public @NotNull IMessage getMessage(@NotNull String id, @NotNull Object... replaces) {
+            return new MessageMultiplesLanguagesProvider(getStorage().getMessage(id), replaces);
         }
     }
 }

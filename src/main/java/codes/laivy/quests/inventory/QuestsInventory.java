@@ -67,17 +67,26 @@ public class QuestsInventory extends PagedInventory {
                                 new TextComponent(" "),
                                 new TextComponent(extra.getName().getText(locale))
                         ));
+                        objectives.add(new TextComponent(
+                                printIndent(indentLevel + 2),
+                                new TextComponent("§8╚═ "),
+                                new TextComponent("§7"),
+                                new TextComponent(extra.getType().getName(extra).getText(locale))
+                        ));
+
                         subRow++;
                     }
+                } else {
+                    objectives.add(new TextComponent(
+                            printIndent(indentLevel + 2),
+                            new TextComponent("§8╚═ "),
+                            new TextComponent("§7"),
+                            new TextComponent(objective.getType().getName(objective).getText(locale))
+                    ));
                 }
 
                 row++;
             }
-
-            for (BaseComponent component : objectives) {
-                player.spigot().sendMessage(component);
-            }
-            player.sendMessage("------");
 
             items.put(quest, GuiUtils.getItemStack(
                     Objects.requireNonNull(XMaterial.BOOK.parseMaterial()),

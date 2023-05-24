@@ -4,19 +4,14 @@ import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;
 import org.jetbrains.annotations.NotNull;
 
-public class ObjectiveType {
+public abstract class ObjectiveType {
 
     private final @NotNull String id;
 
     private final @NotNull Serializer<Objective> objectiveSerializer;
 
-    private final @NotNull IMessage name;
-    private final @NotNull IMessage description;
-
-    public ObjectiveType(@NotNull String id, @NotNull IMessage name, @NotNull IMessage description, @NotNull Serializer<Objective> objectiveSerializer) {
+    public ObjectiveType(@NotNull String id, @NotNull Serializer<Objective> objectiveSerializer) {
         this.id = id;
-        this.name = name;
-        this.description = description;
         this.objectiveSerializer = objectiveSerializer;
     }
 
@@ -24,13 +19,9 @@ public class ObjectiveType {
         return id;
     }
 
-    public final @NotNull IMessage getName() {
-        return name;
-    }
+    public abstract @NotNull IMessage getName(@NotNull Objective objective);
 
-    public final @NotNull IMessage getDescription() {
-        return description;
-    }
+    public abstract @NotNull IMessage getDescription(@NotNull Objective objective);
 
     public final @NotNull Serializer<Objective> getSerializer() {
         return objectiveSerializer;

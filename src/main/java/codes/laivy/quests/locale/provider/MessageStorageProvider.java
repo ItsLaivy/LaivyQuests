@@ -121,8 +121,8 @@ public class MessageStorageProvider implements IMessageStorage {
     }
 
     @Override
-    public @NotNull IMessage getMessage(@NotNull String id) {
-        return new MessageProvider(id, messages.get(id));
+    public @NotNull IMessage getMessage(@NotNull String id, @NotNull Object... replaces) {
+        return new MessageProvider(id, messages.get(id), replaces);
     }
 
 }

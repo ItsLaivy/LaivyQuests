@@ -407,16 +407,11 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
 
             objectives.add(new CategoryObjective(
-                    new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
-                        put(Material.REDSTONE_ORE, 5);
-                    }}, new LinkedHashMap<>()),
-                    new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
-                        put(Material.IRON_ORE, 5);
-                    }}, new LinkedHashMap<>())
+                    new BreakBlocksObjective(Material.COAL_ORE, 5, 0),
+                    new BreakBlocksObjective(Material.IRON_ORE, 5, 0),
+                    new BreakBlocksObjective(Material.DIAMOND_ORE, 5, 0)
             ));
-            objectives.add(new BreakBlocksObjective(new LinkedHashMap<Material, Integer>() {{
-                put(Material.DIAMOND_ORE, 10);
-            }}, new LinkedHashMap<>()));
+            objectives.add(new BreakBlocksObjective(Material.GRASS, 2, 0));
 
             Quest quest = new QuestProvider(
                     "test-" + new Random().nextInt(10000),

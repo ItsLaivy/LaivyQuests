@@ -62,15 +62,15 @@ locales:
       - "%s"
 
   "Objective types: block break name":
-    "EN_US": "§aBreak blocks"
-    "PT_BR": "§aQuebrar blocos"
+    "EN_US": "§7Break blocks: §e%s"
+    "PT_BR": "§7Quebre blocos: §e%s"
   "Objective types: block break lore":
     "EN_US":
       - "§7This objective can be completed"
-      - "§7breaking the target blocks"
+      - "§7breaking §e%s §7blocks."
     "PT_BR":
-      - "§7Esse objetivo pode ser completo"
-      - "§7quebrando os blocos ditos"
+      - "§7Esse objetivo pode ser completo quebrando"
+      - "§7blocos de §e%s§7."
 
   "Objective types: category name":
     "EN_US": "§aCategory"

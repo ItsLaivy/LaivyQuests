@@ -1,6 +1,7 @@
 package codes.laivy.quests.api.provider.objectives;
 
 import codes.laivy.quests.api.Serializer;
+import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
@@ -15,8 +16,6 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,9 +36,9 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
                     final BreakBlocksObjective holder = (BreakBlocksObjective) h;
                     Material material = e.getBlock().getType();
 
-                    if (holder.getMeta().containsKey(material)) {
-                        int current = holder.getCurrent().getOrDefault(material, 0);
-                        holder.getCurrent().put(material, current + 1);
+                    if (holder.getMaterial() == material) {
+                        int current = holder.getCurrent();
+                        holder.setCurrent(current + 1);
                     }
                 }
             }
@@ -58,8 +57,6 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
     public BreakBlocksObjectiveType() {
         super(
                 BREAK_BLOCKS_OBJECTIVE_TYPE_ID,
-                laivyQuests().getMessageStorage().getMessage("Objective types: block break name"),
-                laivyQuests().getMessageStorage().getMessage("Objective types: block break lore"),
                 new Serializer<Objective>() {
                     @Override
                     public @NotNull JsonElement serialize(@NotNull Objective o) {
@@ -69,20 +66,10 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
                         BreakBlocksObjective objective = (BreakBlocksObjective) o;
 
                         JsonObject object = new JsonObject();
-                        JsonObject meta = new JsonObject();
-                        JsonObject current = new JsonObject();
 
-                        for (Material material : objective.getMeta().keySet()) {
-                            int broken = objective.getMeta().get(material);
-                            meta.addProperty(material.name(), broken);
-                        }
-                        for (Material material : objective.getCurrent().keySet()) {
-                            int broken = objective.getCurrent().get(material);
-                            current.addProperty(material.name(), broken);
-                        }
-
-                        object.add("meta", meta);
-                        object.add("current", current);
+                        object.addProperty("material", objective.getMaterial().name());
+                        object.addProperty("meta", objective.getMeta());
+                        object.addProperty("current", objective.getCurrent());
 
                         return object;
                     }
@@ -91,22 +78,31 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
                     public @NotNull Objective deserialize(@NotNull JsonElement objective) {
                         JsonObject object = objective.getAsJsonObject();
 
-                        @NotNull JsonObject metaObj = object.getAsJsonObject("meta");
-                        @NotNull JsonObject currentObj = object.getAsJsonObject("current");
+                        Material material = Material.valueOf(object.get("material").getAsString());
+                        int meta = object.get("meta").getAsInt();
+                        int current = object.get("current").getAsInt();
 
-                        Map<Material, Integer> meta = new LinkedHashMap<>();
-                        Map<Material, Integer> current = new LinkedHashMap<>();
-
-                        for (Map.Entry<String, JsonElement> entry : metaObj.entrySet()) {
-                            meta.put(Material.valueOf(entry.getKey().toUpperCase()), entry.getValue().getAsInt());
-                        }
-                        for (Map.Entry<String, JsonElement> entry : currentObj.entrySet()) {
-                            current.put(Material.valueOf(entry.getKey().toUpperCase()), entry.getValue().getAsInt());
-                        }
-
-                        return new BreakBlocksObjective(meta, current);
+                        return new BreakBlocksObjective(material, meta, current);
                     }
                 }
         );
+    }
+
+    @Override
+    public @NotNull IMessage getName(@NotNull Objective objective) {
+        if (objective instanceof BreakBlocksObjective) {
+            BreakBlocksObjective o = (BreakBlocksObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", o.getMaterial().name());
+        }
+        throw new IllegalArgumentException("This objective isn't valid");
+    }
+
+    @Override
+    public @NotNull IMessage getDescription(@NotNull Objective objective) {
+        if (objective instanceof BreakBlocksObjective) {
+            BreakBlocksObjective o = (BreakBlocksObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", o.getMaterial().name());
+        }
+        throw new IllegalArgumentException("This objective isn't valid");
     }
 }

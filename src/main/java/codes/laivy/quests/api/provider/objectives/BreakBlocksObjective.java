@@ -17,46 +17,39 @@ import static codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveTyp
 
 public class BreakBlocksObjective implements Objective {
 
-    private final @NotNull Map<Material, @Range(from = 1, to = Integer.MAX_VALUE) Integer> meta;
-    private final @NotNull Map<Material, @Range(from = 0, to = Integer.MAX_VALUE) Integer> current;
+    private final @NotNull Material material;
+    private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
+    private @Range(from = 0, to = Integer.MAX_VALUE) int current;
 
     public BreakBlocksObjective(
-            @NotNull Map<Material, @Range(from = 1, to = Integer.MAX_VALUE) Integer> meta,
-            @NotNull Map<Material, @Range(from = 0, to = Integer.MAX_VALUE) Integer> current
+            @NotNull Material material,
+            @Range(from = 1, to = Integer.MAX_VALUE) int meta,
+            @Range(from = 0, to = Integer.MAX_VALUE) int current
     ) {
+        this.material = material;
+
         this.meta = meta;
         this.current = current;
 
         // Security checks
-        for (Material material : getMeta().keySet()) {
-            int m = getMeta().get(material);
-
-            if (!material.isBlock()) {
-                throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
-            }
-            if (m < 1) {
-                throw new IllegalStateException("This meta material '" + material + "' objective is '" + m + "', the number needs to be higher than zero");
-            }
-        }
-
-        for (Material material : getCurrent().keySet()) {
-            int m = getCurrent().get(material);
-
-            if (!material.isBlock()) {
-                throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
-            }
-            if (m < 0) {
-                throw new IllegalStateException("This current material '" + material + "' objective is '" + m + "', the number needs to be higher than or equal to zero");
-            }
+        if (!material.isBlock()) {
+            throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
         }
     }
 
-    public @NotNull Map<Material, @Range(from = 1, to = Integer.MAX_VALUE) Integer> getMeta() {
+    public final @NotNull Material getMaterial() {
+        return material;
+    }
+
+    public @Range(from = 1, to = Integer.MAX_VALUE) int getMeta() {
         return meta;
     }
 
-    public @NotNull Map<Material, @Range(from = 0, to = Integer.MAX_VALUE) Integer> getCurrent() {
+    public @Range(from = 0, to = Integer.MAX_VALUE) int getCurrent() {
         return current;
+    }
+    public void setCurrent(@Range(from = 0, to = Integer.MAX_VALUE) int current) {
+        this.current = current;
     }
 
     @Override
@@ -86,19 +79,7 @@ public class BreakBlocksObjective implements Objective {
 
     @Override
     public boolean isCompleted() {
-        boolean completed = true;
-
-        for (Map.Entry<Material, Integer> targetEntry : getMeta().entrySet()) {
-            Material material = targetEntry.getKey();
-            int meta = targetEntry.getValue();
-
-            if (getCurrent().getOrDefault(material, 0) < meta) {
-                completed = false;
-                break;
-            }
-        }
-
-        return completed;
+        return getCurrent() >= getMeta();
     }
 
     @Override

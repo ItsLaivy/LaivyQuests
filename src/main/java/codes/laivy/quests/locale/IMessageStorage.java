@@ -18,7 +18,7 @@ public interface IMessageStorage {
     @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces);
     @NotNull List<BaseComponent[]> getArray(@NotNull UUID uuid, @NotNull String message, Object... replaces);
 
-    @NotNull IMessage getMessage(@NotNull String id);
+    @NotNull IMessage getMessage(@NotNull String id, @NotNull Object... replaces);
     default @NotNull Collection<IMessage> getMessages() {
         List<IMessage> messages = new LinkedList<>();
 

@@ -10,7 +10,7 @@ public interface IMessage {
 
     @NotNull String getId();
 
-    @NotNull BaseComponent[] getText(@NotNull String locale);
-    @NotNull List<BaseComponent[]> getArray(@NotNull String locale);
+    @NotNull BaseComponent[] getText(@NotNull String locale, @NotNull Object... replaces);
+    @NotNull List<BaseComponent[]> getArray(@NotNull String locale, @NotNull Object... replaces);
 
 }

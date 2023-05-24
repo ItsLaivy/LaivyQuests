@@ -1,6 +1,7 @@
 package codes.laivy.quests.api.provider.objectives;
 
 import codes.laivy.quests.api.Serializer;
+import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import com.google.gson.JsonArray;
@@ -22,8 +23,6 @@ public class CategoryObjectiveType extends ObjectiveType {
     public CategoryObjectiveType() {
         super(
                 CATEGORY_OBJECTIVE_TYPE_ID,
-                laivyQuests().getMessageStorage().getMessage("Objective types: category name"),
-                laivyQuests().getMessageStorage().getMessage("Objective types: category lore"),
                 new Serializer<Objective>() {
                     @Override
                     public @NotNull JsonElement serialize(@NotNull Objective o) {
@@ -66,5 +65,15 @@ public class CategoryObjectiveType extends ObjectiveType {
                     }
                 }
         );
+    }
+
+    @Override
+    public @NotNull IMessage getName(@NotNull Objective objective) {
+        return laivyQuests().getMessageStorage().getMessage("Objective types: category name");
+    }
+
+    @Override
+    public @NotNull IMessage getDescription(@NotNull Objective objective) {
+        return laivyQuests().getMessageStorage().getMessage("Objective types: category lore");
     }
 }
