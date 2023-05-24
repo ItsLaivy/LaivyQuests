@@ -2,7 +2,7 @@ package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
-import codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveType;
+import codes.laivy.quests.api.provider.objectives.BreakBlockObjectiveType;
 import codes.laivy.quests.api.provider.objectives.CategoryObjectiveType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
@@ -60,7 +60,7 @@ public final class LaivyQuests extends JavaPlugin {
         this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
 
         // Load objectives
-        getApi().getObjectiveTypes().add(new BreakBlocksObjectiveType());
+        getApi().getObjectiveTypes().add(new BreakBlockObjectiveType());
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load api
         getApi().load();

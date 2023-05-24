@@ -10,28 +10,27 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.*;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
-import static codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
+import static codes.laivy.quests.api.provider.objectives.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
 
-public class BreakBlocksObjective implements Objective, Progressable<Integer> {
+public class BreakBlockObjective implements Objective, Progressable<Integer> {
 
     private final @NotNull Material material;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
-    private @Range(from = 0, to = Integer.MAX_VALUE) int current;
+    private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
 
-    public BreakBlocksObjective(
+    public BreakBlockObjective(
             @NotNull Material material,
             @Range(from = 1, to = Integer.MAX_VALUE) int meta,
-            @Range(from = 0, to = Integer.MAX_VALUE) int current
+            @Range(from = 0, to = Integer.MAX_VALUE) int progress
     ) {
         this.material = material;
 
         this.meta = meta;
-        this.current = current;
+        this.progress = progress;
 
         // Security checks
         if (!material.isBlock()) {
@@ -47,21 +46,14 @@ public class BreakBlocksObjective implements Objective, Progressable<Integer> {
         return meta;
     }
 
-    public @Range(from = 0, to = Integer.MAX_VALUE) int getCurrent() {
-        return current;
-    }
-    public void setCurrent(@Range(from = 0, to = Integer.MAX_VALUE) int current) {
-        this.current = current;
-    }
-
     @Override
-    public @NotNull BreakBlocksObjectiveType getType() {
+    public @NotNull BreakBlockObjectiveType getType() {
         ObjectiveType type = laivyQuests().getApi().getObjectiveType(BREAK_BLOCKS_OBJECTIVE_TYPE_ID);
 
-        if (type instanceof BreakBlocksObjectiveType) {
-            return (BreakBlocksObjectiveType) type;
+        if (type instanceof BreakBlockObjectiveType) {
+            return (BreakBlockObjectiveType) type;
         } else {
-            throw new IllegalStateException("This objective type '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BreakBlocksObjectiveType.class.getName() + ")");
+            throw new IllegalStateException("This objective type '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BreakBlockObjectiveType.class.getName() + ")");
         }
     }
 
@@ -81,7 +73,7 @@ public class BreakBlocksObjective implements Objective, Progressable<Integer> {
 
     @Override
     public boolean isCompleted() {
-        return getCurrent() >= getMeta();
+        return getProgress() >= getMeta();
     }
 
     @Override
@@ -91,19 +83,19 @@ public class BreakBlocksObjective implements Objective, Progressable<Integer> {
 
     @Override
     public @NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer getProgress() {
-        return getCurrent();
+        return progress;
     }
 
     @Override
     public void setProgress(@NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer progress) {
-        this.current = progress;
+        this.progress = progress;
     }
 
     @Override
     public @NotNull IMessage getProgressMessage(@NotNull Objective objective) {
-        if (objective instanceof BreakBlocksObjective) {
-            BreakBlocksObjective o = (BreakBlocksObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objectives: progress message", o.getCurrent(), o.getMeta());
+        if (objective instanceof BreakBlockObjective) {
+            BreakBlockObjective o = (BreakBlockObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objectives: progress message", o.getProgress(), o.getMeta());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

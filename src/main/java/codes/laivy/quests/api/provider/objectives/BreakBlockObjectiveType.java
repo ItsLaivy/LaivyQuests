@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
-public final class BreakBlocksObjectiveType extends ObjectiveType {
+public final class BreakBlockObjectiveType extends ObjectiveType {
 
     public static final class Events implements Listener {
         @EventHandler
@@ -30,16 +30,16 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
             QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
 
             Set<Objective> objectives = new HashSet<>();
-            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlocksObjective).collect(Collectors.toSet())));
+            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlockObjective).collect(Collectors.toSet())));
 
             for (Objective h : objectives) {
-                if (h instanceof BreakBlocksObjective) {
-                    final BreakBlocksObjective holder = (BreakBlocksObjective) h;
+                if (h instanceof BreakBlockObjective) {
+                    final BreakBlockObjective holder = (BreakBlockObjective) h;
                     Material material = e.getBlock().getType();
 
                     if (holder.getMaterial() == material) {
-                        int current = holder.getCurrent();
-                        holder.setCurrent(current + 1);
+                        int current = holder.getProgress();
+                        holder.setProgress(current + 1);
                     }
                 }
             }
@@ -52,25 +52,25 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
     }
 
-    public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "Block break natives";
+    public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "Block break native";
 
     @ApiStatus.Internal
-    public BreakBlocksObjectiveType() {
+    public BreakBlockObjectiveType() {
         super(
                 BREAK_BLOCKS_OBJECTIVE_TYPE_ID,
                 new Serializer<Objective>() {
                     @Override
                     public @NotNull JsonElement serialize(@NotNull Objective o) {
-                        if (!(o instanceof BreakBlocksObjective)) {
+                        if (!(o instanceof BreakBlockObjective)) {
                             throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "'");
                         }
-                        BreakBlocksObjective objective = (BreakBlocksObjective) o;
+                        BreakBlockObjective objective = (BreakBlockObjective) o;
 
                         JsonObject object = new JsonObject();
 
                         object.addProperty("material", objective.getMaterial().name());
                         object.addProperty("meta", objective.getMeta());
-                        object.addProperty("current", objective.getCurrent());
+                        object.addProperty("progress", objective.getProgress());
 
                         return object;
                     }
@@ -81,9 +81,9 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
 
                         Material material = Material.valueOf(object.get("material").getAsString());
                         int meta = object.get("meta").getAsInt();
-                        int current = object.get("current").getAsInt();
+                        int progress = object.get("progress").getAsInt();
 
-                        return new BreakBlocksObjective(material, meta, current);
+                        return new BreakBlockObjective(material, meta, progress);
                     }
                 }
         );
@@ -91,8 +91,8 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
 
     @Override
     public @NotNull IMessage getName(@NotNull Objective objective) {
-        if (objective instanceof BreakBlocksObjective) {
-            BreakBlocksObjective o = (BreakBlocksObjective) objective;
+        if (objective instanceof BreakBlockObjective) {
+            BreakBlockObjective o = (BreakBlockObjective) objective;
             return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
@@ -100,8 +100,8 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
 
     @Override
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
-        if (objective instanceof BreakBlocksObjective) {
-            BreakBlocksObjective o = (BreakBlocksObjective) objective;
+        if (objective instanceof BreakBlockObjective) {
+            BreakBlockObjective o = (BreakBlockObjective) objective;
             return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");

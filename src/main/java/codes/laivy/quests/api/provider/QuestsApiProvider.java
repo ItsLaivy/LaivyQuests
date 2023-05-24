@@ -24,7 +24,7 @@ import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.objectives.BreakBlocksObjective;
+import codes.laivy.quests.api.provider.objectives.BreakBlockObjective;
 import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
@@ -407,11 +407,11 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
 
             objectives.add(new CategoryObjective(
-                    new BreakBlocksObjective(Material.COAL_ORE, 5, 0),
-                    new BreakBlocksObjective(Material.IRON_ORE, 5, 0),
-                    new BreakBlocksObjective(Material.DIAMOND_ORE, 5, 0)
+                    new BreakBlockObjective(Material.COAL_ORE, 5, 0),
+                    new BreakBlockObjective(Material.IRON_ORE, 5, 0),
+                    new BreakBlockObjective(Material.DIAMOND_ORE, 5, 0)
             ));
-            objectives.add(new BreakBlocksObjective(Material.GRASS, 2, 0));
+            objectives.add(new BreakBlockObjective(Material.GRASS, 2, 0));
 
             Quest quest = new QuestProvider(
                     "test-" + new Random().nextInt(10000),
