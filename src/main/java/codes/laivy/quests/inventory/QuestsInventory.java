@@ -47,7 +47,7 @@ public class QuestsInventory extends PagedInventory {
 
             int subC = 1;
             for (Objective categoryObjective : category.getExtras()) {
-                writeObjective(objectives, subC, row, (indent + 1), locale, categoryObjective);
+                writeObjective(objectives, subC, row, (indent + 2), locale, categoryObjective);
                 subC++;
             }
 
@@ -55,7 +55,7 @@ public class QuestsInventory extends PagedInventory {
         }
 
         int complements = 0;
-        if (objective instanceof Progressable && ((Progressable<?>) objective).getProgressMessage() != null) {
+        if (objective instanceof Progressable && ((Progressable) objective).getProgressMessage() != null) {
             complements++;
         }
         if (objective instanceof Rewardable && ((Rewardable) objective).getRewardMessage() != null) {
@@ -71,7 +71,7 @@ public class QuestsInventory extends PagedInventory {
         complements--;
 
         if (objective instanceof Progressable) {
-            Progressable<?> progressable = (Progressable<?>) objective;
+            Progressable progressable = (Progressable) objective;
             if (progressable.getProgressMessage() != null) {
                 objectives.add(new TextComponent(
                         printIndent(indent + 1),
@@ -114,7 +114,7 @@ public class QuestsInventory extends PagedInventory {
             List<BaseComponent> objectives = new LinkedList<>();
 
             int row = 1;
-            for (Objective objective : quest.getObjectives()) {
+            for (Objective objective : quest.getObjectives(false)) {
                 int indentLevel = 1;
                 writeObjective(objectives, 0, row, indentLevel, locale, objective);
                 row++;

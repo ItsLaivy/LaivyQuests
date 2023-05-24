@@ -1,5 +1,6 @@
 package codes.laivy.quests.api.provider.quest;
 
+import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.events.quest.QuestCompleteEvent;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.Objective;
@@ -7,6 +8,7 @@ import codes.laivy.quests.quests.Quest;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.*;
 
@@ -59,8 +61,30 @@ public class QuestProvider implements Quest {
     }
 
     @Override
-    public final @NotNull Set<Objective> getObjectives() {
-        return objectives;
+    @Unmodifiable
+    public final @NotNull List<Objective> getObjectives(boolean categories) {
+        if (categories) {
+            List<Objective> objectives = new LinkedList<>();
+            for (Objective objective : this.objectives) {
+                objectives.addAll(recurringObjectives(objective));
+            }
+            return objectives;
+        } else {
+            return new LinkedList<>(objectives);
+        }
+    }
+    private @NotNull List<Objective> recurringObjectives(@NotNull Objective objective) {
+        if (objective instanceof CategoryObjective) {
+            List<Objective> objectives = new LinkedList<>();
+            for (Objective extra : ((CategoryObjective) objective).getExtras()) {
+                objectives.addAll(recurringObjectives(extra));
+            }
+            return objectives;
+        } else {
+            return new LinkedList<Objective>() {{
+                add(objective);
+            }};
+        }
     }
 
     @Override

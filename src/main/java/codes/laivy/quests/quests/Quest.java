@@ -21,7 +21,13 @@ public interface Quest {
 
     @NotNull IMessage getDescription();
 
-    @NotNull Collection<Objective> getObjectives();
+    /**
+     * Gets the objective collection
+     *
+     * @param categories if true will retrieve the objectives from {@link codes.laivy.quests.api.provider.objectives.CategoryObjective} too; If false, just the registered objectives
+     * @return the objectives collection
+     */
+    @NotNull Collection<Objective> getObjectives(boolean categories);
 
     @NotNull Date getStartDate();
 

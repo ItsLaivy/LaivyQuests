@@ -2,6 +2,7 @@ package codes.laivy.quests.api.provider.objectives.blocks;
 
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
@@ -33,16 +34,22 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
             QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
 
             Set<Objective> objectives = new HashSet<>();
-            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives().stream().filter(o -> o instanceof BreakBlockObjective).collect(Collectors.toSet())));
+            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives(true).stream().filter(o -> o instanceof BreakBlockObjective).collect(Collectors.toSet())));
 
-            for (Objective h : objectives) {
-                if (h instanceof BreakBlockObjective) {
-                    final BreakBlockObjective holder = (BreakBlockObjective) h;
-                    Material material = e.getBlock().getType();
+            for (Quest quest : data.getQuests()) {
+                for (Objective objective : quest.getObjectives(true)) {
+                    if (!objective.isCompleted() && objective instanceof BreakBlockObjective) {
+                        final BreakBlockObjective holder = (BreakBlockObjective) objective;
+                        Material material = e.getBlock().getType();
 
-                    if (holder.getMaterial() == material) {
-                        int current = holder.getProgress();
-                        holder.setProgress(current + 1);
+                        if (holder.getMaterial() == material) {
+                            int current = holder.getProgress();
+                            holder.setProgress(current + 1);
+                        }
+
+                        if (objective.isCompleted()) {
+                            objective.complete(quest);
+                        }
                     }
                 }
             }

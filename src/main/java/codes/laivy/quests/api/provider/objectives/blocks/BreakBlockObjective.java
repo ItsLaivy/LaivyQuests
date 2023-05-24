@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Range;
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 import static codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
 
-public class BreakBlockObjective extends ObjectiveProvider implements Progressable<Integer>, Rewardable {
+public class BreakBlockObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
     private final @NotNull IMessage name;
     private final @NotNull IMessage description;
@@ -54,10 +54,6 @@ public class BreakBlockObjective extends ObjectiveProvider implements Progressab
         return material;
     }
 
-    public @Range(from = 1, to = Integer.MAX_VALUE) int getMeta() {
-        return meta;
-    }
-
     @Override
     public @NotNull BreakBlockObjectiveType getType() {
         ObjectiveType type = laivyQuests().getApi().getObjectiveType(BREAK_BLOCKS_OBJECTIVE_TYPE_ID);
@@ -89,14 +85,16 @@ public class BreakBlockObjective extends ObjectiveProvider implements Progressab
 
     }
 
-    @Override
-    public @NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer getProgress() {
+    public @NotNull @Range(from = 0, to = Integer.MAX_VALUE) int getProgress() {
         return progress;
     }
 
-    @Override
-    public void setProgress(@NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer progress) {
-        this.progress = progress;
+    public void setProgress(@NotNull @Range(from = 0, to = Integer.MAX_VALUE) int progress) {
+        this.progress = Math.min(progress, getMeta());
+    }
+
+    public @Range(from = 1, to = Integer.MAX_VALUE) int getMeta() {
+        return meta;
     }
 
     @Override

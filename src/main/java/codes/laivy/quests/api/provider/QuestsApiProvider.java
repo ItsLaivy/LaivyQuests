@@ -34,6 +34,7 @@ import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
+import com.cryptomorin.xseries.XMaterial;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -367,7 +368,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     object.addProperty("completed", holder.getCompletedDate().getTime());
                 }
 
-                for (Objective objective : holder.getObjectives()) {
+                for (Objective objective : holder.getObjectives(false)) {
                     String objectiveTypeId = objective.getType().getId();
 
                     JsonObject objectiveObj = new JsonObject();
@@ -448,7 +449,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
 
-                    Material.GRASS, 10000, 0, null
+                    Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial()), 5, 0, new MoneyReward(100)
             ));
 
             Quest quest = new QuestProvider(

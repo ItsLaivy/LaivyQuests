@@ -46,7 +46,7 @@ public class MessageStorageProvider implements IMessageStorage {
                 locale = defaultLocale;
             }
 
-            Set<BaseComponent> componentSet = new LinkedHashSet<>();
+            List<BaseComponent> componentSet = new ArrayList<>();
             BaseComponent[] components = getData().get(message).get(locale);
 
             int row = 0;
