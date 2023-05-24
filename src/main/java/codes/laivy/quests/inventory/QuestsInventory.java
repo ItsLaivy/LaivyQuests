@@ -4,6 +4,7 @@ import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;
+import codes.laivy.quests.quests.objectives.Progressable;
 import codes.laivy.quests.utils.ComponentUtils;
 import codes.laivy.quests.utils.GuiUtils;
 import com.cryptomorin.xseries.XMaterial;
@@ -67,22 +68,41 @@ public class QuestsInventory extends PagedInventory {
                                 new TextComponent(" "),
                                 new TextComponent(extra.getName().getText(locale))
                         ));
+
                         objectives.add(new TextComponent(
                                 printIndent(indentLevel + 2),
-                                new TextComponent("§8╚═ "),
+                                new TextComponent("§8╠═ "),
                                 new TextComponent("§7"),
                                 new TextComponent(extra.getType().getName(extra).getText(locale))
                         ));
+                        if (extra instanceof Progressable<?>) {
+                            Progressable<?> progressable = (Progressable<?>) extra;
+                            objectives.add(new TextComponent(
+                                    printIndent(indentLevel + 2),
+                                    new TextComponent("§8╚═ "),
+                                    new TextComponent("§7"),
+                                    new TextComponent(progressable.getProgressMessage(extra).getText(locale))
+                            ));
+                        }
 
                         subRow++;
                     }
                 } else {
                     objectives.add(new TextComponent(
                             printIndent(indentLevel + 2),
-                            new TextComponent("§8╚═ "),
+                            new TextComponent("§8╠═ "),
                             new TextComponent("§7"),
                             new TextComponent(objective.getType().getName(objective).getText(locale))
                     ));
+                    if (objective instanceof Progressable<?>) {
+                        Progressable<?> progressable = (Progressable<?>) objective;
+                        objectives.add(new TextComponent(
+                                printIndent(indentLevel + 2),
+                                new TextComponent("§8╚═ "),
+                                new TextComponent("§7"),
+                                new TextComponent(progressable.getProgressMessage(objective).getText(locale))
+                        ));
+                    }
                 }
 
                 row++;
@@ -141,7 +161,7 @@ public class QuestsInventory extends PagedInventory {
     }
 
     private @NotNull BaseComponent printIndent(@Range(from = 1, to = Integer.MAX_VALUE) int indentLevel) {
-        return new TextComponent(StringUtils.repeat("  ", indentLevel));
+        return new TextComponent(StringUtils.repeat("   ", indentLevel));
     }
 
     public void refreshAvailabilityToggle() {

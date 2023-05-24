@@ -4,18 +4,20 @@ import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
+import codes.laivy.quests.quests.objectives.Progressable;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.*;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 import static codes.laivy.quests.api.provider.objectives.BreakBlocksObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
 
-public class BreakBlocksObjective implements Objective {
+public class BreakBlocksObjective implements Objective, Progressable<Integer> {
 
     private final @NotNull Material material;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
@@ -85,5 +87,24 @@ public class BreakBlocksObjective implements Objective {
     @Override
     public void complete() {
 
+    }
+
+    @Override
+    public @NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer getProgress() {
+        return getCurrent();
+    }
+
+    @Override
+    public void setProgress(@NotNull @Range(from = 0, to = Integer.MAX_VALUE) Integer progress) {
+        this.current = progress;
+    }
+
+    @Override
+    public @NotNull IMessage getProgressMessage(@NotNull Objective objective) {
+        if (objective instanceof BreakBlocksObjective) {
+            BreakBlocksObjective o = (BreakBlocksObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objectives: progress message", o.getCurrent(), o.getMeta());
+        }
+        throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
 }

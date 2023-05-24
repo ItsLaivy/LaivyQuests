@@ -10,7 +10,6 @@ import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import codes.laivy.quests.locale.IMessageStorage;
 import net.md_5.bungee.api.chat.BaseComponent;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -96,7 +95,7 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
             super(message.getId(), new HashMap<>());
 
             this.message = message.clone();
-            getMessage().getReplacements().add(replaces);
+            getMessage().getReplacements().addAll(Arrays.asList(replaces));
         }
 
         @Override

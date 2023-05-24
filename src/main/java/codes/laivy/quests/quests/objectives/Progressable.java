@@ -1,8 +1,14 @@
 package codes.laivy.quests.quests.objectives;
 
-public interface Progressable {
+import codes.laivy.quests.locale.IMessage;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
-    float getProgress();
-    void setProgress(float progress);
+public interface Progressable<T> {
+
+    @UnknownNullability T getProgress();
+    void setProgress(@UnknownNullability T progress);
+
+    @NotNull IMessage getProgressMessage(@NotNull Objective objective);
 
 }

@@ -72,6 +72,10 @@ locales:
       - "§7Esse objetivo pode ser completo quebrando"
       - "§7blocos de §e%s§7."
 
+  "Objectives: progress message":
+    "EN_US": "§7Progress: §e%s§6/§e%s"
+    "PT_BR": "§7Progresso: §e%s§6/§e%s"
+
   "Objective types: category name":
     "EN_US": "§aCategory"
     "PT_BR": "§aCategoria"

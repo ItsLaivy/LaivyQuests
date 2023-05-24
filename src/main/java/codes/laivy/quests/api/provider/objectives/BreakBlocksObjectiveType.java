@@ -5,6 +5,7 @@ import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
+import codes.laivy.quests.utils.MaterialUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
@@ -92,17 +93,17 @@ public final class BreakBlocksObjectiveType extends ObjectiveType {
     public @NotNull IMessage getName(@NotNull Objective objective) {
         if (objective instanceof BreakBlocksObjective) {
             BreakBlocksObjective o = (BreakBlocksObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", o.getMaterial().name());
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
-        throw new IllegalArgumentException("This objective isn't valid");
+        throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
 
     @Override
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
         if (objective instanceof BreakBlocksObjective) {
             BreakBlocksObjective o = (BreakBlocksObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", o.getMaterial().name());
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
-        throw new IllegalArgumentException("This objective isn't valid");
+        throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
 }
