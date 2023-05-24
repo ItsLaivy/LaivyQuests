@@ -3,11 +3,19 @@ package codes.laivy.quests.quests.objectives.reward.money;
 import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.compatibility.VaultCompatibility;
 import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.quests.Quest;
+import codes.laivy.quests.quests.objectives.Objective;
+import codes.laivy.quests.quests.objectives.complements.Rewardable;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+import java.util.UUID;
+
+import static codes.laivy.quests.LaivyQuests.getCompatibility;
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
 public class MoneyReward implements Reward {
@@ -15,6 +23,10 @@ public class MoneyReward implements Reward {
     private final double amount;
 
     public MoneyReward(double amount) {
+        if (LaivyQuests.getCompatibility("Vault") == null) {
+            throw new NullPointerException("This reward type requires Vault!");
+        }
+
         this.amount = amount;
 
         if (amount < 0) {
@@ -56,5 +68,13 @@ public class MoneyReward implements Reward {
         }
 
         return laivyQuests().getMessageStorage().getMessage("Reward type: money reward message", amountString);
+    }
+
+    @Override
+    public void give(@NotNull Quest quest, @NotNull Objective objective) {
+        @NotNull VaultCompatibility compatibility = Objects.requireNonNull(getCompatibility("Vault"));
+        Economy economy = compatibility.getEconomy();
+
+        economy.depositPlayer(Bukkit.getOfflinePlayer(quest.getUniqueId()), getAmount());
     }
 }

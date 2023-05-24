@@ -1,6 +1,7 @@
 package codes.laivy.quests.quests.objectives;
 
 import codes.laivy.quests.locale.IMessage;
+import codes.laivy.quests.quests.Quest;
 import org.jetbrains.annotations.NotNull;
 
 public interface Objective {
@@ -11,6 +12,6 @@ public interface Objective {
     @NotNull IMessage getDescription();
 
     boolean isCompleted();
-    void complete();
+    void complete(@NotNull Quest quest);
 
 }

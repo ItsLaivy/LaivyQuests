@@ -1,7 +1,7 @@
 package codes.laivy.quests.api.provider.objectives.blocks;
 
+import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
 import codes.laivy.quests.locale.IMessage;
-import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.complements.Progressable;
 import codes.laivy.quests.quests.objectives.complements.Rewardable;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Range;
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 import static codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
 
-public class BreakBlockObjective implements Objective, Progressable<Integer>, Rewardable {
+public class BreakBlockObjective extends ObjectiveProvider implements Progressable<Integer>, Rewardable {
 
     private final @NotNull IMessage name;
     private final @NotNull IMessage description;
@@ -85,7 +85,7 @@ public class BreakBlockObjective implements Objective, Progressable<Integer>, Re
     }
 
     @Override
-    public void complete() {
+    protected void abstractComplete() {
 
     }
 
