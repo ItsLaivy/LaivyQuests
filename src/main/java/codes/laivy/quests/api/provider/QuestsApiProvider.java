@@ -24,13 +24,16 @@ import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.objectives.BreakBlockObjective;
+import codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjective;
 import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
+import codes.laivy.quests.quests.objectives.reward.Reward;
+import codes.laivy.quests.quests.objectives.reward.RewardType;
+import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -53,6 +56,7 @@ import static org.bukkit.Bukkit.getServer;
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
+    private final @NotNull Set<RewardType<? extends Reward>> rewardTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -88,6 +92,17 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     public @NotNull ObjectiveType getObjectiveType(@NotNull String id) {
         Optional<ObjectiveType> optional = laivyQuests().getApi().getObjectiveTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
         return optional.orElseThrow(() -> new NullPointerException("Couldn't find this objective type '" + id + "'"));
+    }
+
+    @Override
+    public @NotNull Collection<RewardType<? extends Reward>> getRewardTypes() {
+        return rewardTypes;
+    }
+
+    @Override
+    public @NotNull RewardType<? extends Reward> getRewardType(@NotNull String id) {
+        Optional<RewardType<? extends Reward>> optional = laivyQuests().getApi().getRewardTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
+        return optional.orElseThrow(() -> new NullPointerException("Couldn't find this reward type '" + id + "'"));
     }
 
     @Override
@@ -407,11 +422,34 @@ public class QuestsApiProvider implements QuestsApi, Listener {
             LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
 
             objectives.add(new CategoryObjective(
-                    new BreakBlockObjective(Material.COAL_ORE, 5, 0),
-                    new BreakBlockObjective(Material.IRON_ORE, 5, 0),
-                    new BreakBlockObjective(Material.DIAMOND_ORE, 5, 0)
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): Category name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): Category name"),
+
+                    new BreakBlockObjective(
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
+
+                            Material.COAL_ORE, 5, 0, null
+                    ),
+                    new BreakBlockObjective(
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
+
+                            Material.IRON_ORE, 5, 0, null
+                    ),
+                    new BreakBlockObjective(
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
+                            laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
+
+                            Material.DIAMOND_ORE, 5, 0, new MoneyReward(1500)
+                    )
             ));
-            objectives.add(new BreakBlockObjective(Material.GRASS, 2, 0));
+            objectives.add(new BreakBlockObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
+
+                    Material.GRASS, 10000, 0, null
+            ));
 
             Quest quest = new QuestProvider(
                     "test-" + new Random().nextInt(10000),
@@ -422,6 +460,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     new Date(),
                     null
             );
+
             laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId()).getQuests().add(quest);
             Bukkit.broadcastMessage("Added quest");
         }

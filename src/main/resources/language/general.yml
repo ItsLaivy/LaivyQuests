@@ -213,3 +213,18 @@ locales:
       - "%s"
       - ""
       - "§aClique para ver detalhes"
+
+  "Test (remove): Category name":
+    "EN_US": "§7Cave adventure"
+  "Test (remove): 1 name":
+    "EN_US": "§7Fuel for the furnaces"
+  "Test (remove): 2 name":
+    "EN_US": "§7Iron, iron. Iron!"
+  "Test (remove): 3 name":
+    "EN_US": "§7Finally, diamonds!"
+  "Test (remove): 4 name":
+    "EN_US": "§7Nature destroyer"
+
+  "Reward type: money reward message":
+    "EN_US": "§7Reward: %s"
+    "PT_BR": "§7Recompensa: %s"

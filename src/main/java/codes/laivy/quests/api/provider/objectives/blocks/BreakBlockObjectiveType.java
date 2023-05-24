@@ -1,10 +1,12 @@
-package codes.laivy.quests.api.provider.objectives;
+package codes.laivy.quests.api.provider.objectives.blocks;
 
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
+import codes.laivy.quests.quests.objectives.reward.Reward;
+import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.utils.MaterialUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,7 +55,7 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
     }
 
-    public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "Block break native";
+    public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "BLOCK_BREAK";
 
     @ApiStatus.Internal
     public BreakBlockObjectiveType() {
@@ -68,6 +71,19 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
 
                         JsonObject object = new JsonObject();
 
+                        object.addProperty("name", objective.getName().getId());
+                        object.addProperty("description", objective.getDescription().getId());
+
+                        if (objective.getReward() != null) {
+                            JsonObject rewardObject = new JsonObject();
+                            Reward reward = objective.getReward();
+
+                            rewardObject.addProperty("type id", reward.getType().getId());
+                            rewardObject.add("data", reward.getType().getSerializer().serialize(reward));
+
+                            object.add("reward", rewardObject);
+                        }
+
                         object.addProperty("material", objective.getMaterial().name());
                         object.addProperty("meta", objective.getMeta());
                         object.addProperty("progress", objective.getProgress());
@@ -79,11 +95,23 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
                     public @NotNull Objective deserialize(@NotNull JsonElement objective) {
                         JsonObject object = objective.getAsJsonObject();
 
+                        IMessage name = laivyQuests().getMessageStorage().getMessage(object.get("name").getAsString());
+                        IMessage description = laivyQuests().getMessageStorage().getMessage(object.get("description").getAsString());
+
+                        @Nullable Reward reward = null;
+                        if (object.has("reward")) {
+                            JsonObject rewardObject = object.getAsJsonObject("reward");
+                            String typeId = rewardObject.get("type id").getAsString();
+
+                            RewardType<? extends Reward> type = laivyQuests().getApi().getRewardType(typeId);
+                            reward = type.getSerializer().deserialize(rewardObject.get("data"));
+                        }
+
                         Material material = Material.valueOf(object.get("material").getAsString());
                         int meta = object.get("meta").getAsInt();
                         int progress = object.get("progress").getAsInt();
 
-                        return new BreakBlockObjective(material, meta, progress);
+                        return new BreakBlockObjective(name, description, material, meta, progress, reward);
                     }
                 }
         );

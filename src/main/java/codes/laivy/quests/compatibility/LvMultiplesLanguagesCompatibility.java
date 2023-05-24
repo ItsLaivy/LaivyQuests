@@ -39,7 +39,7 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
     }
 
     @Override
-    public void hook(@NotNull LaivyQuests plugin) {
+    public boolean hook(@NotNull LaivyQuests plugin) {
         @NotNull BukkitMultiplesLanguages m = getPlugin();
 
         IMessageStorage oldStorage = plugin.getMessageStorage();
@@ -76,6 +76,7 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         );
 
         plugin.setMessageStorage(new MessageStorageMultiplesLanguagesProvider(storage));
+        return true;
     }
 
     private boolean isClassPresent(@NotNull String name) {

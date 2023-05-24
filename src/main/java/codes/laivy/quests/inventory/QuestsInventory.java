@@ -4,7 +4,8 @@ import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;
-import codes.laivy.quests.quests.objectives.Progressable;
+import codes.laivy.quests.quests.objectives.complements.Progressable;
+import codes.laivy.quests.quests.objectives.complements.Rewardable;
 import codes.laivy.quests.utils.ComponentUtils;
 import codes.laivy.quests.utils.GuiUtils;
 import com.cryptomorin.xseries.XMaterial;
@@ -34,25 +35,30 @@ public class QuestsInventory extends PagedInventory {
 
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
-    protected void writeObjective(@NotNull List<BaseComponent> objectives, final int row, final int indent, @NotNull String locale, @NotNull Objective objective) {
+    protected void writeObjective(@NotNull List<BaseComponent> objectives, int sub, final int row, final int indent, @NotNull String locale, @NotNull Objective objective) {
         objectives.add(new TextComponent(
                 printIndent(indent),
-                new TextComponent("§c" + row + ". "),
+                new TextComponent("§c" + row + (sub > 0 ? "." + sub : "") + ". "),
                 new TextComponent(objective.getName().getText(locale))
         ));
 
         if (objective instanceof CategoryObjective) {
             CategoryObjective category = (CategoryObjective) objective;
 
+            int subC = 1;
             for (Objective categoryObjective : category.getExtras()) {
-                writeObjective(objectives, row, (indent + 1), locale, categoryObjective);
+                writeObjective(objectives, subC, row, (indent + 1), locale, categoryObjective);
+                subC++;
             }
 
             return;
         }
 
         int complements = 0;
-        if (objective instanceof Progressable) {
+        if (objective instanceof Progressable && ((Progressable<?>) objective).getProgressMessage() != null) {
+            complements++;
+        }
+        if (objective instanceof Rewardable && ((Rewardable) objective).getRewardMessage() != null) {
             complements++;
         }
 
@@ -66,13 +72,27 @@ public class QuestsInventory extends PagedInventory {
 
         if (objective instanceof Progressable) {
             Progressable<?> progressable = (Progressable<?>) objective;
-            objectives.add(new TextComponent(
-                    printIndent(indent + 1),
-                    new TextComponent("§8" + getTreeString(complements) + "═ "),
-                    new TextComponent("§7"),
-                    new TextComponent(progressable.getProgressMessage(objective).getText(locale))
-            ));
-            complements--;
+            if (progressable.getProgressMessage() != null) {
+                objectives.add(new TextComponent(
+                        printIndent(indent + 1),
+                        new TextComponent("§8" + getTreeString(complements) + "═ "),
+                        new TextComponent("§7"),
+                        new TextComponent(progressable.getProgressMessage().getText(locale))
+                ));
+                complements--;
+            }
+        }
+        if (objective instanceof Rewardable) {
+            Rewardable rewardable = (Rewardable) objective;
+            if (rewardable.getRewardMessage() != null) {
+                objectives.add(new TextComponent(
+                        printIndent(indent + 1),
+                        new TextComponent("§8" + getTreeString(complements) + "═ "),
+                        new TextComponent("§7"),
+                        new TextComponent(rewardable.getRewardMessage().getText(locale))
+                ));
+                complements--;
+            }
         }
     }
 
@@ -96,7 +116,7 @@ public class QuestsInventory extends PagedInventory {
             int row = 1;
             for (Objective objective : quest.getObjectives()) {
                 int indentLevel = 1;
-                writeObjective(objectives, row, indentLevel, locale, objective);
+                writeObjective(objectives, 0, row, indentLevel, locale, objective);
                 row++;
             }
 

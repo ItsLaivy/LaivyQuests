@@ -1,15 +1,13 @@
 package codes.laivy.quests.api.provider.objectives;
 
+import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
 import codes.laivy.quests.locale.IMessage;
-import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,15 +18,30 @@ import static codes.laivy.quests.api.provider.objectives.CategoryObjectiveType.C
  * This class encapsulates additional objectives to create a kind of category.
  * It is considered complete only when all its additional objectives are also completed.
  */
-public class CategoryObjective implements Objective {
+// TODO: 24/05/2023 Trava de objetivos. Exemplo: Você só poder completar o segundo objetivo se o primeiro estiver concluído. 
+public class CategoryObjective extends ObjectiveProvider {
+
+    private final @NotNull IMessage name;
+    private final @NotNull IMessage description;
 
     private final @NotNull List<Objective> extras = new LinkedList<>();
 
-    public CategoryObjective(@NotNull Objective... extras) {
+    public CategoryObjective(
+            @NotNull IMessage name,
+            @NotNull IMessage description,
+            @NotNull Objective... extras
+            ) {
+        super();
+        this.name = name;
+        this.description = description;
         this.extras.addAll(Arrays.asList(extras));
+
+        if (this.extras.isEmpty()) {
+            throw new IllegalArgumentException("The extras list of the category objective is empty.");
+        }
     }
 
-    public @NotNull List<Objective> getExtras() {
+    public final @NotNull List<Objective> getExtras() {
         return extras;
     }
 
@@ -45,23 +58,26 @@ public class CategoryObjective implements Objective {
 
     @Override
     public @NotNull IMessage getName() {
-        return new MessageProvider("t", new LinkedHashMap<String, BaseComponent[]>() {{
-            put("en_us", TextComponent.fromLegacyText("Minere"));
-        }});
+        return name;
     }
 
     @Override
     public @NotNull IMessage getDescription() {
-        return null;
+        return description;
     }
 
     @Override
     public boolean isCompleted() {
-        return false;
+        for (Objective objective : getExtras()) {
+            if (!objective.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
-    public void complete() {
+    protected void abstractComplete() {
 
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
-public class CategoryObjectiveType extends ObjectiveType {
+public final class CategoryObjectiveType extends ObjectiveType {
 
-    public static final @NotNull String CATEGORY_OBJECTIVE_TYPE_ID = "Category";
+    public static final @NotNull String CATEGORY_OBJECTIVE_TYPE_ID = "CATEGORY";
 
     @ApiStatus.Internal
     public CategoryObjectiveType() {
@@ -31,8 +31,12 @@ public class CategoryObjectiveType extends ObjectiveType {
                         }
                         CategoryObjective objective = (CategoryObjective) o;
 
-                        JsonArray objectives = new JsonArray();
+                        JsonObject category = new JsonObject();
 
+                        category.addProperty("name", objective.getName().getId());
+                        category.addProperty("description", objective.getDescription().getId());
+
+                        JsonArray objectives = new JsonArray();
                         for (Objective extra : objective.getExtras()) {
                             JsonObject extraObject = new JsonObject();
 
@@ -42,14 +46,19 @@ public class CategoryObjectiveType extends ObjectiveType {
                             objectives.add(extraObject);
                         }
 
-                        return objectives;
+                        category.add("objectives", objectives);
+                        return category;
                     }
 
                     @Override
                     public @NotNull CategoryObjective deserialize(@NotNull JsonElement object) {
                         List<Objective> objectiveList = new LinkedList<>();
-                        JsonArray objectives = object.getAsJsonArray();
+                        JsonObject category = object.getAsJsonObject();
 
+                        IMessage name = laivyQuests().getMessageStorage().getMessage(category.get("name").getAsString());
+                        IMessage description = laivyQuests().getMessageStorage().getMessage(category.get("description").getAsString());
+
+                        JsonArray objectives = category.getAsJsonArray("objectives");
                         for (JsonElement element : objectives) {
                             JsonObject objectiveObject = element.getAsJsonObject();
 
@@ -61,7 +70,7 @@ public class CategoryObjectiveType extends ObjectiveType {
                             objectiveList.add(objective);
                         }
 
-                        return new CategoryObjective(objectiveList.toArray(new Objective[0]));
+                        return new CategoryObjective(name, description, objectiveList.toArray(new Objective[0]));
                     }
                 }
         );

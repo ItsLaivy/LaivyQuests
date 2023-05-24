@@ -2,15 +2,17 @@ package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
-import codes.laivy.quests.api.provider.objectives.BreakBlockObjectiveType;
+import codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType;
 import codes.laivy.quests.api.provider.objectives.CategoryObjectiveType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
+import codes.laivy.quests.compatibility.VaultCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
+import codes.laivy.quests.quests.objectives.reward.money.MoneyRewardType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -32,10 +34,15 @@ public final class LaivyQuests extends JavaPlugin {
     // Compatibilities
     private static final @NotNull Set<Compatibility> compatibilities = new LinkedHashSet<Compatibility>() {{
         add(new LvMultiplesLanguagesCompatibility());
+        add(new VaultCompatibility());
     }};
 
     public static @NotNull Set<Compatibility> getCompatibilities() {
         return compatibilities;
+    }
+    public static <T extends Compatibility> @Nullable T getCompatibility(@NotNull String name) {
+        //noinspection unchecked
+        return (T) compatibilities.stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
     }
     //
 
@@ -59,9 +66,11 @@ public final class LaivyQuests extends JavaPlugin {
     public void onEnable() {
         this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
 
-        // Load objectives
+        // Load objective types
         getApi().getObjectiveTypes().add(new BreakBlockObjectiveType());
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
+        // Load reward types
+        getApi().getRewardTypes().add(new MoneyRewardType());
         // Load api
         getApi().load();
 
@@ -69,12 +78,13 @@ public final class LaivyQuests extends JavaPlugin {
             if (compatibility.isCompatible()) {
                 log(TextComponent.fromLegacyText("§9Trying to enable compatibility with §e" + compatibility.getName() + " " + compatibility.getPlugin().getDescription().getVersion() + "§9."));
                 try {
-                    compatibility.hook(this);
+                    if (compatibility.hook(this)) {
+                        log(TextComponent.fromLegacyText("§9Successfully hooked §e" + compatibility.getName() + " " + compatibility.getPlugin().getDescription().getVersion() + "§9!"));
+                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    log(TextComponent.fromLegacyText("§cCouldn't hook §6LvMultiplesLanguages §cwith the §6LaivyQuests §cplugin"));
+                    log(TextComponent.fromLegacyText("§cCouldn't hook §6" + compatibility.getName() + " §cwith the §6LaivyQuests §cplugin"));
                 }
-                log(TextComponent.fromLegacyText("§9Successfully hooked §eLvMultiplesLanguages " + compatibility.getPlugin().getDescription().getVersion() + "§9!"));
             }
         }
     }

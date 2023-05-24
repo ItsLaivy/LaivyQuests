@@ -1,36 +1,48 @@
-package codes.laivy.quests.api.provider.objectives;
+package codes.laivy.quests.api.provider.objectives.blocks;
 
 import codes.laivy.quests.locale.IMessage;
-import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
-import codes.laivy.quests.quests.objectives.Progressable;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import codes.laivy.quests.quests.objectives.complements.Progressable;
+import codes.laivy.quests.quests.objectives.complements.Rewardable;
+import codes.laivy.quests.quests.objectives.reward.Reward;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import java.util.*;
-
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
-import static codes.laivy.quests.api.provider.objectives.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
+import static codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
 
-public class BreakBlockObjective implements Objective, Progressable<Integer> {
+public class BreakBlockObjective implements Objective, Progressable<Integer>, Rewardable {
+
+    private final @NotNull IMessage name;
+    private final @NotNull IMessage description;
 
     private final @NotNull Material material;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
     private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
 
+    private final @Nullable Reward reward;
+
     public BreakBlockObjective(
+            @NotNull IMessage name,
+            @NotNull IMessage description,
+
             @NotNull Material material,
             @Range(from = 1, to = Integer.MAX_VALUE) int meta,
-            @Range(from = 0, to = Integer.MAX_VALUE) int progress
+            @Range(from = 0, to = Integer.MAX_VALUE) int progress,
+            @Nullable Reward reward
     ) {
+        this.name = name;
+        this.description = description;
+
         this.material = material;
 
         this.meta = meta;
         this.progress = progress;
+
+        this.reward = reward;
 
         // Security checks
         if (!material.isBlock()) {
@@ -59,16 +71,12 @@ public class BreakBlockObjective implements Objective, Progressable<Integer> {
 
     @Override
     public @NotNull IMessage getName() {
-        return new MessageProvider("t", new LinkedHashMap<String, BaseComponent[]>() {{
-            put("en_us", TextComponent.fromLegacyText("Minerador maniaco"));
-        }});
+        return name;
     }
 
     @Override
     public @NotNull IMessage getDescription() {
-        return new MessageProvider("t", new LinkedHashMap<String, BaseComponent[]>() {{
-            put("en_us", TextComponent.fromLegacyText("Minerador maniaco"));
-        }});
+        return description;
     }
 
     @Override
@@ -92,11 +100,17 @@ public class BreakBlockObjective implements Objective, Progressable<Integer> {
     }
 
     @Override
-    public @NotNull IMessage getProgressMessage(@NotNull Objective objective) {
-        if (objective instanceof BreakBlockObjective) {
-            BreakBlockObjective o = (BreakBlockObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objectives: progress message", o.getProgress(), o.getMeta());
-        }
-        throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
+    public @NotNull IMessage getProgressMessage() {
+        return laivyQuests().getMessageStorage().getMessage("Objectives: progress message", getProgress(), getMeta());
+    }
+
+    @Override
+    public @Nullable Reward getReward() {
+        return reward;
+    }
+
+    @Override
+    public @Nullable IMessage getRewardMessage() {
+        return reward != null ? reward.getMessage() : null;
     }
 }

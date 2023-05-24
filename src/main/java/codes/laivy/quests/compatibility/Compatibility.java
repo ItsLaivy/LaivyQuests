@@ -19,7 +19,7 @@ public abstract class Compatibility {
         return Bukkit.getPluginManager().getPlugin(getName()) != null;
     }
 
-    public abstract void hook(@NotNull LaivyQuests plugin);
+    public abstract boolean hook(@NotNull LaivyQuests plugin);
 
     public final @NotNull String getName() {
         return name;
