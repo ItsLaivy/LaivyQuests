@@ -69,7 +69,14 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
                             message.getArrayTexts().addAll(locales);
                         }
 
-                        message.getLegacyTexts().addAll(content.keySet());
+                        Set<Locale> legacies = new LinkedHashSet<>();
+                        if (oldStorage.getLegacies().containsKey(id)) {
+                            for (String localeStr : oldStorage.getLegacies().get(id)) {
+                                legacies.add(convert(localeStr));
+                            }
+                        }
+
+                        message.getLegacyTexts().addAll(legacies);
                         add(message);
                     }
                 }}

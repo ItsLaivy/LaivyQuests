@@ -36,11 +36,21 @@ public class QuestsInventory extends PagedInventory {
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
     protected void writeObjective(@NotNull List<BaseComponent> objectives, int sub, final int row, final int indent, @NotNull String locale, @NotNull Objective objective) {
-        objectives.add(new TextComponent(
-                printIndent(indent),
-                new TextComponent("§c" + row + (sub > 0 ? "." + sub : "") + ". "),
-                new TextComponent(objective.getName().getText(locale))
-        ));
+        if (!objective.isCompleted()) {
+            objectives.add(new TextComponent(
+                    printIndent(indent),
+                    new TextComponent("§c" + row + (sub > 0 ? "." + sub : "") + ". "),
+                    new TextComponent(objective.getName().getText(locale))
+            ));
+        } else {
+            objectives.add(new TextComponent(
+                    printIndent(indent),
+                    new TextComponent("§c" + row + (sub > 0 ? "." + sub : "") + ". "),
+                    new TextComponent(objective.getName().getText(locale)),
+                    new TextComponent(" "),
+                    new TextComponent(laivyQuests().getMessageStorage().get(locale, "Objective types: completed name"))
+            ));
+        }
 
         if (objective instanceof CategoryObjective) {
             CategoryObjective category = (CategoryObjective) objective;

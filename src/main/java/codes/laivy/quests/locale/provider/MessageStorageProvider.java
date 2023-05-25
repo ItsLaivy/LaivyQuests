@@ -19,6 +19,7 @@ public class MessageStorageProvider implements IMessageStorage {
     private final @NotNull Map<String, Map<String, BaseComponent[]>> messages;
 
     private final @NotNull Map<String, Set<String>> arrays = new HashMap<>();
+    private final @NotNull Map<String, Set<String>> legacies = new HashMap<>();
 
     public MessageStorageProvider(@NotNull String defaultLocale, @NotNull Map<String, Map<String, BaseComponent[]>> messages) {
         this.defaultLocale = defaultLocale;
@@ -28,6 +29,11 @@ public class MessageStorageProvider implements IMessageStorage {
     @Override
     public @NotNull Map<String, Set<String>> getArrays() {
         return arrays;
+    }
+
+    @Override
+    public @NotNull Map<String, Set<String>> getLegacies() {
+        return legacies;
     }
 
     public @NotNull String getDefaultLocale() {

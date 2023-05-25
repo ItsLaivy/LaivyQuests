@@ -30,5 +30,6 @@ public interface IMessageStorage {
     }
 
     @NotNull Map<String, Set<String>> getArrays();
+    @NotNull Map<String, Set<String>> getLegacies();
 
 }

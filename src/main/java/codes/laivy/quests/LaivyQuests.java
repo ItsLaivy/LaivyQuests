@@ -1,5 +1,6 @@
 package codes.laivy.quests;
 
+import codes.laivy.mlanguage.utils.JsonUtils;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjectiveType;
@@ -129,6 +130,7 @@ public final class LaivyQuests extends JavaPlugin {
         @NotNull String defaultLocale = Objects.requireNonNull(yaml.getString("default locale")).toUpperCase();
         @NotNull Map<String, Map<String, BaseComponent[]>> component = new LinkedHashMap<>();
         @NotNull Map<String, Set<String>> arrays = new HashMap<>();
+        @NotNull Map<String, Set<String>> legacies = new HashMap<>();
 
         ConfigurationSection section = yaml.getConfigurationSection("locales");
         for (String message : Objects.requireNonNull(section).getKeys(false)) {
@@ -141,7 +143,16 @@ public final class LaivyQuests extends JavaPlugin {
 
                     //noinspection unchecked
                     for (Object object : (List<Object>) entry.getValue()) {
-                        components.add(new TextComponent(String.valueOf(object)));
+                        @NotNull String string = String.valueOf(object);
+
+                        if (JsonUtils.isJson(string)) { // Check if is not legacy
+                            components.add(new TextComponent(ComponentSerializer.parse(string)));
+                        } else {
+                            components.add(new TextComponent(string));
+
+                            legacies.putIfAbsent(message, new LinkedHashSet<>());
+                            legacies.get(message).add(locale);
+                        }
                     }
 
                     component.get(message).put(locale, components.toArray(new BaseComponent[0]));
@@ -149,16 +160,27 @@ public final class LaivyQuests extends JavaPlugin {
                     arrays.putIfAbsent(message, new HashSet<>());
                     arrays.get(message).add(locale);
                 } else {
-                    BaseComponent[] messageContent = new BaseComponent[] {
-                            new TextComponent(String.valueOf(entry.getValue()))
-                    };
-                    component.get(message).put(locale, messageContent);
+                    @NotNull String string = String.valueOf(entry.getValue());
+                    BaseComponent[] v;
+
+                    if (JsonUtils.isJson(string)) { // Check if is not legacy
+                        v = ComponentSerializer.parse(string);
+                    } else {
+                        v = new BaseComponent[] { new TextComponent(string) };
+
+                        // Declare legacy text
+                        legacies.putIfAbsent(message, new LinkedHashSet<>());
+                        legacies.get(message).add(locale);
+                    }
+
+                    component.get(message).put(locale, v);
                 }
             }
         }
 
         MessageStorageProvider provider = new MessageStorageProvider(defaultLocale, component);
         provider.getArrays().putAll(arrays);
+        provider.getLegacies().putAll(legacies);
         return provider;
     }
 
