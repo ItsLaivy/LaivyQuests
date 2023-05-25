@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e8cc59a-6631-4c1b-ac63-941eee8eafb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/JsonUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/compatibility/LvMultiplesLanguagesCompatibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/compatibility/LvMultiplesLanguagesCompatibility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/IMessageStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/IMessageStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/provider/MessageStorageProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/locale/provider/MessageStorageProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/money/MoneyReward.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/money/MoneyReward.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language/general.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/general.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

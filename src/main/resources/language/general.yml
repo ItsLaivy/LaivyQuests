@@ -245,5 +245,5 @@ locales:
     "EN_US": "§7Dirty placer"
 
   "Reward type: money reward message":
-    "EN_US": "§7Reward: %s"
-    "PT_BR": "§7Recompensa: %s"
+    "EN_US": "§7Reward: §6%s"
+    "PT_BR": "§7Recompensa: §6%s"

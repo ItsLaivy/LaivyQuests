@@ -5,7 +5,6 @@ import codes.laivy.quests.compatibility.VaultCompatibility;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
-import codes.laivy.quests.quests.objectives.complements.Rewardable;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import net.milkbowl.vault.economy.Economy;
@@ -13,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static codes.laivy.quests.LaivyQuests.getCompatibility;
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
@@ -59,7 +57,7 @@ public class MoneyReward implements Reward {
 
         // TODO: 21/05/2023 Bank
         double amount = getAmount();
-        String amountString = "§a+$" + amount;
+        String amountString = "+$" + amount;
 
         if (amount <= 1) {
             amountString = amountString + " " + cashPrefixSingular;

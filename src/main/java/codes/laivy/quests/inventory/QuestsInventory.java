@@ -35,7 +35,7 @@ public class QuestsInventory extends PagedInventory {
 
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
-    protected void writeObjective(@NotNull List<BaseComponent> objectives, int sub, final int row, final int indent, @NotNull String locale, @NotNull Objective objective) {
+    protected void writeObjective(@NotNull List<BaseComponent> objectives, int sub, int row, int indent, @NotNull String locale, @NotNull Objective objective) {
         if (!objective.isCompleted()) {
             objectives.add(new TextComponent(
                     printIndent(indent),
@@ -57,7 +57,7 @@ public class QuestsInventory extends PagedInventory {
 
             int subC = 1;
             for (Objective categoryObjective : category.getExtras()) {
-                writeObjective(objectives, subC, row, (indent + 2), locale, categoryObjective);
+                writeObjective(objectives, subC, row, (indent + 1), locale, categoryObjective);
                 subC++;
             }
 
@@ -71,6 +71,8 @@ public class QuestsInventory extends PagedInventory {
         if (objective instanceof Rewardable && ((Rewardable) objective).getRewardMessage() != null) {
             complements++;
         }
+
+        if (sub > 0) indent++;
 
         objectives.add(new TextComponent(
                 printIndent(indent + 1),
