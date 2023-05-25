@@ -114,6 +114,12 @@ locales:
     "PT_BR":
       - "§7Clique aqui para ver todas as"
       - "§7suas quests ativas"
+      -
+  "Quests main menus: more quests":
+    "EN_US":
+      - "§8and %s more..."
+    "PT_BR":
+      - "§8e %s outras..."
 
   "Quests main menus: statistics name":
     "EN_US": "§eStatistics"
@@ -243,6 +249,12 @@ locales:
     "EN_US": "§7Nature destroyer"
   "Test (remove): 5 name":
     "EN_US": "§7Dirty placer"
+  "Test (remove): 6 name":
+    "EN_US": "§7Rich"
+  "Test (remove): 7 name":
+    "EN_US": "§7Farm harvester"
+  "Test (remove): 8 name":
+    "EN_US": "§7Dragon killer"
 
   "Reward type: money reward message":
     "EN_US": "§7Reward: §6%s"

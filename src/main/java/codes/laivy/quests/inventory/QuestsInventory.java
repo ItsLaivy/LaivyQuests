@@ -35,7 +35,19 @@ public class QuestsInventory extends PagedInventory {
 
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
-    protected void writeObjective(@NotNull List<BaseComponent> objectives, int sub, int row, int indent, @NotNull String locale, @NotNull Objective objective) {
+    protected int writeObjective(@NotNull List<BaseComponent> objectives, @NotNull Collection<Objective> allObjectives, int total, int sub, int row, int indent, @NotNull String locale, @NotNull Objective objective) {
+        if (total >= 5) {
+            int rest = allObjectives.size() - (new LinkedList<>(allObjectives).indexOf(objective));
+            BaseComponent line = new TextComponent(
+                    printIndent(indent),
+                    new TextComponent(laivyQuests().getMessageStorage().get(locale, "Quests main menus: more quests", rest))
+            );
+
+            objectives.add(line);
+
+            return -1;
+        }
+
         if (!objective.isCompleted()) {
             objectives.add(new TextComponent(
                     printIndent(indent),
@@ -57,12 +69,22 @@ public class QuestsInventory extends PagedInventory {
 
             int subC = 1;
             for (Objective categoryObjective : category.getExtras()) {
-                writeObjective(objectives, subC, row, (indent + 1), locale, categoryObjective);
+                int value = writeObjective(objectives, category.getExtras(), total, subC, row, (indent + 1), locale, categoryObjective);
+
+                if (value == -1) {
+                    break;
+                }
+
+                total = value;
                 subC++;
             }
 
-            return;
+            Bukkit.broadcastMessage("Recursive: '" + total + "");
+
+            return total;
         }
+
+        total++;
 
         int complements = 0;
         if (objective instanceof Progressable && ((Progressable) objective).getProgressMessage() != null) {
@@ -106,6 +128,8 @@ public class QuestsInventory extends PagedInventory {
                 complements--;
             }
         }
+
+        return total;
     }
 
     private @NotNull String getTreeString(int complements) {
@@ -126,11 +150,21 @@ public class QuestsInventory extends PagedInventory {
             List<BaseComponent> objectives = new LinkedList<>();
 
             int row = 1;
+            int total = 0;
+
             for (Objective objective : quest.getObjectives(false)) {
                 int indentLevel = 1;
-                writeObjective(objectives, 0, row, indentLevel, locale, objective);
+                int value = writeObjective(objectives, quest.getObjectives(false), total, 0, row, indentLevel, locale, objective);
+
+                if (value == -1) {
+                    break;
+                }
+
+                total = value;
                 row++;
             }
+
+            Bukkit.broadcastMessage("Total: '" + total + "'");
 
             items.put(quest, GuiUtils.getItemStack(
                     Objects.requireNonNull(XMaterial.BOOK.parseMaterial()),

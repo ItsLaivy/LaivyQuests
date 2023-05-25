@@ -1,12 +1,16 @@
 package codes.laivy.quests.quests.objectives.reward.money;
 
 import codes.laivy.quests.LaivyQuests;
+import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.compatibility.VaultCompatibility;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
+import codes.laivy.quests.utils.MoneyUtils;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -55,11 +59,10 @@ public class MoneyReward implements Reward {
             cashPrefixPlural = economy.currencyNamePlural();
         }
 
-        // TODO: 21/05/2023 Bank
-        double amount = getAmount();
-        String amountString = "+$" + amount;
+        // TODO: 25/05/2023 Money using codes and not
+        String amountString = "+$" + MoneyUtils.formatNumber(getAmount());
 
-        if (amount <= 1) {
+        if (getAmount() <= 1) {
             amountString = amountString + " " + cashPrefixSingular;
         } else {
             amountString = amountString + " " + cashPrefixPlural;
@@ -74,5 +77,32 @@ public class MoneyReward implements Reward {
         Economy economy = compatibility.getEconomy();
 
         economy.depositPlayer(Bukkit.getOfflinePlayer(quest.getUniqueId()), getAmount());
+    }
+
+    public static final class Type extends RewardType<MoneyReward> {
+        public Type() {
+            super("MONEY");
+        }
+
+        @Override
+        public @NotNull Serializer<MoneyReward> getSerializer() {
+            return new Serializer<MoneyReward>() {
+                @Override
+                public @NotNull JsonElement serialize(@NotNull MoneyReward reward) {
+                    JsonObject object = new JsonObject();
+
+                    object.addProperty("amount", reward.getAmount());
+
+                    return object;
+                }
+
+                @Override
+                public @NotNull MoneyReward deserialize(@NotNull JsonElement reward) {
+                    JsonObject object = reward.getAsJsonObject();
+                    double amount = object.get("amount").getAsDouble();
+                    return new MoneyReward(amount);
+                }
+            };
+        }
     }
 }

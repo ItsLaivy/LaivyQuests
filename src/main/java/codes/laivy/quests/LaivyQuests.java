@@ -14,7 +14,7 @@ import codes.laivy.quests.internal.UpdateManagerProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
-import codes.laivy.quests.quests.objectives.reward.money.MoneyRewardType;
+import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -66,18 +66,22 @@ public final class LaivyQuests extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // TODO: 25/05/2023 Offline update
-        this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
-        // Version manager
-        @NotNull String versionName = getConfig().getString("version", getDescription().getVersion());
+        try {
+            this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
+            // Version manager
+            @NotNull String versionName = getConfig().getString("version", getDescription().getVersion());
 
-        @Nullable UpdateManager.Update update = getUpdateManager().getUpdate(versionName);
-        @NotNull UpdateManager.Update currentUpdate = getUpdateManager().getUpdate();
+            @Nullable UpdateManager.Update update = getUpdateManager().getUpdate(versionName);
+            @NotNull UpdateManager.Update currentUpdate = getUpdateManager().getUpdate();
 
-        if (update == null) {
-            throw new NullPointerException("Couldn't find this version properties '" + versionName + "'");
-        } else if (!update.equals(currentUpdate)) {
-            getConfig().set("version", currentUpdate.getName());
+            if (update == null) {
+                throw new NullPointerException("Couldn't find this version properties '" + versionName + "'");
+            } else if (!update.equals(currentUpdate)) {
+                getConfig().set("version", currentUpdate.getName());
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            log(TextComponent.fromLegacyText("§cCouldn't look for updates."));
         }
         // Load objective types
         getApi().getObjectiveTypes().add(new BlockBreakObjectiveType());
@@ -85,7 +89,7 @@ public final class LaivyQuests extends JavaPlugin {
 
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load reward types
-        getApi().getRewardTypes().add(new MoneyRewardType());
+        getApi().getRewardTypes().add(new MoneyReward.Type());
         // Load api
         getApi().load();
 
