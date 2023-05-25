@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
-import static codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType.BREAK_BLOCKS_OBJECTIVE_TYPE_ID;
+import static codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjectiveType.BLOCK_BREAK_OBJECTIVE_TYPE_ID;
 
-public class BreakBlockObjective extends ObjectiveProvider implements Progressable, Rewardable {
+public class BlockBreakObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
     private final @NotNull IMessage name;
     private final @NotNull IMessage description;
@@ -25,7 +25,7 @@ public class BreakBlockObjective extends ObjectiveProvider implements Progressab
 
     private final @Nullable Reward reward;
 
-    public BreakBlockObjective(
+    public BlockBreakObjective(
             @NotNull IMessage name,
             @NotNull IMessage description,
 
@@ -55,13 +55,13 @@ public class BreakBlockObjective extends ObjectiveProvider implements Progressab
     }
 
     @Override
-    public @NotNull BreakBlockObjectiveType getType() {
-        ObjectiveType type = laivyQuests().getApi().getObjectiveType(BREAK_BLOCKS_OBJECTIVE_TYPE_ID);
+    public @NotNull BlockBreakObjectiveType getType() {
+        ObjectiveType type = laivyQuests().getApi().getObjectiveType(BLOCK_BREAK_OBJECTIVE_TYPE_ID);
 
-        if (type instanceof BreakBlockObjectiveType) {
-            return (BreakBlockObjectiveType) type;
+        if (type instanceof BlockBreakObjectiveType) {
+            return (BlockBreakObjectiveType) type;
         } else {
-            throw new IllegalStateException("This objective type '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BreakBlockObjectiveType.class.getName() + ")");
+            throw new IllegalStateException("This objective type '" + BLOCK_BREAK_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BlockBreakObjectiveType.class.getName() + ")");
         }
     }
 
@@ -85,11 +85,11 @@ public class BreakBlockObjective extends ObjectiveProvider implements Progressab
 
     }
 
-    public @NotNull @Range(from = 0, to = Integer.MAX_VALUE) int getProgress() {
+    public @Range(from = 0, to = Integer.MAX_VALUE) int getProgress() {
         return progress;
     }
 
-    public void setProgress(@NotNull @Range(from = 0, to = Integer.MAX_VALUE) int progress) {
+    public void setProgress(@Range(from = 0, to = Integer.MAX_VALUE) int progress) {
         this.progress = Math.min(progress, getMeta());
     }
 

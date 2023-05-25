@@ -24,8 +24,9 @@ import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjective;
+import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjective;
 import codes.laivy.quests.api.provider.objectives.CategoryObjective;
+import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
@@ -426,30 +427,36 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): Category name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): Category name"),
 
-                    new BreakBlockObjective(
+                    new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
 
                             Material.COAL_ORE, 5, 0, null
                     ),
-                    new BreakBlockObjective(
+                    new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
 
                             Material.IRON_ORE, 5, 0, null
                     ),
-                    new BreakBlockObjective(
+                    new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
 
                             Material.DIAMOND_ORE, 5, 0, new MoneyReward(1500)
                     )
             ));
-            objectives.add(new BreakBlockObjective(
+            objectives.add(new BlockBreakObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
 
                     Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial()), 5, 0, new MoneyReward(100)
+            ));
+            objectives.add(new BlockPlaceObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
+
+                    Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
             ));
 
             Quest quest = new QuestProvider(

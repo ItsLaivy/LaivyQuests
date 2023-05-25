@@ -6,9 +6,7 @@ import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 import static codes.laivy.quests.api.provider.objectives.CategoryObjectiveType.CATEGORY_OBJECTIVE_TYPE_ID;

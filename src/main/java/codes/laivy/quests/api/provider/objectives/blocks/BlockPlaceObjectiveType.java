@@ -3,9 +3,9 @@ package codes.laivy.quests.api.provider.objectives.blocks;
 import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
+import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
-import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.utils.MaterialUtils;
@@ -15,31 +15,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
-public final class BreakBlockObjectiveType extends ObjectiveType {
+public final class BlockPlaceObjectiveType extends ObjectiveType {
 
     public static final class Events implements Listener {
         @EventHandler
-        private void breakBlock(@NotNull BlockBreakEvent e) {
+        private void placeBlock(@NotNull BlockPlaceEvent e) {
             QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
-
-            Set<Objective> objectives = new HashSet<>();
-            data.getQuests().forEach(q -> objectives.addAll(q.getObjectives(true).stream().filter(o -> o instanceof BreakBlockObjective).collect(Collectors.toSet())));
-
+            
             for (Quest quest : data.getQuests()) {
                 for (Objective objective : quest.getObjectives(true)) {
-                    if (!objective.isCompleted() && objective instanceof BreakBlockObjective) {
-                        final BreakBlockObjective holder = (BreakBlockObjective) objective;
+                    if (!objective.isCompleted() && objective instanceof BlockPlaceObjective) {
+                        final BlockPlaceObjective holder = (BlockPlaceObjective) objective;
                         Material material = e.getBlock().getType();
 
                         if (holder.getMaterial() == material) {
@@ -62,19 +55,19 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
     }
 
-    public static final @NotNull String BREAK_BLOCKS_OBJECTIVE_TYPE_ID = "BLOCK_BREAK";
+    public static final @NotNull String BLOCK_PLACE_OBJECTIVE_TYPE_ID = "BLOCK_PLACE";
 
     @ApiStatus.Internal
-    public BreakBlockObjectiveType() {
+    public BlockPlaceObjectiveType() {
         super(
-                BREAK_BLOCKS_OBJECTIVE_TYPE_ID,
+                BLOCK_PLACE_OBJECTIVE_TYPE_ID,
                 new Serializer<Objective>() {
                     @Override
                     public @NotNull JsonElement serialize(@NotNull Objective o) {
-                        if (!(o instanceof BreakBlockObjective)) {
-                            throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + BREAK_BLOCKS_OBJECTIVE_TYPE_ID + "'");
+                        if (!(o instanceof BlockPlaceObjective)) {
+                            throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + BLOCK_PLACE_OBJECTIVE_TYPE_ID + "'");
                         }
-                        BreakBlockObjective objective = (BreakBlockObjective) o;
+                        BlockPlaceObjective objective = (BlockPlaceObjective) o;
 
                         JsonObject object = new JsonObject();
 
@@ -118,7 +111,7 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
                         int meta = object.get("meta").getAsInt();
                         int progress = object.get("progress").getAsInt();
 
-                        return new BreakBlockObjective(name, description, material, meta, progress, reward);
+                        return new BlockPlaceObjective(name, description, material, meta, progress, reward);
                     }
                 }
         );
@@ -126,18 +119,18 @@ public final class BreakBlockObjectiveType extends ObjectiveType {
 
     @Override
     public @NotNull IMessage getName(@NotNull Objective objective) {
-        if (objective instanceof BreakBlockObjective) {
-            BreakBlockObjective o = (BreakBlockObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", MaterialUtils.convertToBeautifulName(o.getMaterial()));
+        if (objective instanceof BlockPlaceObjective) {
+            BlockPlaceObjective o = (BlockPlaceObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block place name", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
 
     @Override
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
-        if (objective instanceof BreakBlockObjective) {
-            BreakBlockObjective o = (BreakBlockObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", MaterialUtils.convertToBeautifulName(o.getMaterial()));
+        if (objective instanceof BlockPlaceObjective) {
+            BlockPlaceObjective o = (BlockPlaceObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block place lore", MaterialUtils.convertToBeautifulName(o.getMaterial()));
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

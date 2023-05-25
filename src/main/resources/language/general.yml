@@ -71,6 +71,17 @@ locales:
     "PT_BR":
       - "§7Esse objetivo pode ser completo quebrando"
       - "§7blocos de §e%s§7."
+      -
+  "Objective types: block place name":
+    "EN_US": "§7Place blocks: §e%s"
+    "PT_BR": "§7Place blocos: §e%s"
+  "Objective types: block place lore":
+    "EN_US":
+      - "§7This objective can be completed"
+      - "§7placing §e%s §7blocks."
+    "PT_BR":
+      - "§7Esse objetivo pode ser completo colocando"
+      - "§7blocos de §e%s§7."
 
   "Objectives: progress message":
     "EN_US": "§7Progress: §e%s§6/§e%s"
@@ -86,6 +97,9 @@ locales:
     "PT_BR":
       - "§7Esse objetivo guarda"
       - "§7outras objective"
+  "Objective types: locked name":
+    "EN_US": "§c(Locked)"
+    "PT_BR": "§c(Travado)"
 
   "Quests main menus: quests list name":
     "EN_US": "§eQuests list"
@@ -224,6 +238,8 @@ locales:
     "EN_US": "§7Finally, diamonds!"
   "Test (remove): 4 name":
     "EN_US": "§7Nature destroyer"
+  "Test (remove): 5 name":
+    "EN_US": "§7Dirty placer"
 
   "Reward type: money reward message":
     "EN_US": "§7Reward: %s"

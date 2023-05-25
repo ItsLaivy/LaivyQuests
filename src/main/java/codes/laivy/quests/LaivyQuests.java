@@ -2,8 +2,9 @@ package codes.laivy.quests;
 
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
-import codes.laivy.quests.api.provider.objectives.blocks.BreakBlockObjectiveType;
+import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjectiveType;
 import codes.laivy.quests.api.provider.objectives.CategoryObjectiveType;
+import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjectiveType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.compatibility.VaultCompatibility;
@@ -67,7 +68,9 @@ public final class LaivyQuests extends JavaPlugin {
         this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
 
         // Load objective types
-        getApi().getObjectiveTypes().add(new BreakBlockObjectiveType());
+        getApi().getObjectiveTypes().add(new BlockBreakObjectiveType());
+        getApi().getObjectiveTypes().add(new BlockPlaceObjectiveType());
+
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load reward types
         getApi().getRewardTypes().add(new MoneyRewardType());
