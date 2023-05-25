@@ -59,8 +59,12 @@ public class MoneyReward implements Reward {
             cashPrefixPlural = economy.currencyNamePlural();
         }
 
-        // TODO: 25/05/2023 Money using codes and not
-        String amountString = "+$" + MoneyUtils.formatNumber(getAmount());
+        String amountString;
+        if (laivyQuests().getConfig().getBoolean("menus.money symbol", true)) {
+            amountString = "+$" + MoneyUtils.formatNumber(getAmount());
+        } else {
+            amountString = "+$" + MoneyUtils.formatCurrency(getAmount());
+        }
 
         if (getAmount() <= 1) {
             amountString = amountString + " " + cashPrefixSingular;

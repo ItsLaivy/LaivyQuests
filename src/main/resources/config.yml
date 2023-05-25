@@ -34,3 +34,7 @@ database:
     database: "database"
     table: "quests"
     column: "quests"
+
+menus:
+  # If true, the money rewards will be represented with "K", "M", "B", ect...
+  money symbol: true

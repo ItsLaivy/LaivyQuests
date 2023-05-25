@@ -4,8 +4,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class MoneyUtils {
+
+    public static @NotNull String formatCurrency(@NotNull BigDecimal number) {
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+        DecimalFormat decimalFormat = (DecimalFormat) currencyFormat;
+        decimalFormat.applyPattern("###,###,###,##0.00");
+        return decimalFormat.format(number);
+    }
+    public static @NotNull String formatCurrency(double number) {
+        return formatCurrency(BigDecimal.valueOf(number));
+    }
 
     public static @NotNull String formatNumber(@NotNull BigDecimal number) {
         String[] suffixes = new String[]{"", "K", "M", "B", "T", "Q", "S", "O", "N", "D"};
@@ -19,13 +32,8 @@ public class MoneyUtils {
 
         return number.setScale(2, RoundingMode.HALF_UP) + suffixes[suffixIndex];
     }
-
     public static @NotNull String formatNumber(double number) {
         return formatNumber(BigDecimal.valueOf(number));
-    }
-
-    public static @NotNull String formatNumber(@NotNull String number) {
-        return formatNumber(new BigDecimal(number));
     }
 
 }
