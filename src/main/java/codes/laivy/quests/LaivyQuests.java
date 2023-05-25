@@ -65,8 +65,19 @@ public final class LaivyQuests extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // TODO: 25/05/2023 Offline update
         this.updateManager = new UpdateManagerProvider(this, getDescription().getVersion(), getConfig().getBoolean("check-updates", true));
+        // Version manager
+        @NotNull String versionName = getConfig().getString("version", getDescription().getVersion());
 
+        @Nullable UpdateManager.Update update = getUpdateManager().getUpdate(versionName);
+        @NotNull UpdateManager.Update currentUpdate = getUpdateManager().getUpdate();
+
+        if (update == null) {
+            throw new NullPointerException("Couldn't find this version properties '" + versionName + "'");
+        } else if (!update.equals(currentUpdate)) {
+            getConfig().set("version", currentUpdate.getName());
+        }
         // Load objective types
         getApi().getObjectiveTypes().add(new BlockBreakObjectiveType());
         getApi().getObjectiveTypes().add(new BlockPlaceObjectiveType());

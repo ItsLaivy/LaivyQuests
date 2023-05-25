@@ -15,10 +15,23 @@ public interface UpdateManager {
     boolean isCheckUpdates();
 
     /**
+     * Get the current plugin update
+     * @return the current plugin update at GitHub
+     */
+    @NotNull Update getUpdate();
+
+    /**
+     * Gets the plugin update with the parameter name
+     * @param name the name of the update
+     * @return the update, or null if this update isn't available
+     */
+    @Nullable Update getUpdate(@NotNull String name);
+
+    /**
      * Return the latest stable update available
      * @return the latest stable update or null if it doesn't have one ready yet
      */
-    @Nullable Update getUpdate();
+    @Nullable Update getLatestUpdate();
 
     final class Update {
         private final @NotNull String name;
@@ -52,14 +65,14 @@ public interface UpdateManager {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof Update)) return false;
             Update update = (Update) o;
-            return preRelease == update.preRelease && name.equals(update.name) && link.equals(update.link) && date.equals(update.date);
+            return getName().equals(update.getName());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, link, date, preRelease);
+            return Objects.hash(getName());
         }
     }
 

@@ -37,6 +37,7 @@ import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
 import com.cryptomorin.xseries.XMaterial;
 import com.google.gson.*;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -471,6 +472,10 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
             laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId()).getQuests().add(quest);
             Bukkit.broadcastMessage("Added quest");
+        } else {
+            e.getPlayer().sendMessage("Message one");
+            e.getPlayer().spigot().sendMessage((BaseComponent[]) null);
+            e.getPlayer().sendMessage("Message two");
         }
     }
 }

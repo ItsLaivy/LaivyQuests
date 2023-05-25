@@ -15,7 +15,7 @@ public abstract class ObjectiveProvider implements Objective {
             throw new IllegalStateException("This objective is already completed");
         }
 
-        ObjectiveCompleteEvent event = new ObjectiveCompleteEvent(this);
+        ObjectiveCompleteEvent event = new ObjectiveCompleteEvent(quest, this);
         Bukkit.getPluginManager().callEvent(event);
 
         if (!event.isCancelled()) {

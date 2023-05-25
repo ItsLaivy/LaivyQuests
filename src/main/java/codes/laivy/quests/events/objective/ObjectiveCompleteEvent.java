@@ -1,5 +1,6 @@
 package codes.laivy.quests.events.objective;
 
+import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
 import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
@@ -8,8 +9,15 @@ public class ObjectiveCompleteEvent extends ObjectiveEvent implements Cancellabl
 
     private boolean cancel = false;
 
-    public ObjectiveCompleteEvent(@NotNull Objective objective) {
+    private final @NotNull Quest quest;
+
+    public ObjectiveCompleteEvent(@NotNull Quest quest, @NotNull Objective objective) {
         super(objective);
+        this.quest = quest;
+    }
+
+    public @NotNull Quest getQuest() {
+        return quest;
     }
 
     @Override

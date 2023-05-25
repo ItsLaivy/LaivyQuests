@@ -13,6 +13,7 @@
 #               Commands                #
 # ---------------- =/= ---------------- #
 
+version: ${project.version}
 check-updates: true
 
 database:

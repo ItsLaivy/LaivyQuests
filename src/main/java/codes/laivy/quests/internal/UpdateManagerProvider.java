@@ -105,14 +105,16 @@ public class UpdateManagerProvider implements UpdateManager {
         return updates;
     }
 
-    protected @NotNull Update getUpdate(@NotNull String version) {
+    @Override
+    public @Nullable Update getUpdate(@NotNull String version) {
         for (Update update : getUpdates(false)) {
             if (update.getName().equals(version)) {
                 return update;
             }
         }
-        throw new NullPointerException("Couldn't find details for version '" + version + "'");
+        return null;
     }
+
     protected @NotNull Update getLastStableUpdate() {
         return new LinkedList<>(getUpdates(true)).getLast();
     }
@@ -123,7 +125,16 @@ public class UpdateManagerProvider implements UpdateManager {
     }
 
     @Override
-    public @Nullable Update getUpdate() {
-        return getUpdate(getVersion());
+    public @NotNull Update getUpdate() {
+        Update update = getUpdate(getVersion());
+        if (update != null) {
+            return update;
+        }
+        throw new NullPointerException("Couldn't get the version release details");
+    }
+
+    @Override
+    public @Nullable Update getLatestUpdate() {
+        return new LinkedList<>(getUpdates(false)).getLast();
     }
 }
