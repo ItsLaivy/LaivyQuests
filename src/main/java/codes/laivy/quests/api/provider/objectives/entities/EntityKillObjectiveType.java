@@ -1,6 +1,7 @@
 package codes.laivy.quests.api.provider.objectives.entities;
 
 import codes.laivy.quests.api.Serializer;
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;
@@ -8,11 +9,9 @@ import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
-import codes.laivy.quests.utils.EntityUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,9 +36,9 @@ public class EntityKillObjectiveType extends ObjectiveType {
                     for (Objective objective : quest.getObjectives(true)) {
                         if (!objective.isCompleted() && objective instanceof EntityKillObjective) {
                             final EntityKillObjective holder = (EntityKillObjective) objective;
-                            EntityType type = holder.getEntityType();
+                            IEntity entity = holder.getEntity();
 
-                            if (e.getEntity().getType() == type) {
+                            if (entity.equals(e.getEntity())) {
                                 int current = holder.getProgress();
                                 holder.setProgress(current + 1);
                             }
@@ -89,7 +88,11 @@ public class EntityKillObjectiveType extends ObjectiveType {
                             object.add("reward", rewardObject);
                         }
 
-                        object.addProperty("entity type", objective.getEntityType().name());
+                        JsonObject entityObject = new JsonObject();
+                        entityObject.addProperty("type id", objective.getEntity().getType().getId());
+                        entityObject.add("data", objective.getEntity().getType().getSerializer().serialize(objective.getEntity()));
+
+                        object.add("entity", entityObject);
                         object.addProperty("meta", objective.getMeta());
                         object.addProperty("progress", objective.getProgress());
 
@@ -112,11 +115,14 @@ public class EntityKillObjectiveType extends ObjectiveType {
                             reward = type.getSerializer().deserialize(rewardObject.get("data"));
                         }
 
-                        EntityType entityType = EntityType.valueOf(object.get("entity type").getAsString());
+                        JsonObject entityObject = object.get("entity").getAsJsonObject();
+                        codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType<? extends IEntity> entityType = laivyQuests().getApi().getEntityType(entityObject.get("type id").getAsString());
+                        IEntity entity = entityType.getSerializer().deserialize(entityObject.get("data"));
+
                         int meta = object.get("meta").getAsInt();
                         int progress = object.get("progress").getAsInt();
 
-                        return new EntityKillObjective(name, description, entityType, meta, progress, reward);
+                        return new EntityKillObjective(name, description, entity, meta, progress, reward);
                     }
                 }
         );
@@ -126,7 +132,7 @@ public class EntityKillObjectiveType extends ObjectiveType {
     public @NotNull IMessage getName(@NotNull Objective objective) {
         if (objective instanceof EntityKillObjective) {
             EntityKillObjective o = (EntityKillObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill name", EntityUtils.convertToBeautifulName(o.getEntityType()));
+            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill name", o.getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
@@ -135,7 +141,7 @@ public class EntityKillObjectiveType extends ObjectiveType {
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
         if (objective instanceof EntityKillObjective) {
             EntityKillObjective o = (EntityKillObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill lore", o.getMeta(), EntityUtils.convertToBeautifulName(o.getEntityType()));
+            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill lore", o.getMeta(), o.getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

@@ -1,12 +1,12 @@
 package codes.laivy.quests.api.provider.objectives.entities;
 
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
 import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.complements.Progressable;
 import codes.laivy.quests.quests.objectives.complements.Rewardable;
 import codes.laivy.quests.quests.objectives.reward.Reward;
-import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -16,7 +16,7 @@ import static codes.laivy.quests.api.provider.objectives.entities.EntityKillObje
 
 public class EntityKillObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
-    private final @NotNull EntityType entityType;
+    private final @NotNull IEntity entity;
 
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
     private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
@@ -27,7 +27,7 @@ public class EntityKillObjective extends ObjectiveProvider implements Progressab
             @NotNull IMessage name,
             @NotNull IMessage description,
 
-            @NotNull EntityType entityType,
+            @NotNull IEntity entity,
             @Range(from = 1, to = Integer.MAX_VALUE) int meta,
             @Range(from = 0, to = Integer.MAX_VALUE) int progress,
 
@@ -35,7 +35,7 @@ public class EntityKillObjective extends ObjectiveProvider implements Progressab
     ) {
         super(name, description);
 
-        this.entityType = entityType;
+        this.entity = entity;
 
         this.meta = meta;
         this.progress = progress;
@@ -43,8 +43,8 @@ public class EntityKillObjective extends ObjectiveProvider implements Progressab
         this.reward = reward;
     }
 
-    public @NotNull EntityType getEntityType() {
-        return entityType;
+    public @NotNull IEntity getEntity() {
+        return entity;
     }
 
     public @Range(from = 1, to = Integer.MAX_VALUE) int getMeta() {

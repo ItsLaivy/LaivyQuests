@@ -9,6 +9,7 @@ import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjectiveType
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.located.LocatedBlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlockType;
 import codes.laivy.quests.api.provider.objectives.entities.EntityKillObjectiveType;
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntityType;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
 import codes.laivy.quests.compatibility.VaultCompatibility;
@@ -90,6 +91,8 @@ public final class LaivyQuests extends JavaPlugin {
         // Load block types
         getApi().getBlockTypes().add(new LocatedBlockType());
         getApi().getBlockTypes().add(new MaterialBlockType());
+        // Load entity types
+        getApi().getEntityTypes().add(new ObjectiveEntityType());
         // Load objective types
         getApi().getObjectiveTypes().add(new BlockBreakObjectiveType());
         getApi().getObjectiveTypes().add(new BlockPlaceObjectiveType());

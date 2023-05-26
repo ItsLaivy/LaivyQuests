@@ -31,6 +31,9 @@ import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlock;
 import codes.laivy.quests.api.provider.objectives.entities.EntityKillObjective;
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType;
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
+import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntity;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
@@ -46,7 +49,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -66,6 +68,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
     private final @NotNull Set<RewardType<? extends Reward>> rewardTypes = new LinkedHashSet<>();
     private final @NotNull Set<BlockType<? extends IBlock>> blockTypes = new LinkedHashSet<>();
+    private final @NotNull Set<EntityType<? extends IEntity>> entityTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -123,6 +126,17 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     public @NotNull BlockType<? extends IBlock> getBlockType(@NotNull String id) {
         Optional<BlockType<? extends IBlock>> optional = laivyQuests().getApi().getBlockTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
         return optional.orElseThrow(() -> new NullPointerException("Couldn't find this block type '" + id + "'"));
+    }
+
+    @Override
+    public @NotNull Collection<EntityType<? extends IEntity>> getEntityTypes() {
+        return entityTypes;
+    }
+
+    @Override
+    public @NotNull EntityType<? extends IEntity> getEntityType(@NotNull String id) {
+        Optional<EntityType<? extends IEntity>> optional = laivyQuests().getApi().getEntityTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
+        return optional.orElseThrow(() -> new NullPointerException("Couldn't find this entity type '" + id + "'"));
     }
 
     @Override
@@ -614,7 +628,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),
 
-                    EntityType.CHICKEN, 30, 0, new MoneyReward(500)
+                    new ObjectiveEntity(org.bukkit.entity.EntityType.CHICKEN), 30, 0, new MoneyReward(500)
             ));
 
             Quest quest = new QuestProvider(
