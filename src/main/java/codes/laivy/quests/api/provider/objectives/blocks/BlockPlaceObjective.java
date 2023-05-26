@@ -16,9 +16,6 @@ import static codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObject
 
 public class BlockPlaceObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
-    private final @NotNull IMessage name;
-    private final @NotNull IMessage description;
-
     private final @NotNull Material material;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
     private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
@@ -34,8 +31,7 @@ public class BlockPlaceObjective extends ObjectiveProvider implements Progressab
             @Range(from = 0, to = Integer.MAX_VALUE) int progress,
             @Nullable Reward reward
     ) {
-        this.name = name;
-        this.description = description;
+        super(name, description);
 
         this.material = material;
 
@@ -61,18 +57,8 @@ public class BlockPlaceObjective extends ObjectiveProvider implements Progressab
         if (type instanceof BlockPlaceObjectiveType) {
             return (BlockPlaceObjectiveType) type;
         } else {
-            throw new IllegalStateException("This objective type '" + BLOCK_PLACE_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BlockPlaceObjectiveType.class.getName() + ")");
+            throw new IllegalStateException("This objective type '" + BLOCK_PLACE_OBJECTIVE_TYPE_ID + "' isn't a instance of the place blocks objective type class. (" + BlockPlaceObjectiveType.class.getName() + ")");
         }
-    }
-
-    @Override
-    public @NotNull IMessage getName() {
-        return name;
-    }
-
-    @Override
-    public @NotNull IMessage getDescription() {
-        return description;
     }
 
     @Override

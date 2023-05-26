@@ -62,8 +62,8 @@ locales:
       - "%s"
 
   "Objective types: block break name":
-    "EN_US": "§7Break blocks: §e%s"
-    "PT_BR": "§7Quebre blocos: §e%s"
+    "EN_US": "§6₿ §7Break blocks: §e%s"
+    "PT_BR": "§6₿ §7Quebre blocos: §e%s"
   "Objective types: block break lore":
     "EN_US":
       - "§7This objective can be completed"
@@ -71,10 +71,10 @@ locales:
     "PT_BR":
       - "§7Esse objetivo pode ser completo quebrando"
       - "§7blocos de §e%s§7."
-      -
+
   "Objective types: block place name":
-    "EN_US": "§7Place blocks: §e%s"
-    "PT_BR": "§7Place blocos: §e%s"
+    "EN_US": "§6₽ §7Place blocks: §e%s"
+    "PT_BR": "§6₽ §7Place blocos: §e%s"
   "Objective types: block place lore":
     "EN_US":
       - "§7This objective can be completed"
@@ -82,6 +82,15 @@ locales:
     "PT_BR":
       - "§7Esse objetivo pode ser completo colocando"
       - "§7blocos de §e%s§7."
+
+  "Objective types: entity kill name":
+    "EN_US": "§c☠ §7Kill entity: §e%s"
+    "PT_BR": "§c☠ §7Elimine: §e%s"
+  "Objective types: entity kill lore":
+    "EN_US":
+      - "§7Kill §b%sx §e%s §7to complete"
+    "PT_BR":
+      - "§7Elimine §b%sx §e%s §7para concluir"
 
   "Objectives: progress message":
     "EN_US": "§7Progress: §e%s§6/§e%s"
@@ -171,7 +180,6 @@ locales:
     "EN_US":
       - "§7There is nothing here to explore"
     "PT_BR":
-      - "§7Clique para ver os"
       - "§7Não há nada aqui para explorar"
 
   "Paged inventory: previous item name":
@@ -254,7 +262,9 @@ locales:
   "Test (remove): 7 name":
     "EN_US": "§7Farm harvester"
   "Test (remove): 8 name":
-    "EN_US": "§7Dragon killer"
+    "EN_US": "§7Egg grown"
+  "Test (remove): 9 name":
+    "EN_US": "§7Chicken killer"
 
   "Reward type: money reward message":
     "EN_US": "§7Reward: §6%s"

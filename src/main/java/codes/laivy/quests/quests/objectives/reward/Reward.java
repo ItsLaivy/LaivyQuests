@@ -5,8 +5,6 @@ import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 public interface Reward {
 
     @NotNull RewardType<Reward> getType();

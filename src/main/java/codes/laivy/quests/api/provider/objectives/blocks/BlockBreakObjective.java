@@ -16,9 +16,6 @@ import static codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObject
 
 public class BlockBreakObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
-    private final @NotNull IMessage name;
-    private final @NotNull IMessage description;
-
     private final @NotNull Material material;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
     private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
@@ -34,8 +31,7 @@ public class BlockBreakObjective extends ObjectiveProvider implements Progressab
             @Range(from = 0, to = Integer.MAX_VALUE) int progress,
             @Nullable Reward reward
     ) {
-        this.name = name;
-        this.description = description;
+        super(name, description);
 
         this.material = material;
 
@@ -63,16 +59,6 @@ public class BlockBreakObjective extends ObjectiveProvider implements Progressab
         } else {
             throw new IllegalStateException("This objective type '" + BLOCK_BREAK_OBJECTIVE_TYPE_ID + "' isn't a instance of the break blocks objective type class. (" + BlockBreakObjectiveType.class.getName() + ")");
         }
-    }
-
-    @Override
-    public @NotNull IMessage getName() {
-        return name;
-    }
-
-    @Override
-    public @NotNull IMessage getDescription() {
-        return description;
     }
 
     @Override

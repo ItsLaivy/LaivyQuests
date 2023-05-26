@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e8cc59a-6631-4c1b-ac63-941eee8eafb3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/entities/EntityKillObjective.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/entities/EntityKillObjectiveType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/EntityUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/money/MoneyReward.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/money/MoneyReward.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/MoneyUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/MoneyUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/LaivyQuests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/QuestsApiProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/CategoryObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/CategoryObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/blocks/BlockBreakObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/blocks/BlockBreakObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/blocks/BlockPlaceObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/objectives/blocks/BlockPlaceObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/ObjectiveProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/api/provider/quest/ObjectiveProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/inventory/QuestsInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/Reward.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/quests/objectives/reward/Reward.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/MaterialUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/codes/laivy/quests/utils/MaterialUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language/general.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/general.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

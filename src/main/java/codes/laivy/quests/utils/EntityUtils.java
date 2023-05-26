@@ -1,12 +1,12 @@
 package codes.laivy.quests.utils;
 
-import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 
-public class MaterialUtils {
+public class EntityUtils {
 
-    public static @NotNull String convertToBeautifulName(@NotNull Material material) {
-        String[] words = material.name().toLowerCase().split("_");
+    public static @NotNull String convertToBeautifulName(@NotNull EntityType entityType) {
+        String[] words = entityType.name().toLowerCase().split("_");
         StringBuilder result = new StringBuilder();
 
         for (String word : words) {

@@ -27,6 +27,7 @@ import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjective;
 import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjective;
+import codes.laivy.quests.api.provider.objectives.entities.EntityKillObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
@@ -42,6 +43,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -500,7 +502,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
             laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId()).getQuests().add(quest);
             Bukkit.broadcastMessage("Added quest");
-        } if (e.getMessage().equals("get2")) {
+        } else if (e.getMessage().equals("get2")) {
             LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
 
             objectives.add(new BlockBreakObjective(
@@ -564,6 +566,40 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
 
                     Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
+            ));
+
+            Quest quest = new QuestProvider(
+                    "test-" + new Random().nextInt(10000),
+                    objectives,
+                    laivyQuests().getMessageStorage().getMessage("Test quest name"),
+                    laivyQuests().getMessageStorage().getMessage("Test quest description"),
+                    e.getPlayer().getUniqueId(),
+                    new Date(),
+                    null
+            );
+
+            laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId()).getQuests().add(quest);
+            Bukkit.broadcastMessage("Added quest");
+        } else if (e.getMessage().equals("get3")) {
+            LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
+
+            objectives.add(new BlockBreakObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
+
+                    Objects.requireNonNull(XMaterial.WHEAT.parseMaterial()), 30, 0, new MoneyReward(200)
+            ));
+            objectives.add(new BlockPlaceObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
+
+                    Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial()), 1, 0, new MoneyReward(100000)
+            ));
+            objectives.add(new EntityKillObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),
+
+                    EntityType.CHICKEN, 30, 0, new MoneyReward(500)
             ));
 
             Quest quest = new QuestProvider(

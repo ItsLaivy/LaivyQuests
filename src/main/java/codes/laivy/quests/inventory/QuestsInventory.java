@@ -79,8 +79,6 @@ public class QuestsInventory extends PagedInventory {
                 subC++;
             }
 
-            Bukkit.broadcastMessage("Recursive: '" + total + "");
-
             return total;
         }
 

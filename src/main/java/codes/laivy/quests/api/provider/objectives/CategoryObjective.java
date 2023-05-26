@@ -18,19 +18,16 @@ import static codes.laivy.quests.api.provider.objectives.CategoryObjectiveType.C
 // TODO: 24/05/2023 Trava de objetivos. Exemplo: Você só poder completar o segundo objetivo se o primeiro estiver concluído. 
 public class CategoryObjective extends ObjectiveProvider {
 
-    private final @NotNull IMessage name;
-    private final @NotNull IMessage description;
-
     private final @NotNull List<Objective> extras = new LinkedList<>();
 
     public CategoryObjective(
             @NotNull IMessage name,
             @NotNull IMessage description,
+
             @NotNull Objective... extras
-            ) {
-        super();
-        this.name = name;
-        this.description = description;
+    ) {
+        super(name, description);
+
         this.extras.addAll(Arrays.asList(extras));
 
         if (this.extras.isEmpty()) {
@@ -51,16 +48,6 @@ public class CategoryObjective extends ObjectiveProvider {
         } else {
             throw new IllegalStateException("This objective type '" + CATEGORY_OBJECTIVE_TYPE_ID + "' isn't a instance of the category objective type class. (" + CategoryObjectiveType.class.getName() + ")");
         }
-    }
-
-    @Override
-    public @NotNull IMessage getName() {
-        return name;
-    }
-
-    @Override
-    public @NotNull IMessage getDescription() {
-        return description;
     }
 
     @Override
