@@ -42,6 +42,7 @@ public class MoneyReward implements Reward {
 
     @Override
     public @NotNull RewardType<Reward> getType() {
+        // TODO: 26/05/2023 Unchecked
         //noinspection unchecked
         return (RewardType<Reward>) laivyQuests().getApi().getRewardType("MONEY");
     }

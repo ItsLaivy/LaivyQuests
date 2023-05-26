@@ -15,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import static codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit;
+
 public class LvMultiplesLanguagesCompatibility extends Compatibility {
 
     public static @NotNull Locale convert(@NotNull String locale) {
@@ -103,17 +105,17 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
             super(message.getId(), new HashMap<>());
 
             this.message = message.clone();
-            getMessage().getReplacements().addAll(Arrays.asList(replaces));
+            getMessage().getReplacements().addAll(Arrays.asList(fixReplaces(replaces)));
         }
 
         @Override
         public @NotNull BaseComponent[] getText(@NotNull String locale, @NotNull Object... replaces) {
-            return getMessage().getText(convert(locale), replaces);
+            return getMessage().getText(convert(locale), fixReplaces(replaces));
         }
 
         @Override
         public @NotNull List<BaseComponent[]> getArray(@NotNull String locale, @NotNull Object... replaces) {
-            return getMessage().getArray(convert(locale), replaces);
+            return getMessage().getArray(convert(locale), fixReplaces(replaces));
         }
 
         protected @NotNull BukkitMessage getMessage() {
@@ -150,17 +152,36 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
 
         @Override
         public @NotNull BaseComponent[] get(@Nullable String locale, @NotNull String message, @NotNull Object... replaces) {
-            return getStorage().getText(convert(locale != null ? locale : getDefaultLocale()), message, replaces);
+            return getStorage().getText(convert(locale != null ? locale : getDefaultLocale()), message, fixReplaces(replaces));
         }
 
         @Override
         public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces) {
-            return getStorage().getTextArray(convert(locale != null ? locale : getDefaultLocale()), message, replaces);
+            return getStorage().getTextArray(convert(locale != null ? locale : getDefaultLocale()), message, fixReplaces(replaces));
         }
 
         @Override
         public @NotNull IMessage getMessage(@NotNull String id, @NotNull Object... replaces) {
             return new MessageMultiplesLanguagesProvider(getStorage().getMessage(id), replaces);
         }
+    }
+
+    private static @NotNull Object[] fixReplaces(@NotNull Object... replaces) {
+        List<Object> replacesList = new LinkedList<>();
+        for (Object replace : replaces) {
+            if (replace instanceof IMessage) {
+                IMessage message = (IMessage) replace;
+                String id = message.getId();
+
+                Map<Locale, BaseComponent[]> data = new LinkedHashMap<>();
+                for (Map.Entry<String, BaseComponent[]> map : message.getData().entrySet()) {
+                    data.put(convert(map.getKey()), map.getValue());
+                }
+
+                replace = multiplesLanguagesBukkit().getApi().createMessage(id, data);
+            }
+            replacesList.add(replace);
+        }
+        return replacesList.toArray(new Object[0]);
     }
 }

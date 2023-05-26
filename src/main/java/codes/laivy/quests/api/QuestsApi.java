@@ -1,7 +1,8 @@
 package codes.laivy.quests.api;
 
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.quests.*;
-import codes.laivy.quests.quests.objectives.Objective;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
@@ -20,6 +21,10 @@ public interface QuestsApi {
     @NotNull Collection<RewardType<? extends Reward>> getRewardTypes();
 
     @NotNull RewardType<? extends Reward> getRewardType(@NotNull String id);
+
+    @NotNull Collection<BlockType<? extends IBlock>> getBlockTypes();
+
+    @NotNull BlockType<? extends IBlock> getBlockType(@NotNull String id);
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 

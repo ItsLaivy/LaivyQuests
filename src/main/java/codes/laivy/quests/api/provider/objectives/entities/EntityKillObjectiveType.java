@@ -1,7 +1,6 @@
 package codes.laivy.quests.api.provider.objectives.entities;
 
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjectiveType;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.QuestsPlayerData;

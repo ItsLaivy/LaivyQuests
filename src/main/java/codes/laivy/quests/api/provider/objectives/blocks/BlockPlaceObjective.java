@@ -1,12 +1,12 @@
 package codes.laivy.quests.api.provider.objectives.blocks;
 
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.complements.Progressable;
 import codes.laivy.quests.quests.objectives.complements.Rewardable;
 import codes.laivy.quests.quests.objectives.reward.Reward;
-import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -16,7 +16,7 @@ import static codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObject
 
 public class BlockPlaceObjective extends ObjectiveProvider implements Progressable, Rewardable {
 
-    private final @NotNull Material material;
+    private final @NotNull IBlock block;
     private final @Range(from = 1, to = Integer.MAX_VALUE) int meta;
     private @Range(from = 0, to = Integer.MAX_VALUE) int progress;
 
@@ -26,14 +26,14 @@ public class BlockPlaceObjective extends ObjectiveProvider implements Progressab
             @NotNull IMessage name,
             @NotNull IMessage description,
 
-            @NotNull Material material,
+            @NotNull IBlock block,
             @Range(from = 1, to = Integer.MAX_VALUE) int meta,
             @Range(from = 0, to = Integer.MAX_VALUE) int progress,
             @Nullable Reward reward
     ) {
         super(name, description);
 
-        this.material = material;
+        this.block = block;
 
         this.meta = meta;
         this.progress = progress;
@@ -41,13 +41,13 @@ public class BlockPlaceObjective extends ObjectiveProvider implements Progressab
         this.reward = reward;
 
         // Security checks
-        if (!material.isBlock()) {
-            throw new IllegalArgumentException("This material '" + material + "' isn't a block!");
+        if (!block.getMaterial().isBlock()) {
+            throw new IllegalArgumentException("This material '" + block.getMaterial() + "' isn't a block!");
         }
     }
 
-    public final @NotNull Material getMaterial() {
-        return material;
+    public final @NotNull IBlock getBlock() {
+        return block;
     }
 
     @Override

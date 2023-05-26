@@ -35,6 +35,7 @@ public class QuestsInventory extends PagedInventory {
 
     private final @NotNull Set<Objective> filter = new HashSet<>();
 
+    // TODO: 26/05/2023 Improved this shit lol
     protected int writeObjective(@NotNull List<BaseComponent> objectives, @NotNull Collection<Objective> allObjectives, int total, int sub, int row, int indent, @NotNull String locale, @NotNull Objective objective) {
         if (total >= 5) {
             int rest = allObjectives.size() - (new LinkedList<>(allObjectives).indexOf(objective));

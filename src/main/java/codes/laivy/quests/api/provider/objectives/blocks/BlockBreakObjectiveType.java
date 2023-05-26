@@ -1,6 +1,8 @@
 package codes.laivy.quests.api.provider.objectives.blocks;
 
 import codes.laivy.quests.api.Serializer;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
@@ -8,11 +10,9 @@ import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.QuestsPlayerData;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
-import codes.laivy.quests.utils.MaterialUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -33,9 +33,8 @@ public final class BlockBreakObjectiveType extends ObjectiveType {
                 for (Objective objective : quest.getObjectives(true)) {
                     if (!objective.isCompleted() && objective instanceof BlockBreakObjective) {
                         final BlockBreakObjective holder = (BlockBreakObjective) objective;
-                        Material material = e.getBlock().getType();
 
-                        if (holder.getMaterial() == material) {
+                        if (holder.getBlock().equals(e.getBlock())) {
                             int current = holder.getProgress();
                             holder.setProgress(current + 1);
                         }
@@ -84,7 +83,11 @@ public final class BlockBreakObjectiveType extends ObjectiveType {
                             object.add("reward", rewardObject);
                         }
 
-                        object.addProperty("material", objective.getMaterial().name());
+                        JsonObject block = new JsonObject();
+                        block.addProperty("type id", objective.getBlock().getType().getId());
+                        block.add("data", objective.getBlock().getType().getSerializer().serialize(objective.getBlock()));
+
+                        object.add("block", block);
                         object.addProperty("meta", objective.getMeta());
                         object.addProperty("progress", objective.getProgress());
 
@@ -107,11 +110,14 @@ public final class BlockBreakObjectiveType extends ObjectiveType {
                             reward = type.getSerializer().deserialize(rewardObject.get("data"));
                         }
 
-                        Material material = Material.valueOf(object.get("material").getAsString());
+                        JsonObject blockObject = object.getAsJsonObject("block");
+                        BlockType<? extends IBlock> blockType = laivyQuests().getApi().getBlockType(blockObject.get("type id").getAsString());
+                        IBlock block = blockType.getSerializer().deserialize(blockObject.get("data"));
+
                         int meta = object.get("meta").getAsInt();
                         int progress = object.get("progress").getAsInt();
 
-                        return new BlockBreakObjective(name, description, material, meta, progress, reward);
+                        return new BlockBreakObjective(name, description, block, meta, progress, reward);
                     }
                 }
         );
@@ -121,7 +127,7 @@ public final class BlockBreakObjectiveType extends ObjectiveType {
     public @NotNull IMessage getName(@NotNull Objective objective) {
         if (objective instanceof BlockBreakObjective) {
             BlockBreakObjective o = (BlockBreakObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", MaterialUtils.convertToBeautifulName(o.getMaterial()));
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break name", o.getBlock().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
@@ -130,7 +136,7 @@ public final class BlockBreakObjectiveType extends ObjectiveType {
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
         if (objective instanceof BlockBreakObjective) {
             BlockBreakObjective o = (BlockBreakObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", MaterialUtils.convertToBeautifulName(o.getMaterial()));
+            return laivyQuests().getMessageStorage().getMessage("Objective types: block break lore", o.getBlock().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

@@ -23,6 +23,7 @@ public class MessageProvider implements IMessage {
         this.replaces = replaces;
     }
 
+    @Override
     public @NotNull Map<String, BaseComponent[]> getData() {
         return data;
     }

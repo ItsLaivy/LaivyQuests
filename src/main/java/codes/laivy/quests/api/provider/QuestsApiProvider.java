@@ -27,6 +27,9 @@ import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjective;
 import codes.laivy.quests.api.provider.objectives.CategoryObjective;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjective;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
+import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlock;
 import codes.laivy.quests.api.provider.objectives.entities.EntityKillObjective;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
@@ -62,6 +65,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
     private final @NotNull Set<RewardType<? extends Reward>> rewardTypes = new LinkedHashSet<>();
+    private final @NotNull Set<BlockType<? extends IBlock>> blockTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -108,6 +112,17 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     public @NotNull RewardType<? extends Reward> getRewardType(@NotNull String id) {
         Optional<RewardType<? extends Reward>> optional = laivyQuests().getApi().getRewardTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
         return optional.orElseThrow(() -> new NullPointerException("Couldn't find this reward type '" + id + "'"));
+    }
+
+    @Override
+    public @NotNull Collection<BlockType<? extends IBlock>> getBlockTypes() {
+        return blockTypes;
+    }
+
+    @Override
+    public @NotNull BlockType<? extends IBlock> getBlockType(@NotNull String id) {
+        Optional<BlockType<? extends IBlock>> optional = laivyQuests().getApi().getBlockTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
+        return optional.orElseThrow(() -> new NullPointerException("Couldn't find this block type '" + id + "'"));
     }
 
     @Override
@@ -430,13 +445,13 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
 
-                    Objects.requireNonNull(XMaterial.WHEAT.parseMaterial()), 30, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.WHEAT.parseMaterial())), 30, 0, new MoneyReward(200)
             ));
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
 
-                    Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial()), 1, 0, new MoneyReward(100000)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial())), 1, 0, new MoneyReward(100000)
             ));
 
             objectives.add(new CategoryObjective(
@@ -447,25 +462,25 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
 
-                            Material.COAL_ORE, 5, 0, null
+                            new MaterialBlock(Material.COAL_ORE), 5, 0, null
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
 
-                            Material.IRON_ORE, 5, 0, null
+                            new MaterialBlock(Material.IRON_ORE), 5, 0, null
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
 
-                            Material.DIAMOND_ORE, 5, 0, new MoneyReward(1500)
+                            new MaterialBlock(Material.DIAMOND_ORE), 5, 0, new MoneyReward(1500)
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 6 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 6 name"),
 
-                            Material.DIAMOND_BLOCK, 1, 0, new MoneyReward(7000)
+                            new MaterialBlock(Material.DIAMOND_BLOCK), 1, 0, new MoneyReward(7000)
                     )
             ));
 
@@ -473,21 +488,21 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
 
-                    Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial()), 5, 0, new MoneyReward(100)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial())), 5, 0, new MoneyReward(100)
             ));
 
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
 
-                    Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DIRT.parseMaterial())), 5, 0, new MoneyReward(200)
             ));
 
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
 
-                    Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DIRT.parseMaterial())), 5, 0, new MoneyReward(200)
             ));
 
             Quest quest = new QuestProvider(
@@ -509,19 +524,19 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
 
-                    Objects.requireNonNull(XMaterial.WHEAT.parseMaterial()), 30, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.WHEAT.parseMaterial())), 30, 0, new MoneyReward(200)
             ));
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
 
-                    Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial()), 1, 0, new MoneyReward(100000)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial())), 1, 0, new MoneyReward(100000)
             ));
             objectives.add(new BlockBreakObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 4 name"),
 
-                    Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial()), 5, 0, new MoneyReward(100)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial())), 5, 0, new MoneyReward(100)
             ));
 
             objectives.add(new CategoryObjective(
@@ -532,25 +547,25 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 1 name"),
 
-                            Material.COAL_ORE, 5, 0, null
+                            new MaterialBlock(Material.COAL_ORE), 5, 0, null
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 2 name"),
 
-                            Material.IRON_ORE, 5, 0, null
+                            new MaterialBlock(Material.IRON_ORE), 5, 0, null
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 3 name"),
 
-                            Material.DIAMOND_ORE, 5, 0, new MoneyReward(1500)
+                            new MaterialBlock(Material.DIAMOND_ORE), 5, 0, new MoneyReward(1500)
                     ),
                     new BlockBreakObjective(
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 6 name"),
                             laivyQuests().getMessageStorage().getMessage("Test (remove): 6 name"),
 
-                            Material.DIAMOND_BLOCK, 1, 0, new MoneyReward(7000)
+                            new MaterialBlock(Material.DIAMOND_BLOCK), 1, 0, new MoneyReward(7000)
                     )
             ));
 
@@ -558,14 +573,14 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
 
-                    Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DIRT.parseMaterial())), 5, 0, new MoneyReward(200)
             ));
 
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 5 name"),
 
-                    Objects.requireNonNull(XMaterial.DIRT.parseMaterial()), 5, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DIRT.parseMaterial())), 5, 0, new MoneyReward(200)
             ));
 
             Quest quest = new QuestProvider(
@@ -587,13 +602,13 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 7 name"),
 
-                    Objects.requireNonNull(XMaterial.WHEAT.parseMaterial()), 30, 0, new MoneyReward(200)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.WHEAT.parseMaterial())), 30, 0, new MoneyReward(200)
             ));
             objectives.add(new BlockPlaceObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 8 name"),
 
-                    Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial()), 1, 0, new MoneyReward(100000)
+                    new MaterialBlock(Objects.requireNonNull(XMaterial.DRAGON_EGG.parseMaterial())), 1, 0, new MoneyReward(100000)
             ));
             objectives.add(new EntityKillObjective(
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),

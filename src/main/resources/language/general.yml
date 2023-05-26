@@ -113,6 +113,10 @@ locales:
     "EN_US": '[{"text":"(","color":"#22D100"},{"text":"C","color":"#29D417"},{"text":"o","color":"#30D624"},{"text":"m","color":"#36D92F"},{"text":"p","color":"#3BDB38"},{"text":"l","color":"#41DE40"},{"text":"e","color":"#46E047"},{"text":"t","color":"#4BE34F"},{"text":"e","color":"#50E556"},{"text":"d","color":"#54E85C"},{"text":")","color":"#59EA63"}]'
     "PT_BR": '[{"text":"(","color":"#22D100"},{"text":"F","color":"#29D315"},{"text":"i","color":"#2FD622"},{"text":"n","color":"#34D82C"},{"text":"a","color":"#39DA34"},{"text":"l","color":"#3EDC3C"},{"text":"i","color":"#43DF43"},{"text":"z","color":"#48E14A"},{"text":"ad","color":"#4CE351"},{"text":"o","color":"#50E657"},{"text":")","color":"#55E85D"}]'
 
+  "Block types: located block name":
+    "EN_US": "x: %s, y: %s, z: %s, world: %s"
+    "PT_BR": "x: %s, y: %s, z: %s, mundo: %s"
+
   "Quests main menus: quests list name":
     "EN_US": "§eQuests list"
     "PT_BR": "§eLista de quests"
