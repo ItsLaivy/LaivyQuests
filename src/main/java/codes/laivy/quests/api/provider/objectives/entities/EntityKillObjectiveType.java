@@ -55,7 +55,7 @@ public class EntityKillObjectiveType extends ObjectiveType {
         }
     }
 
-    private static final @NotNull BlockBreakObjectiveType.Events EVENTS = new BlockBreakObjectiveType.Events();
+    private static final @NotNull Events EVENTS = new Events();
 
     static {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
