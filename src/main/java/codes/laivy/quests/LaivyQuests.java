@@ -1,6 +1,5 @@
 package codes.laivy.quests;
 
-import codes.laivy.mlanguage.utils.JsonUtils;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.provider.QuestsApiProvider;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockBreakObjectiveType;
@@ -19,6 +18,7 @@ import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;
 import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
+import codes.laivy.quests.utils.JsonUtils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;

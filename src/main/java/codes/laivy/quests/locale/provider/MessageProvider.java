@@ -5,7 +5,9 @@ import codes.laivy.quests.utils.ComponentUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -38,8 +40,8 @@ public class MessageProvider implements IMessage {
     }
 
     @Override
-    public @NotNull BaseComponent[] getText(@NotNull String locale, @NotNull Object... replaces) {
-        if (!getData().containsKey(locale)) {
+    public @NotNull BaseComponent[] getText(@Nullable String locale, @NotNull Object... replaces) {
+        if (locale == null || !getData().containsKey(locale)) {
             locale = getData().keySet().stream().findFirst().orElseThrow(() -> new NullPointerException("Message without data '" + getId() + "'"));
         }
 
@@ -55,38 +57,41 @@ public class MessageProvider implements IMessage {
     }
 
     @Override
-    public @NotNull List<BaseComponent[]> getArray(@NotNull String locale, @NotNull Object... replaces) {
-        if (!getData().containsKey(locale)) {
+    public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull Object... replaces) {
+        if (locale == null || !getData().containsKey(locale)) {
             locale = getData().keySet().stream().findFirst().orElseThrow(() -> new NullPointerException("Message without data '" + getId() + "'"));
         }
 
         List<BaseComponent[]> components = new LinkedList<>();
 
         for (BaseComponent component : getText(locale, replaces)) {
-            if (component instanceof TextComponent) {
-                TextComponent text = (TextComponent) component;
+            for (BaseComponent recurring : ComponentUtils.getComponents(component)) {
+                if (recurring instanceof TextComponent) {
+                    TextComponent text = (TextComponent) recurring;
 
-                if (text.getText().contains("\n")) {
-                    while (text.getText().contains("\n")) {
-                        String[] split = text.getText().split("\n", 2);
+                    if (text.getText().contains("\n")) {
+                        while (text.getText().contains("\n")) {
+                            String[] split = text.getText().split("\n", 2);
 
-                        TextComponent t1 = (TextComponent) text.duplicate();
-                        TextComponent t2 = (TextComponent) text.duplicate();
+                            TextComponent t1 = (TextComponent) text.duplicate();
+                            TextComponent t2 = (TextComponent) text.duplicate();
 
-                        t1.setText(split[0]);
-                        t2.setText(split[1]);
+                            t1.setText(split[0]);
+                            t2.setText(split[1]);
 
-                        components.add(new BaseComponent[] { t1 });
+                            components.add(new BaseComponent[] { t1 });
 
-                        text = t2;
+                            text = t2;
+                        }
+
+                        recurring = text;
                     }
-                    component = text;
                 }
-            }
 
-            components.add(new BaseComponent[] {
-                    component
-            });
+                components.add(new BaseComponent[] {
+                        recurring
+                });
+            }
         }
 
         return components;
@@ -114,20 +119,27 @@ public class MessageProvider implements IMessage {
                                 index = new BaseComponent[] { (BaseComponent) replace };
                             } else if (replace instanceof BaseComponent[]) {
                                 index = (BaseComponent[]) replace;
-                            } else if (replace instanceof Collection) {
-                                Collection<?> collection = (Collection<?>) replace;
+                            } else if (replace instanceof Collection || replace instanceof Object[]) {
+                                Object[] array;
+
+                                if (replace instanceof Collection) {
+                                    array = ((Collection<?>) replace).toArray();
+                                } else {
+                                    array = (Object[]) replace;
+                                }
+
                                 List<BaseComponent> componentList2 = new LinkedList<>();
 
                                 int r = 0;
-                                for (Object object : collection) {
+                                for (Object object : array) {
                                     if (r > 0) componentList2.add(new TextComponent("\n"));
 
-                                    if (object instanceof BaseComponent) {
+                                    if (object instanceof IMessage) {
+                                        componentList2.add(new TextComponent(((IMessage) object).getText(locale)));
+                                    } else if (object instanceof BaseComponent) {
                                         componentList2.add((BaseComponent) object);
                                     } else if (object instanceof BaseComponent[]) {
                                         componentList2.add(new TextComponent((BaseComponent[]) object));
-                                    } else if (object instanceof IMessage) {
-                                        componentList2.add(new TextComponent(((IMessage) object).getText(locale)));
                                     } else {
                                         componentList2.add(new TextComponent(ChatColor.translateAlternateColorCodes('&', String.valueOf(object))));
                                     }

@@ -92,7 +92,7 @@ public abstract class LaivyQuestsInventory {
             }
             return viewers;
         }
-        throw new NullPointerException("Couldn't find this clans inventory with id '" + id + "'");
+        throw new NullPointerException("Couldn't find this quest inventory with id '" + id + "'");
     }
 
     //

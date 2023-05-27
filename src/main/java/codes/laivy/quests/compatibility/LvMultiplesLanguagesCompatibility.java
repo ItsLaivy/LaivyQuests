@@ -109,13 +109,27 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
         }
 
         @Override
-        public @NotNull BaseComponent[] getText(@NotNull String locale, @NotNull Object... replaces) {
-            return getMessage().getText(convert(locale), fixReplaces(replaces));
+        public @NotNull BaseComponent[] getText(@Nullable String locale, @NotNull Object... replaces) {
+            Locale loc;
+            if (locale == null) {
+                loc = getMessage().getData().keySet().stream().findFirst().orElseThrow(() -> new NullPointerException("Message without data '" + getId() + "'"));
+            } else {
+                loc = convert(locale);
+            }
+
+            return getMessage().getText(loc, fixReplaces(replaces));
         }
 
         @Override
-        public @NotNull List<BaseComponent[]> getArray(@NotNull String locale, @NotNull Object... replaces) {
-            return getMessage().getArray(convert(locale), fixReplaces(replaces));
+        public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull Object... replaces) {
+            Locale loc;
+            if (locale == null) {
+                loc = getMessage().getData().keySet().stream().findFirst().orElseThrow(() -> new NullPointerException("Message without data '" + getId() + "'"));
+            } else {
+                loc = convert(locale);
+            }
+
+            return getMessage().getArray(loc, fixReplaces(replaces));
         }
 
         protected @NotNull BukkitMessage getMessage() {

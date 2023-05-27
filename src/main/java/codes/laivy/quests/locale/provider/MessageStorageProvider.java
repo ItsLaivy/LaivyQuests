@@ -3,9 +3,7 @@ package codes.laivy.quests.locale.provider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.IMessageStorage;
 import codes.laivy.quests.utils.ComponentUtils;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -46,47 +44,7 @@ public class MessageStorageProvider implements IMessageStorage {
 
     @Override
     public @NotNull BaseComponent[] get(@Nullable String locale, @NotNull String message, Object... replaces) {
-        // Yes, most of this method has been copied from the LvMultiplesLanguages systems xD
-        if (getData().containsKey(message)) {
-            if (locale == null || !getData().get(message).containsKey(locale)) {
-                locale = defaultLocale;
-            }
-
-            List<BaseComponent> componentSet = new ArrayList<>();
-            BaseComponent[] components = getData().get(message).get(locale);
-
-            int row = 0;
-            for (final BaseComponent component : ComponentUtils.cloneComponent(components)) {
-                for (BaseComponent recursive : ComponentUtils.getComponents(component)) {
-                    if (replaces.length > row) {
-                        Object replace = replaces[row];
-                        BaseComponent index;
-
-                        if (replace instanceof BaseComponent) {
-                            index = (BaseComponent) replace;
-                        } else if (replace instanceof BaseComponent[]) {
-                            index = new TextComponent((BaseComponent[]) replace);
-                        } else {
-                            index = new TextComponent(ChatColor.translateAlternateColorCodes('&', String.valueOf(replace)));
-                        }
-
-                        if (recursive instanceof TextComponent) {
-                            TextComponent text = (TextComponent) recursive;
-
-                            if (text.getText().contains("%s")) {
-                                text.setText(text.getText().replaceFirst("%s", ComponentUtils.getText(index)));
-                                row++;
-                            }
-                        }
-                    }
-                }
-
-                componentSet.add(component);
-            }
-
-            return componentSet.toArray(new BaseComponent[0]);
-        }
-        throw new NullPointerException("Couldn't find this message '" + message + "'");
+        return getMessage(message).getText(locale, replaces);
     }
 
     @Override
@@ -101,19 +59,7 @@ public class MessageStorageProvider implements IMessageStorage {
 
     @Override
     public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces) {
-        if (!getArrays().containsKey(message)) {
-            throw new UnsupportedOperationException("This message '" + message + "' isn't an array.");
-        }
-
-        List<BaseComponent[]> components = new LinkedList<>();
-
-        for (BaseComponent component : get(locale, message, replaces)) {
-            components.add(new BaseComponent[] {
-                    component.duplicate()
-            });
-        }
-
-        return components;
+        return getMessage(message).getArray(locale, replaces);
     }
 
     @Override

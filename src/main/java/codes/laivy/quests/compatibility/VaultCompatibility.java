@@ -25,7 +25,7 @@ public class VaultCompatibility extends Compatibility {
     public boolean hook(@NotNull LaivyQuests plugin) {
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
-            plugin.log(TextComponent.fromLegacyText("§cCouldn't hook §6" + getName() + " §cwith the §dLaivyClans §cplugin because the server doesn't have a economy plugin for §6Vault§c."));
+            plugin.log(TextComponent.fromLegacyText("§cCouldn't hook §6" + getName() + " §cwith the §dLaivyQuests §cplugin because the server doesn't have a economy plugin for §6Vault§c."));
             return false;
         }
 

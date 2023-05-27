@@ -10,8 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit;
-
 public final class GuiUtils {
 
     private GuiUtils() {
@@ -25,9 +23,9 @@ public final class GuiUtils {
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta != null) {
-            if (Bukkit.getPluginManager().getPlugin("LvMultiplesLanguages") == null) {
-                multiplesLanguagesBukkit().getVersion().setItemBukkitDisplayName(itemStack, name);
-                multiplesLanguagesBukkit().getVersion().setItemBukkitLore(itemStack, lore);
+            if (Bukkit.getPluginManager().getPlugin("LvMultiplesLanguages") != null) {
+                codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit().getVersion().setItemBukkitDisplayName(itemStack, name);
+                codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit().getVersion().setItemBukkitLore(itemStack, lore);
             } else {
                 meta.setDisplayName(ComponentUtils.getText(name));
 

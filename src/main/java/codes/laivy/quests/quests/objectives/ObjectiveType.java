@@ -4,6 +4,8 @@ import codes.laivy.quests.api.Serializer;
 import codes.laivy.quests.locale.IMessage;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public abstract class ObjectiveType {
 
     private final @NotNull String id;
@@ -25,5 +27,18 @@ public abstract class ObjectiveType {
 
     public final @NotNull Serializer<Objective> getSerializer() {
         return objectiveSerializer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ObjectiveType)) return false;
+        ObjectiveType that = (ObjectiveType) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

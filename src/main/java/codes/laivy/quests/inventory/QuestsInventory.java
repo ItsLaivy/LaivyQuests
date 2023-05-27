@@ -163,8 +163,6 @@ public class QuestsInventory extends PagedInventory {
                 row++;
             }
 
-            Bukkit.broadcastMessage("Total: '" + total + "'");
-
             items.put(quest, GuiUtils.getItemStack(
                     Objects.requireNonNull(XMaterial.BOOK.parseMaterial()),
                     quest.getName().getText(locale),
