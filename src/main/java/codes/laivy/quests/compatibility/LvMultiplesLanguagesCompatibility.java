@@ -166,12 +166,12 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
 
         @Override
         public @NotNull BaseComponent[] get(@Nullable String locale, @NotNull String message, @NotNull Object... replaces) {
-            return getStorage().getText(convert(locale != null ? locale : getDefaultLocale()), message, fixReplaces(replaces));
+            return getMessage(message).getText(locale, fixReplaces(replaces));
         }
 
         @Override
         public @NotNull List<BaseComponent[]> getArray(@Nullable String locale, @NotNull String message, Object... replaces) {
-            return getStorage().getTextArray(convert(locale != null ? locale : getDefaultLocale()), message, fixReplaces(replaces));
+            return getMessage(message).getArray(locale, fixReplaces(replaces));
         }
 
         @Override

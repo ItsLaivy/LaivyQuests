@@ -64,7 +64,7 @@ public class QuestsInventory extends PagedInventory {
                     new TextComponent(laivyQuests().getMessageStorage().get(locale, "Objective types: completed name"))
             ));
         }
-
+        
         if (objective instanceof CategoryObjective) {
             CategoryObjective category = (CategoryObjective) objective;
 
