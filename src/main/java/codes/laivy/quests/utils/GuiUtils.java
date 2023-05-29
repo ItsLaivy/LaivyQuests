@@ -22,10 +22,7 @@ public final class GuiUtils {
         itemStack = itemStack.clone();
         ItemMeta meta = itemStack.getItemMeta();
 
-        if (Bukkit.getPluginManager().getPlugin("LvMultiplesLanguages") != null) {
-            codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit().getVersion().setItemBukkitDisplayName(itemStack, name);
-            codes.laivy.mlanguage.main.BukkitMultiplesLanguages.multiplesLanguagesBukkit().getVersion().setItemBukkitLore(itemStack, lore);
-        } else if (meta != null) {
+        if (meta != null) {
             meta.setDisplayName(ComponentUtils.getText(name));
 
             if (lore == null) {
