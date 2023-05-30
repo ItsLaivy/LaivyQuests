@@ -132,7 +132,7 @@ public class EntityKillObjectiveType extends ObjectiveType {
     public @NotNull IMessage getName(@NotNull Objective objective) {
         if (objective instanceof EntityKillObjective) {
             EntityKillObjective o = (EntityKillObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill name", o.getName());
+            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill name", o.getEntity().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
@@ -141,7 +141,7 @@ public class EntityKillObjectiveType extends ObjectiveType {
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
         if (objective instanceof EntityKillObjective) {
             EntityKillObjective o = (EntityKillObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill lore", o.getMeta(), o.getName());
+            return laivyQuests().getMessageStorage().getMessage("Objective types: entity kill lore", o.getMeta(), o.getEntity().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

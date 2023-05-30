@@ -74,7 +74,7 @@ locales:
 
   "Objective types: block place name":
     "EN_US": "§6₽ §7Place blocks: §e%s"
-    "PT_BR": "§6₽ §7Place blocos: §e%s"
+    "PT_BR": "§6₽ §7Coloque blocos: §e%s"
   "Objective types: block place lore":
     "EN_US":
       - "§7This objective can be completed"
@@ -94,7 +94,7 @@ locales:
 
   "Objective types: consume item name":
     "EN_US": "§b☕ §7Eat/consume item: §e%s"
-    "PT_BR": "§b☕ §7Eat/consume item: §e%s"
+    "PT_BR": "§b☕ §7Coma/ingira item: §e%s"
   "Objective types: consume item lore":
     "EN_US":
       - "§7Eat/consume §b%sx §e%s §7to complete"
@@ -145,7 +145,7 @@ locales:
     "PT_BR":
       - "§7Clique aqui para ver todas as"
       - "§7suas quests ativas"
-      -
+
   "Quests main menus: more quests":
     "EN_US":
       - "§8and %s more..."
