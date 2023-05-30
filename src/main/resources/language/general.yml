@@ -110,6 +110,15 @@ locales:
     "PT_BR":
       - "§7Fabrique §b%sx §e%s §7para concluir"
 
+  "Objective types: fishing name":
+    "EN_US": "§5₰ §7Fish: §e%s"
+    "PT_BR": "§5₰ §7Pesque: §e%s"
+  "Objective types: fishing lore":
+    "EN_US":
+      - "§7Fish §b%sx §e%s §7to complete"
+    "PT_BR":
+      - "§7Pesque §b%sx §e%s §7para concluir"
+
   "Objectives: progress message":
     "EN_US": "§7Progress: §e%s§6/§e%s"
     "PT_BR": "§7Progresso: §e%s§6/§e%s"
@@ -291,6 +300,8 @@ locales:
     "EN_US": "§7Hungry"
   "Test (remove): 11 name":
     "EN_US": "§7Craft item"
+  "Test (remove): 12 name":
+    "EN_US": "§7Fishing"
 
   "Reward type: money reward message":
     "EN_US": "§7Reward: §6%s"

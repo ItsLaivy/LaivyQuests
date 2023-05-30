@@ -30,6 +30,7 @@ import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjective;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlock;
+import codes.laivy.quests.api.provider.objectives.entities.fish.FishingObjective;
 import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjective;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
@@ -47,12 +48,14 @@ import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
+import com.cryptomorin.xseries.XEntity;
 import com.cryptomorin.xseries.XMaterial;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -659,6 +662,12 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 11 name"),
 
                     new ItemProvider(new ItemStack(Objects.requireNonNull(XMaterial.CRAFTING_TABLE.parseMaterial()))), 1, 0, new MoneyReward(20)
+            ));
+            objectives.add(new FishingObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 12 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 12 name"),
+
+                    new ItemProvider(new ItemStack(XMaterial.COD.parseMaterial())), 1, 0, new MoneyReward(500)
             ));
 
             Quest quest = new QuestProvider(

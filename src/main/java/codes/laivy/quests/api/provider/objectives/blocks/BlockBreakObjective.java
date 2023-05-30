@@ -46,6 +46,7 @@ public class BlockBreakObjective extends ObjectiveProvider implements Progressab
         }
     }
 
+    // TODO: 30/05/2023 Enhance this. Allow Any blocks and multiples (or) blocks
     public final @NotNull IBlock getBlock() {
         return block;
     }

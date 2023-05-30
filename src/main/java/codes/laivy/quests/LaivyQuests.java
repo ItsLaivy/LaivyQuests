@@ -7,6 +7,7 @@ import codes.laivy.quests.api.provider.objectives.CategoryObjectiveType;
 import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjectiveType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.located.LocatedBlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlockType;
+import codes.laivy.quests.api.provider.objectives.entities.fish.FishingObjectiveType;
 import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjectiveType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntityType;
 import codes.laivy.quests.api.provider.objectives.items.consume.ConsumeItemObjectiveType;
@@ -103,6 +104,7 @@ public final class LaivyQuests extends JavaPlugin {
         getApi().getObjectiveTypes().add(new BlockPlaceObjectiveType());
 
         getApi().getObjectiveTypes().add(new EntityKillObjectiveType());
+        getApi().getObjectiveTypes().add(new FishingObjectiveType());
 
         getApi().getObjectiveTypes().add(new ConsumeItemObjectiveType());
         getApi().getObjectiveTypes().add(new CraftItemObjectiveType());
