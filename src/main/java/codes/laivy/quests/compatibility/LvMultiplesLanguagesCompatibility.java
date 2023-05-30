@@ -84,10 +84,6 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
                 }}
         );
 
-        for (BukkitMessage message : storage.getMessages()) {
-            System.out.println("Key: '" + message.getId() + "', values: '" + message.getData().keySet() + "'");
-        }
-
         plugin.setMessageStorage(new MessageStorageMultiplesLanguagesProvider(storage));
         return true;
     }

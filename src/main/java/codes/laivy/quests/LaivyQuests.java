@@ -202,10 +202,6 @@ public final class LaivyQuests extends JavaPlugin {
             }
         }
 
-        for (Map.Entry<String, Map<String, BaseComponent[]>> entry : component.entrySet()) {
-            System.out.println("Key: '" + entry.getKey() + "', values: '" + entry.getValue().keySet() + "'");
-        }
-
         MessageStorageProvider provider = new MessageStorageProvider(defaultLocale, component);
         provider.getArrays().putAll(arrays);
         provider.getLegacies().putAll(legacies);
