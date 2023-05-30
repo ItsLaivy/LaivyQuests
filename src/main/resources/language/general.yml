@@ -92,6 +92,15 @@ locales:
     "PT_BR":
       - "§7Elimine §b%sx §e%s §7para concluir"
 
+  "Objective types: consume item name":
+    "EN_US": "§b☕ §7Eat/consume item: §e%s"
+    "PT_BR": "§b☕ §7Eat/consume item: §e%s"
+  "Objective types: consume item lore":
+    "EN_US":
+      - "§7Eat/consume §b%sx §e%s §7to complete"
+    "PT_BR":
+      - "§7Coma/consuma §b%sx §e%s §7para concluir"
+
   "Objectives: progress message":
     "EN_US": "§7Progress: §e%s§6/§e%s"
     "PT_BR": "§7Progresso: §e%s§6/§e%s"
@@ -269,6 +278,8 @@ locales:
     "EN_US": "§7Egg grown"
   "Test (remove): 9 name":
     "EN_US": "§7Chicken killer"
+  "Test (remove): 10 name":
+    "EN_US": "§7Hungry"
 
   "Reward type: money reward message":
     "EN_US": "§7Reward: §6%s"

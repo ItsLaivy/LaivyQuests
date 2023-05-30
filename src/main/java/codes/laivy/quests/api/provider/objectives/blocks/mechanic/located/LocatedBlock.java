@@ -36,13 +36,7 @@ public class LocatedBlock implements IBlock {
     @Override
     public <T extends IBlock> @NotNull BlockType<T> getType() {
         //noinspection unchecked
-        BlockType<T> type = (BlockType<T>) laivyQuests().getApi().getBlockType(LOCATED_BLOCK_TYPE);
-
-        if (type instanceof LocatedBlockType) {
-            return type;
-        } else {
-            throw new IllegalStateException("This block type '" + LOCATED_BLOCK_TYPE + "' isn't a instance of the located block type class. (" + LocatedBlockType.class.getName() + ")");
-        }
+        return (BlockType<T>) laivyQuests().getApi().getBlockType(LOCATED_BLOCK_TYPE);
     }
 
     @Override

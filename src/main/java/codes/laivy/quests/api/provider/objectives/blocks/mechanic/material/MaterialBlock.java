@@ -32,13 +32,7 @@ public class MaterialBlock implements IBlock {
     @Override
     public <T extends IBlock> @NotNull BlockType<T> getType() {
         //noinspection unchecked
-        BlockType<T> type = (BlockType<T>) laivyQuests().getApi().getBlockType(MATERIAL_BLOCK_TYPE);
-
-        if (type instanceof MaterialBlockType) {
-            return type;
-        } else {
-            throw new IllegalStateException("This block type '" + MATERIAL_BLOCK_TYPE + "' isn't a instance of the material block type class. (" + MaterialBlockType.class.getName() + ")");
-        }
+        return (BlockType<T>) laivyQuests().getApi().getBlockType(MATERIAL_BLOCK_TYPE);
     }
 
     @Override

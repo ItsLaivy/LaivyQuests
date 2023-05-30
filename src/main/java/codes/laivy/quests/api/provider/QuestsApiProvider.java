@@ -30,10 +30,14 @@ import codes.laivy.quests.api.provider.objectives.blocks.BlockPlaceObjective;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlock;
-import codes.laivy.quests.api.provider.objectives.entities.EntityKillObjective;
+import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjective;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntity;
+import codes.laivy.quests.api.provider.objectives.items.ConsumeItemObjective;
+import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
+import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
+import codes.laivy.quests.api.provider.objectives.items.mechanic.provider.ItemProvider;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
@@ -53,6 +57,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,9 +70,11 @@ import static org.bukkit.Bukkit.getServer;
 public class QuestsApiProvider implements QuestsApi, Listener {
 
     private final @NotNull Set<ObjectiveType> objectiveTypes = new LinkedHashSet<>();
+
     private final @NotNull Set<RewardType<? extends Reward>> rewardTypes = new LinkedHashSet<>();
     private final @NotNull Set<BlockType<? extends IBlock>> blockTypes = new LinkedHashSet<>();
     private final @NotNull Set<EntityType<? extends IEntity>> entityTypes = new LinkedHashSet<>();
+    private final @NotNull Set<ItemType<? extends Item>> itemTypes = new LinkedHashSet<>();
 
     private final @NotNull Map<UUID, QuestsPlayerData> data = new LinkedHashMap<>();
 
@@ -136,6 +143,17 @@ public class QuestsApiProvider implements QuestsApi, Listener {
     public @NotNull EntityType<? extends IEntity> getEntityType(@NotNull String id) {
         Optional<EntityType<? extends IEntity>> optional = laivyQuests().getApi().getEntityTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
         return optional.orElseThrow(() -> new NullPointerException("Couldn't find this entity type '" + id + "'"));
+    }
+
+    @Override
+    public @NotNull Collection<ItemType<? extends Item>> getItemTypes() {
+        return itemTypes;
+    }
+
+    @Override
+    public @NotNull ItemType<? extends Item> getItemType(@NotNull String id) {
+        Optional<ItemType<? extends Item>> optional = laivyQuests().getApi().getItemTypes().stream().filter(t -> t.getId().equals(id)).findFirst();
+        return optional.orElseThrow(() -> new NullPointerException("Couldn't find this item type '" + id + "'"));
     }
 
     @Override
@@ -628,6 +646,12 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 9 name"),
 
                     new ObjectiveEntity(org.bukkit.entity.EntityType.CHICKEN), 30, 0, new MoneyReward(500)
+            ));
+            objectives.add(new ConsumeItemObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 10 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 10 name"),
+
+                    new ItemProvider(new ItemStack(Material.COOKED_BEEF)), 5, 0, new MoneyReward(1500)
             ));
 
             Quest quest = new QuestProvider(

@@ -1,4 +1,4 @@
-package codes.laivy.quests.api.provider.objectives.entities;
+package codes.laivy.quests.api.provider.objectives.entities.kill;
 
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
 import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
-import static codes.laivy.quests.api.provider.objectives.entities.EntityKillObjectiveType.ENTITY_KILL_OBJECTIVE_TYPE_ID;
+import static codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjectiveType.ENTITY_KILL_OBJECTIVE_TYPE_ID;
 
 public class EntityKillObjective extends ObjectiveProvider implements Progressable, Rewardable {
 

@@ -25,13 +25,7 @@ public class ObjectiveEntity implements IEntity {
     @Override
     public @NotNull <T extends IEntity> EntityType<T> getType() {
         //noinspection unchecked
-        EntityType<T> type = (EntityType<T>) laivyQuests().getApi().getEntityType(ENTITY_PROVIDER_TYPE);
-
-        if (type instanceof ObjectiveEntityType) {
-            return type;
-        } else {
-            throw new IllegalStateException("This block type '" + ENTITY_PROVIDER_TYPE + "' isn't a instance of the objective entity type class. (" + ObjectiveEntityType.class.getName() + ")");
-        }
+        return (EntityType<T>) laivyQuests().getApi().getEntityType(ENTITY_PROVIDER_TYPE);
     }
 
     @Override

@@ -4,6 +4,8 @@ import codes.laivy.quests.api.provider.objectives.blocks.mechanic.BlockType;
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.IBlock;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
+import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
+import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
 import codes.laivy.quests.quests.*;
 import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
@@ -30,6 +32,10 @@ public interface QuestsApi {
     @NotNull Collection<EntityType<? extends IEntity>> getEntityTypes();
     // TODO: 26/05/2023 Nullable
     @NotNull EntityType<? extends IEntity> getEntityType(@NotNull String id);
+
+    @NotNull Collection<ItemType<? extends Item>> getItemTypes();
+    // TODO: 29/05/2023 Nullable
+    @NotNull ItemType<? extends Item> getItemType(@NotNull String id);
 
     @NotNull QuestsPlayerData getPlayerData(@NotNull UUID uuid);
 
