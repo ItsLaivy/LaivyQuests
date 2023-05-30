@@ -4,6 +4,7 @@ import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.utils.MaterialUtils;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,10 +17,6 @@ public class ItemProvider implements Item {
 
     public ItemProvider(@NotNull ItemStack itemStack) {
         this.itemStack = itemStack;
-
-        if (!itemStack.getType().isEdible()) {
-            throw new IllegalArgumentException("This material '" + itemStack.getType() + "' isn't edible.");
-        }
     }
 
     public @NotNull ItemStack getItemStack() {
@@ -30,6 +27,11 @@ public class ItemProvider implements Item {
     public @NotNull <T extends Item> ItemType<T> getType() {
         //noinspection unchecked
         return (ItemType<T>) laivyQuests().getApi().getItemType(ITEM_PROVIDER_TYPE);
+    }
+
+    @Override
+    public @NotNull Material getMaterial() {
+        return getItemStack().getType();
     }
 
     @Override

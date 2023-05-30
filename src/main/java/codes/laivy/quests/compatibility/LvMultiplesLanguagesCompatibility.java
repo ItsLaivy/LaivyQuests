@@ -84,6 +84,10 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
                 }}
         );
 
+        for (BukkitMessage message : storage.getMessages()) {
+            System.out.println("Key: '" + message.getId() + "', values: '" + message.getData().keySet() + "'");
+        }
+
         plugin.setMessageStorage(new MessageStorageMultiplesLanguagesProvider(storage));
         return true;
     }
@@ -106,6 +110,15 @@ public class LvMultiplesLanguagesCompatibility extends Compatibility {
 
             this.message = message.clone();
             getMessage().getReplacements().addAll(Arrays.asList(fixReplaces(replaces)));
+        }
+
+        @Override
+        public @NotNull Map<String, BaseComponent[]> getData() {
+            Map<String, BaseComponent[]> map = new LinkedHashMap<>();
+            for (Map.Entry<@NotNull Locale, BaseComponent @NotNull []> entry : getMessage().getData().entrySet()) {
+                map.put(entry.getKey().name(), entry.getValue());
+            }
+            return map;
         }
 
         @Override

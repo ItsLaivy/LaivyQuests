@@ -34,7 +34,8 @@ import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObject
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.EntityType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.IEntity;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntity;
-import codes.laivy.quests.api.provider.objectives.items.ConsumeItemObjective;
+import codes.laivy.quests.api.provider.objectives.items.consume.ConsumeItemObjective;
+import codes.laivy.quests.api.provider.objectives.items.craft.CraftItemObjective;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.provider.ItemProvider;
@@ -652,6 +653,12 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 10 name"),
 
                     new ItemProvider(new ItemStack(Material.COOKED_BEEF)), 5, 0, new MoneyReward(1500)
+            ));
+            objectives.add(new CraftItemObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 11 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 11 name"),
+
+                    new ItemProvider(new ItemStack(Objects.requireNonNull(XMaterial.CRAFTING_TABLE.parseMaterial()))), 1, 0, new MoneyReward(20)
             ));
 
             Quest quest = new QuestProvider(

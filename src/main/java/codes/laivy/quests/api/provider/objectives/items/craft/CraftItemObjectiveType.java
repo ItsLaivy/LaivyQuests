@@ -1,7 +1,6 @@
-package codes.laivy.quests.api.provider.objectives.items;
+package codes.laivy.quests.api.provider.objectives.items.craft;
 
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjectiveType;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
 import codes.laivy.quests.locale.IMessage;
@@ -14,33 +13,36 @@ import codes.laivy.quests.quests.objectives.reward.RewardType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
 
-public class ConsumeItemObjectiveType extends ObjectiveType {
+public class CraftItemObjectiveType extends ObjectiveType {
 
     public static final class Events implements Listener {
         @EventHandler
-        private void itemConsume(@NotNull PlayerItemConsumeEvent e) {
-            QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId());
+        private void itemCraft(@NotNull CraftItemEvent e) {
+            if (e.getWhoClicked() instanceof Player) {
+                QuestsPlayerData data = laivyQuests().getApi().getPlayerData(e.getWhoClicked().getUniqueId());
 
-            for (Quest quest : data.getQuests()) {
-                for (Objective objective : quest.getObjectives(true)) {
-                    if (!objective.isCompleted() && objective instanceof ConsumeItemObjective) {
-                        final ConsumeItemObjective holder = (ConsumeItemObjective) objective;
+                for (Quest quest : data.getQuests()) {
+                    for (Objective objective : quest.getObjectives(true)) {
+                        if (!objective.isCompleted() && objective instanceof CraftItemObjective) {
+                            final CraftItemObjective holder = (CraftItemObjective) objective;
 
-                        if (holder.getItem().isSimilar(e.getItem())) {
-                            int current = holder.getProgress();
-                            holder.setProgress(current + 1);
-                        }
+                            if (holder.getItem().isSimilar(e.getRecipe().getResult())) {
+                                int current = holder.getProgress();
+                                holder.setProgress(current + 1);
+                            }
 
-                        if (objective.isCompleted()) {
-                            objective.complete(quest);
+                            if (objective.isCompleted()) {
+                                objective.complete(quest);
+                            }
                         }
                     }
                 }
@@ -54,18 +56,18 @@ public class ConsumeItemObjectiveType extends ObjectiveType {
         Bukkit.getPluginManager().registerEvents(EVENTS, laivyQuests());
     }
 
-    public static final @NotNull String CONSUME_ITEM_OBJECTIVE_TYPE_ID = "CONSUME_ITEM";
+    public static final @NotNull String CRAFT_ITEM_OBJECTIVE_TYPE_ID = "CRAFT_ITEM";
 
-    public ConsumeItemObjectiveType() {
+    public CraftItemObjectiveType() {
         super(
-                CONSUME_ITEM_OBJECTIVE_TYPE_ID,
+                CRAFT_ITEM_OBJECTIVE_TYPE_ID,
                 new Serializer<Objective>() {
                     @Override
                     public @NotNull JsonElement serialize(@NotNull Objective o) {
-                        if (!(o instanceof ConsumeItemObjective)) {
-                            throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + CONSUME_ITEM_OBJECTIVE_TYPE_ID + "'");
+                        if (!(o instanceof CraftItemObjective)) {
+                            throw new UnsupportedOperationException("This objective '" + o.getClass().getName() + "' isn't compatible with the objective id '" + CRAFT_ITEM_OBJECTIVE_TYPE_ID + "'");
                         }
-                        ConsumeItemObjective objective = (ConsumeItemObjective) o;
+                        CraftItemObjective objective = (CraftItemObjective) o;
 
                         JsonObject object = new JsonObject();
 
@@ -94,7 +96,7 @@ public class ConsumeItemObjectiveType extends ObjectiveType {
                     }
 
                     @Override
-                    public @NotNull ConsumeItemObjective deserialize(@NotNull JsonElement o) {
+                    public @NotNull CraftItemObjective deserialize(@NotNull JsonElement o) {
                         JsonObject object = o.getAsJsonObject();
 
                         IMessage name = laivyQuests().getMessageStorage().getMessage(object.get("name").getAsString());
@@ -116,7 +118,7 @@ public class ConsumeItemObjectiveType extends ObjectiveType {
                         int meta = object.get("meta").getAsInt();
                         int progress = object.get("progress").getAsInt();
 
-                        return new ConsumeItemObjective(name, description, item, meta, progress, reward);
+                        return new CraftItemObjective(name, description, item, meta, progress, reward);
                     }
                 }
         );
@@ -124,18 +126,18 @@ public class ConsumeItemObjectiveType extends ObjectiveType {
 
     @Override
     public @NotNull IMessage getName(@NotNull Objective objective) {
-        if (objective instanceof ConsumeItemObjective) {
-            ConsumeItemObjective o = (ConsumeItemObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: consume item name", o.getItem().getName());
+        if (objective instanceof CraftItemObjective) {
+            CraftItemObjective o = (CraftItemObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: craft item name", o.getItem().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }
 
     @Override
     public @NotNull IMessage getDescription(@NotNull Objective objective) {
-        if (objective instanceof ConsumeItemObjective) {
-            ConsumeItemObjective o = (ConsumeItemObjective) objective;
-            return laivyQuests().getMessageStorage().getMessage("Objective types: consume item lore", o.getMeta(), o.getItem().getName());
+        if (objective instanceof CraftItemObjective) {
+            CraftItemObjective o = (CraftItemObjective) objective;
+            return laivyQuests().getMessageStorage().getMessage("Objective types: craft item lore", o.getMeta(), o.getItem().getName());
         }
         throw new IllegalArgumentException("This objective '" + objective + "' isn't valid");
     }

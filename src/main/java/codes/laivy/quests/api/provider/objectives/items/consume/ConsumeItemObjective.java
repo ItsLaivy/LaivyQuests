@@ -1,4 +1,4 @@
-package codes.laivy.quests.api.provider.objectives.items;
+package codes.laivy.quests.api.provider.objectives.items.consume;
 
 import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
 import codes.laivy.quests.api.provider.quest.ObjectiveProvider;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import static codes.laivy.quests.LaivyQuests.laivyQuests;
-import static codes.laivy.quests.api.provider.objectives.items.ConsumeItemObjectiveType.CONSUME_ITEM_OBJECTIVE_TYPE_ID;
+import static codes.laivy.quests.api.provider.objectives.items.consume.ConsumeItemObjectiveType.CONSUME_ITEM_OBJECTIVE_TYPE_ID;
 
 public class ConsumeItemObjective extends ObjectiveProvider implements Rewardable, Progressable {
 
@@ -41,6 +41,10 @@ public class ConsumeItemObjective extends ObjectiveProvider implements Rewardabl
 
         this.item = item;
         this.reward = reward;
+
+        if (!getItem().getMaterial().isEdible()) {
+            throw new IllegalArgumentException("This material '" + getItem().getMaterial() + "' isn't edible.");
+        }
     }
 
     public @NotNull Item getItem() {

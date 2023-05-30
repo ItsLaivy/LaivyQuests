@@ -9,7 +9,8 @@ import codes.laivy.quests.api.provider.objectives.blocks.mechanic.located.Locate
 import codes.laivy.quests.api.provider.objectives.blocks.mechanic.material.MaterialBlockType;
 import codes.laivy.quests.api.provider.objectives.entities.kill.EntityKillObjectiveType;
 import codes.laivy.quests.api.provider.objectives.entities.mechanic.provider.ObjectiveEntityType;
-import codes.laivy.quests.api.provider.objectives.items.ConsumeItemObjectiveType;
+import codes.laivy.quests.api.provider.objectives.items.consume.ConsumeItemObjectiveType;
+import codes.laivy.quests.api.provider.objectives.items.craft.CraftItemObjectiveType;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.provider.ItemTypeProvider;
 import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
@@ -104,6 +105,7 @@ public final class LaivyQuests extends JavaPlugin {
         getApi().getObjectiveTypes().add(new EntityKillObjectiveType());
 
         getApi().getObjectiveTypes().add(new ConsumeItemObjectiveType());
+        getApi().getObjectiveTypes().add(new CraftItemObjectiveType());
 
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load reward types
@@ -198,6 +200,10 @@ public final class LaivyQuests extends JavaPlugin {
                     component.get(message).put(locale, v);
                 }
             }
+        }
+
+        for (Map.Entry<String, Map<String, BaseComponent[]>> entry : component.entrySet()) {
+            System.out.println("Key: '" + entry.getKey() + "', values: '" + entry.getValue().keySet() + "'");
         }
 
         MessageStorageProvider provider = new MessageStorageProvider(defaultLocale, component);
