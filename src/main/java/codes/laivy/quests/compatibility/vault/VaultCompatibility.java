@@ -1,6 +1,7 @@
-package codes.laivy.quests.compatibility;
+package codes.laivy.quests.compatibility.vault;
 
 import codes.laivy.quests.LaivyQuests;
+import codes.laivy.quests.compatibility.Compatibility;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

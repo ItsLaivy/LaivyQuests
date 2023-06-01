@@ -20,6 +20,7 @@ import codes.laivy.data.sql.sqlite.natives.SqliteTableNative;
 import codes.laivy.data.sql.sqlite.natives.SqliteVariableNative;
 import codes.laivy.data.sql.sqlite.natives.manager.SqliteManagerNative;
 import codes.laivy.data.sql.sqlite.variable.type.SqliteTextVariableType;
+import codes.laivy.npc.types.NPC;
 import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.QuestsApi;
 import codes.laivy.quests.api.QuestsCommandApi;
@@ -41,6 +42,8 @@ import codes.laivy.quests.api.provider.objectives.items.mechanic.Item;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.ItemType;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.provider.ItemProvider;
 import codes.laivy.quests.api.provider.quest.QuestProvider;
+import codes.laivy.quests.compatibility.laivynpc.LaivyNpcInteractObjective;
+import codes.laivy.quests.compatibility.laivynpc.npc.LaivyNpcProvider;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.*;
 import codes.laivy.quests.quests.objectives.Objective;
@@ -668,6 +671,28 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 12 name"),
 
                     new ItemProvider(new ItemStack(XMaterial.COD.parseMaterial())), 1, 0, new MoneyReward(500)
+            ));
+
+            Quest quest = new QuestProvider(
+                    "test-" + new Random().nextInt(10000),
+                    objectives,
+                    laivyQuests().getMessageStorage().getMessage("Test quest name"),
+                    laivyQuests().getMessageStorage().getMessage("Test quest description"),
+                    e.getPlayer().getUniqueId(),
+                    new Date(),
+                    null
+            );
+
+            laivyQuests().getApi().getPlayerData(e.getPlayer().getUniqueId()).getQuests().add(quest);
+            Bukkit.broadcastMessage("Added quest");
+        } else if (e.getMessage().equals("get4")) {
+            LinkedHashSet<Objective> objectives = new LinkedHashSet<>();
+
+            objectives.add(new LaivyNpcInteractObjective(
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 13 name"),
+                    laivyQuests().getMessageStorage().getMessage("Test (remove): 13 name"),
+
+                    new LaivyNpcProvider(NPC.NPCS_ID.get(0), "ItsLaivy"), new MoneyReward(8000)
             ));
 
             Quest quest = new QuestProvider(

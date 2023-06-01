@@ -16,3 +16,4 @@ commands:
 softdepend:
   - LvMultiplesLanguages
   - Vault
+  - LaivyNPC

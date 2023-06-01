@@ -1,10 +1,11 @@
-package codes.laivy.quests.compatibility;
+package codes.laivy.quests.compatibility.lvml;
 
 import codes.laivy.mlanguage.api.bukkit.BukkitMessage;
 import codes.laivy.mlanguage.api.bukkit.BukkitMessageStorage;
 import codes.laivy.mlanguage.lang.Locale;
 import codes.laivy.mlanguage.main.BukkitMultiplesLanguages;
 import codes.laivy.quests.LaivyQuests;
+import codes.laivy.quests.compatibility.Compatibility;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.locale.provider.MessageProvider;
 import codes.laivy.quests.locale.provider.MessageStorageProvider;

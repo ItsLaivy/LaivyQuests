@@ -14,8 +14,9 @@ import codes.laivy.quests.api.provider.objectives.items.consume.ConsumeItemObjec
 import codes.laivy.quests.api.provider.objectives.items.craft.CraftItemObjectiveType;
 import codes.laivy.quests.api.provider.objectives.items.mechanic.provider.ItemTypeProvider;
 import codes.laivy.quests.compatibility.Compatibility;
-import codes.laivy.quests.compatibility.LvMultiplesLanguagesCompatibility;
-import codes.laivy.quests.compatibility.VaultCompatibility;
+import codes.laivy.quests.compatibility.laivynpc.LaivyNpcCompatibility;
+import codes.laivy.quests.compatibility.lvml.LvMultiplesLanguagesCompatibility;
+import codes.laivy.quests.compatibility.vault.VaultCompatibility;
 import codes.laivy.quests.internal.UpdateManager;
 import codes.laivy.quests.internal.UpdateManagerProvider;
 import codes.laivy.quests.locale.IMessage;
@@ -45,6 +46,7 @@ public final class LaivyQuests extends JavaPlugin {
     private static final @NotNull Set<Compatibility> compatibilities = new LinkedHashSet<Compatibility>() {{
         add(new LvMultiplesLanguagesCompatibility());
         add(new VaultCompatibility());
+        add(new LaivyNpcCompatibility());
     }};
 
     public static @NotNull Set<Compatibility> getCompatibilities() {
@@ -112,9 +114,7 @@ public final class LaivyQuests extends JavaPlugin {
         getApi().getObjectiveTypes().add(new CategoryObjectiveType());
         // Load reward types
         getApi().getRewardTypes().add(new MoneyReward.Type());
-        // Load api
-        getApi().load();
-
+        // Load compatibilities
         for (Compatibility compatibility : getCompatibilities()) {
             if (compatibility.isCompatible()) {
                 log(TextComponent.fromLegacyText("§9Trying to enable compatibility with §e" + compatibility.getName() + " " + compatibility.getPlugin().getDescription().getVersion() + "§9."));
@@ -128,6 +128,8 @@ public final class LaivyQuests extends JavaPlugin {
                 }
             }
         }
+        // Load api
+        getApi().load();
     }
 
     @Override

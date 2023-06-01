@@ -2,7 +2,7 @@ package codes.laivy.quests.quests.objectives.reward.money;
 
 import codes.laivy.quests.LaivyQuests;
 import codes.laivy.quests.api.Serializer;
-import codes.laivy.quests.compatibility.VaultCompatibility;
+import codes.laivy.quests.compatibility.vault.VaultCompatibility;
 import codes.laivy.quests.locale.IMessage;
 import codes.laivy.quests.quests.Quest;
 import codes.laivy.quests.quests.objectives.Objective;
