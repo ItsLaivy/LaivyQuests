@@ -51,14 +51,12 @@ import codes.laivy.quests.quests.objectives.ObjectiveType;
 import codes.laivy.quests.quests.objectives.reward.Reward;
 import codes.laivy.quests.quests.objectives.reward.RewardType;
 import codes.laivy.quests.quests.objectives.reward.money.MoneyReward;
-import com.cryptomorin.xseries.XEntity;
 import com.cryptomorin.xseries.XMaterial;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -692,7 +690,7 @@ public class QuestsApiProvider implements QuestsApi, Listener {
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 13 name"),
                     laivyQuests().getMessageStorage().getMessage("Test (remove): 13 name"),
 
-                    new LaivyNpcProvider(NPC.NPCS_ID.get(0), "ItsLaivy"), new MoneyReward(8000)
+                    new LaivyNpcProvider(NPC.NPCS_ID.get(0), laivyQuests().getMessageStorage().getMessage("Test (remove): ItsLaivy")), new MoneyReward(8000)
             ));
 
             Quest quest = new QuestProvider(

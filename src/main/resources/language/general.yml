@@ -314,6 +314,9 @@ locales:
   "Test (remove): 13 name":
     "EN_US": "§7Talk to"
 
+  "Test (remove): ItsLaivy":
+    "EN_US": "§bItsLaivy"
+
   "Reward type: money reward message":
     "EN_US": "§7Reward: §6%s"
     "PT_BR": "§7Recompensa: §6%s"
